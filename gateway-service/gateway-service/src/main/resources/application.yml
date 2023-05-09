@@ -1,0 +1,58 @@
+server:
+  port: 8000
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+#      defaultZone: http://discovery-service:8761/eureka/
+
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      default-filters:
+        - name: GlobalTrackerFilter
+          args:
+            baseMessage: Spring Cloud Gateway Global Tracker Filter
+            preLogger: true
+            postLogger: true
+      routes:
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/**
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+            - name: CircuitBreaker
+              args:
+                name: user-service
+                fallbackuri: forward:/fallback/user
+#        - id: shop-service
+#          uri: lb://SHOP-SERVICE
+#          predicates:
+#            - Path=/shop-service/**
+#          filters:
+#            - RemoveRequestHeader=Cookie
+#            - RewritePath=/shop-service/(?<segment>.*), /$\{segment}
+#            - AuthorizationHeaderFilter
+#            - name: CircuitBreaker
+#              args:
+#                name: shop-service
+#                fallbackuri: forward:/fallback/shop
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
+
+jwt:
+  secret: VlwEyVBsYt9V7zq57TejMnVUyzblYcfPQye08f7MGVA9XkHa
