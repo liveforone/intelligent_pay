@@ -14,7 +14,7 @@ eureka:
 
 spring:
   application:
-    name: gateway-service
+    name: pay-gateway-service
   cloud:
     gateway:
       default-filters:
