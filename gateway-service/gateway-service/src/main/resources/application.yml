@@ -24,16 +24,16 @@ spring:
             preLogger: true
             postLogger: true
       routes:
-        - id: user-service
-          uri: lb://USER-SERVICE
+        - id: pay-user-service
+          uri: lb://PAY-USER-SERVICE
           predicates:
-            - Path=/user-service/**
+            - Path=/pay-user-service/**
           filters:
             - RemoveRequestHeader=Cookie
-            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+            - RewritePath=/pay-user-service/(?<segment>.*), /$\{segment}
             - name: CircuitBreaker
               args:
-                name: user-service
+                name: pay-user-service
                 fallbackuri: forward:/fallback/user
 #        - id: shop-service
 #          uri: lb://SHOP-SERVICE
