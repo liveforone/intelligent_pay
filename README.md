@@ -32,8 +32,8 @@
 
 # 4. 프로젝트 설계 문서
 * [아키텍처와 전반설계](https://github.com/liveforone/intelligent_pay/blob/master/Documents/DESIGN.md)
-* [DB 설계와 모델링]()
-* [마이크로 서비스 통합 설계]()
+* [DB 설계와 모델링](https://github.com/liveforone/intelligent_pay/blob/master/Documents/DATABASE_DESIGN.md)
+* [마이크로 서비스 통합 설계](https://github.com/liveforone/intelligent_pay/blob/master/Documents/MICROSERVICE_DESIGN.md)
 * [화면 설계]()
 * [수익모델]()
 
@@ -114,6 +114,7 @@ db를 설계하고, 전체 아키텍처를 설계할때도 마찬가지이지만
 * 서비스별 설계 문서에는 제공하는 api스펙이 나타난다.
 * 두 문서는 프로젝트 시작 바로 직전에 작성한다.
 * 일례로 화면에는 회원 정보 api를 두고, 서비스 문서에는 간단한 회원 정보, 계좌서비스에서는 잔액 제공 등의 api가 존재할 수 있다. 이렇게 통합시켜서 진행하고, 절대로 화면에 종속되도록 설계하거나, 서비스 내의 api가 해당 서비스의 화면을 담당해야한다는 관념에서 벗어나야한다.
+* 설계문서보면서 코딩 하기
 
 ## 명령어 -> detach 실행 편리함을 위한
 ```
