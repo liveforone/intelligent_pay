@@ -1,0 +1,51 @@
+server:
+  port: 0
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+#      defaultZone: http://discovery-service:8761/eureka/
+
+spring:
+  application:
+    name: user-service
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/intelligent_pay_user?serverTimezone=Asia/Seoul
+    #    url: jdbc:mysql://intelligent_pay_user_db:3306/intelligent_pay_user?serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true&useSSL=false&characterEncoding=UTF-8
+    username: root
+    password: 159624
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+        default_batch_fetch_size: 100
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.springframework.web: DEBUG
+    #참조경로: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
+
+feign:
+  client:
+    config:
+      default:
+        loggerLevel: FULL
+
+jwt:
+  secret: VlwEyVBsYt9V7zq57TejMnVUyzblYcfPQye08f7MGVA9XkHa
