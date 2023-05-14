@@ -31,7 +31,7 @@
 [PATCH] /change/email : 이메일 변경(토큰 필요), ChangeEmailRequest 형식
 [PATCH] /change/password : 비밀번호 변경(토큰 필요), ChangePasswordRequest 형식
 [DELETE] /withdraw : 회원탈퇴(토큰 필요), text 형식 문자열 비밀번호 필요
-[GET] /admin : 어드민 페이지(토큰 필요)
+[GET] /admin/search : 어드민의 회원 검색 페이지(토큰 필요)
 [GET] /prohibition : 403 페이지(토큰 불필요)
 ```
 
