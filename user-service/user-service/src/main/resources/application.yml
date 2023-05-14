@@ -33,7 +33,7 @@ logging:
   level:
     org.hibernate.SQL: DEBUG
     org.springframework.web: DEBUG
-    #참조경로: DEBUG
+    intelligent_pay.userservice.feignClient.BankbookFeignService: DEBUG
 
 management:
   endpoints:
