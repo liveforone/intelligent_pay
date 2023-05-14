@@ -38,4 +38,5 @@
 * 어드민은 회원 검색 및 조회가 가능하다.
 ```
 [GET] : /admin
+[GET] : /admin/search
 ```
