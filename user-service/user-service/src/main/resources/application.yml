@@ -14,7 +14,7 @@ eureka:
 
 spring:
   application:
-    name: user-service
+    name: pay-user-service
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/intelligent_pay_user?serverTimezone=Asia/Seoul
