@@ -26,4 +26,19 @@ public class FallbackController {
     public Mono<String> fallbackUserDelete() {
         return Mono.just(FallbackMessage.USER_LOG);
     }
+
+    @GetMapping(FallbackUrl.BANKBOOK)
+    public Mono<String> fallbackBankbookGet() {
+        return Mono.just(FallbackMessage.BANKBOOK_LOG);
+    }
+
+    @PostMapping(FallbackUrl.BANKBOOK)
+    public Mono<String> fallbackBankbookPost() {
+        return Mono.just(FallbackMessage.BANKBOOK_LOG);
+    }
+
+    @PutMapping(FallbackUrl.BANKBOOK)
+    public Mono<String> fallbackBankbookPut() {
+        return Mono.just(FallbackMessage.BANKBOOK_LOG);
+    }
 }
