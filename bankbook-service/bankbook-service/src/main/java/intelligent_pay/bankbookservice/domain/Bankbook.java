@@ -55,4 +55,8 @@ public class Bankbook {
         String bankbookNum = RandomStringUtils.randomNumeric(SIZE_OF_BANKBOOK_NUM);
         return new Bankbook(encodedPassword, bankbookNum, username);
     }
+
+    public void addBalance(long inputMoney) {
+        this.balance += inputMoney;
+    }
 }
