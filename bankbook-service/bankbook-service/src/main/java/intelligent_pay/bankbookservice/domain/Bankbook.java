@@ -65,4 +65,8 @@ public class Bankbook {
             this.balance -= inputMoney;
         }
     }
+
+    public void updatePassword(String password) {
+        this.password = PasswordUtil.encodePassword(password);
+    }
 }
