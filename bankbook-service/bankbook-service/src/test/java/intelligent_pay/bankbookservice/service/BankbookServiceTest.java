@@ -118,6 +118,25 @@ class BankbookServiceTest {
     }
 
     @Test
-    void cancelSuspendBankbook() {
+    @Transactional
+    void cancelSuspendBankbookTest() {
+        //given
+        String password = "2389238923892398";
+        String username = "ncnanfpqenfoqnvapojfoqpnfoenvhgerahfdqpoeuropeq";
+        createBankbook(password, username);
+        BankbookResponse bankbook = bankbookService.getBankbookByUsername(username);
+        String bankbookNum = bankbook.getBankbookNum();
+        bankbookService.suspendBankbook(bankbookNum);
+        em.flush();
+        em.clear();
+
+        //when
+        bankbookService.cancelSuspendBankbook(bankbookNum);
+        em.flush();
+        em.clear();
+
+        //then
+        assertThat(bankbookService.getBankbookByUsername(username).getBankbookState())
+                .isEqualTo(BankbookState.WORK);
     }
 }
