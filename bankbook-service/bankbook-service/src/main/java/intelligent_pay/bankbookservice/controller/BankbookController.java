@@ -6,6 +6,7 @@ import intelligent_pay.bankbookservice.controller.restResponse.RestResponse;
 import intelligent_pay.bankbookservice.dto.AddBalanceRequest;
 import intelligent_pay.bankbookservice.dto.BankbookRequest;
 import intelligent_pay.bankbookservice.dto.BankbookResponse;
+import intelligent_pay.bankbookservice.dto.SubtractBalanceRequest;
 import intelligent_pay.bankbookservice.service.BankbookService;
 import intelligent_pay.bankbookservice.utility.CommonUtils;
 import intelligent_pay.bankbookservice.validator.BankbookValidator;
@@ -66,16 +67,33 @@ public class BankbookController {
     }
 
     @PostMapping(ADD_BALANCE)
-    public ResponseEntity<?> addBalance(
+    public boolean addBalance(
             @RequestBody @Valid AddBalanceRequest addBalanceRequest,
             BindingResult bindingResult
     ) {
-        bankbookValidator.validateBinding(bindingResult);
-        bankbookValidator.validateBankbookNull(addBalanceRequest.getBankbookNum());
+        bankbookValidator.validateBindingThrowBool(bindingResult);
+        bankbookValidator.validateBankbookNullThrowBool(addBalanceRequest.getBankbookNum());
 
         bankbookService.addBalance(addBalanceRequest);
         log.info(ControllerLog.ADD_BALANCE_SUCCESS.getValue() + addBalanceRequest.getBankbookNum());
 
-        return RestResponse.addBalanceSuccess();
+        return true;
+    }
+
+    @PostMapping(SUBTRACT_BALANCE)
+    public boolean subtractBalance(
+            @RequestBody @Valid SubtractBalanceRequest subtractBalanceRequest,
+            BindingResult bindingResult
+    ) {
+        bankbookValidator.validateBindingThrowBool(bindingResult);
+        bankbookValidator.validatePasswordThrowBool(
+                subtractBalanceRequest.getPassword(),
+                subtractBalanceRequest.getBankbookNum()
+        );
+
+        bankbookService.subtractBalance(subtractBalanceRequest);
+        log.info(ControllerLog.SUBTRACT_BALANCE_SUCCESS.getValue() + subtractBalanceRequest.getBankbookNum());
+
+        return true;
     }
 }
