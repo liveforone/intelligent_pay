@@ -28,8 +28,8 @@
 [GET/POST] /login : 로그인(토큰 불필요)
 [GET] /logout : 로그아웃, get으로 받아도 정상 작동(토큰 불필요)
 [GET] /my-info : 마이페이지(토큰 필요)
-[PATCH] /change/email : 이메일 변경(토큰 필요), ChangeEmailRequest 형식
-[PATCH] /change/password : 비밀번호 변경(토큰 필요), ChangePasswordRequest 형식
+[Put] /change/email : 이메일 변경(토큰 필요), ChangeEmailRequest 형식
+[Put] /change/password : 비밀번호 변경(토큰 필요), ChangePasswordRequest 형식
 [DELETE] /withdraw : 회원탈퇴(토큰 필요), text 형식 문자열 비밀번호 필요
 [GET] /admin/search : 어드민의 회원 검색 페이지(토큰 필요)
 [GET] /prohibition : 403 페이지(토큰 불필요)
@@ -67,7 +67,7 @@
 ### 잔액 요청
 * 회원 정보 조회시 잔액을 계좌서비스에 요청하여 받아온다.
 ```
-[GET] : /balance/{username}
+[GET] : /balance
 ```
 
 ## 어드민 회원가입
