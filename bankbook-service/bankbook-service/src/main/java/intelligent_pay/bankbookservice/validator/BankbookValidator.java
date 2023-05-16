@@ -3,6 +3,7 @@ package intelligent_pay.bankbookservice.validator;
 import intelligent_pay.bankbookservice.controller.restResponse.ResponseMessage;
 import intelligent_pay.bankbookservice.domain.Bankbook;
 import intelligent_pay.bankbookservice.exception.BankbookCustomException;
+import intelligent_pay.bankbookservice.exception.returnBool.BindingCustomBoolException;
 import intelligent_pay.bankbookservice.exception.BindingCustomException;
 import intelligent_pay.bankbookservice.repository.BankbookRepository;
 import intelligent_pay.bankbookservice.utility.CommonUtils;
@@ -47,6 +48,15 @@ public class BankbookValidator {
 
         if (!CommonUtils.isNull(foundBankbook)) {
             throw new BankbookCustomException(ResponseMessage.BANKBOOK_IS_NULL);
+        }
+    }
+
+    public void validateBindingReturnBool(BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            String errorMessage = Objects
+                    .requireNonNull(bindingResult.getFieldError())
+                    .getDefaultMessage();
+            throw new BindingCustomBoolException(errorMessage);
         }
     }
 }
