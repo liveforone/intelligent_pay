@@ -3,10 +3,7 @@ package intelligent_pay.bankbookservice.controller;
 import intelligent_pay.bankbookservice.authentication.AuthenticationInfo;
 import intelligent_pay.bankbookservice.controller.constant.ControllerLog;
 import intelligent_pay.bankbookservice.controller.restResponse.RestResponse;
-import intelligent_pay.bankbookservice.dto.AddBalanceRequest;
-import intelligent_pay.bankbookservice.dto.BankbookRequest;
-import intelligent_pay.bankbookservice.dto.BankbookResponse;
-import intelligent_pay.bankbookservice.dto.SubtractBalanceRequest;
+import intelligent_pay.bankbookservice.dto.*;
 import intelligent_pay.bankbookservice.service.BankbookService;
 import intelligent_pay.bankbookservice.utility.CommonUtils;
 import intelligent_pay.bankbookservice.validator.BankbookValidator;
@@ -16,10 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static intelligent_pay.bankbookservice.controller.constant.BankbookUrl.*;
 
@@ -95,5 +89,22 @@ public class BankbookController {
         log.info(ControllerLog.SUBTRACT_BALANCE_SUCCESS.getValue() + subtractBalanceRequest.getBankbookNum());
 
         return true;
+    }
+
+    @PutMapping(UPDATE_PASSWORD)
+    public ResponseEntity<?> updatePassword(
+            @RequestBody @Valid UpdatePasswordRequest updatePasswordRequest,
+            BindingResult bindingResult
+    ) {
+        bankbookValidator.validateBinding(bindingResult);
+        bankbookValidator.validatePassword(
+                updatePasswordRequest.getPassword(),
+                updatePasswordRequest.getBankbookNum()
+        );
+
+        bankbookService.updatePassword(updatePasswordRequest);
+        log.info(ControllerLog.UPDATE_PASSWORD_SUCCESS.getValue() + updatePasswordRequest.getBankbookNum());
+
+        return RestResponse.updatePasswordSuccess();
     }
 }
