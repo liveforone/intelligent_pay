@@ -37,6 +37,21 @@ public class BankbookValidator {
         }
     }
 
+    public void validateBankbookNullThrowBool(String identifier) {
+        final int SIZE_OF_BANKBOOK_NUM = 13;
+
+        Bankbook foundBankbook;
+        if (identifier.length() == SIZE_OF_BANKBOOK_NUM) {
+            foundBankbook = bankbookRepository.findOneByBankbookNum(identifier);
+        } else {
+            foundBankbook = bankbookRepository.findOneByUsername(identifier);
+        }
+
+        if (CommonUtils.isNull(foundBankbook)) {
+            throw new BankbookCustomBoolException();
+        }
+    }
+
     public void validateBinding(BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             String errorMessage = Objects
