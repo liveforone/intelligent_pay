@@ -1,7 +1,9 @@
 package intelligent_pay.bankbookservice.service;
 
 import intelligent_pay.bankbookservice.domain.BankbookState;
+import intelligent_pay.bankbookservice.dto.AddBalanceRequest;
 import intelligent_pay.bankbookservice.dto.BankbookRequest;
+import intelligent_pay.bankbookservice.dto.BankbookResponse;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,14 @@ class BankbookServiceTest {
 
     @Autowired
     EntityManager em;
+
+    void createBankbook(String password, String username) {
+        BankbookRequest request = new BankbookRequest();
+        request.setPassword(password);
+        bankbookService.createBankbook(request, username);
+        em.flush();
+        em.clear();
+    }
 
     @Test
     @Transactional
@@ -39,10 +49,29 @@ class BankbookServiceTest {
     }
 
     @Test
-    void addBalance() {
+    @Transactional
+    void addBalanceTest() {
+        //given
+        String password = "2389238923892398";
+        String username = "ncnanfpqenfoqnvapojfoqpnfoenvhgerahfdqpoeuropeq";
+        createBankbook(password, username);
+
+        //when
+        BankbookResponse bankbook = bankbookService.getBankbookByUsername(username);
+        AddBalanceRequest request = new AddBalanceRequest();
+        request.setBankbookNum(bankbook.getBankbookNum());
+        request.setMoney(10000);
+        bankbookService.addBalance(request);
+        em.flush();
+        em.clear();
+
+        //then
+        assertThat(bankbookService.getBankbookByUsername(username).getBalance())
+                .isEqualTo(10000L);
     }
 
     @Test
+    @Transactional
     void subtractBalance() {
     }
 
