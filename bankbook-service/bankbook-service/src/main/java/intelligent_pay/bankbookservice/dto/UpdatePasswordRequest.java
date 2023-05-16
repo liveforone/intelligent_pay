@@ -16,4 +16,7 @@ public class UpdatePasswordRequest {
     @NotBlank(message = "새 비밀번호를 입력하세요.")
     @Size(min = 8, message = "비밀번호는 8자리 이상이어야 합니다.")
     private String newPassword;
+
+    @NotBlank(message = "계좌번호를 입력하세요.")
+    private String bankbookNum;
 }
