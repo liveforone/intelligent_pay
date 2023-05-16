@@ -50,4 +50,10 @@ public class BankbookService {
         Bankbook bankbook = bankbookRepository.findOneByBankbookNum(bankbookNum);
         bankbook.suspend();
     }
+
+    @Transactional
+    public void cancelSuspendBankbook(String bankbookNum) {
+        Bankbook bankbook = bankbookRepository.findOneByBankbookNum(bankbookNum);
+        bankbook.cancelSuspend();
+    }
 }
