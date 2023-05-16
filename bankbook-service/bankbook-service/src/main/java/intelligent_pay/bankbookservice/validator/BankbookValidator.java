@@ -18,8 +18,15 @@ public class BankbookValidator {
 
     private final BankbookRepository bankbookRepository;
 
-    public void validateBankbookNull(String username) {
-        Bankbook foundBankbook = bankbookRepository.findOneByUsername(username);
+    public void validateBankbookNull(String identifier) {
+        final int SIZE_OF_BANKBOOK_NUM = 13;
+
+        Bankbook foundBankbook;
+        if (identifier.length() == SIZE_OF_BANKBOOK_NUM) {
+            foundBankbook = bankbookRepository.findOneByBankbookNum(identifier);
+        } else {
+            foundBankbook = bankbookRepository.findOneByUsername(identifier);
+        }
 
         if (CommonUtils.isNull(foundBankbook)) {
             throw new BankbookCustomException(ResponseMessage.BANKBOOK_IS_NULL);
