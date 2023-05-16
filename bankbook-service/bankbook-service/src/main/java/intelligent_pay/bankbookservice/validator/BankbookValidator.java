@@ -1,7 +1,6 @@
 package intelligent_pay.bankbookservice.validator;
 
 import intelligent_pay.bankbookservice.controller.restResponse.ResponseMessage;
-import intelligent_pay.bankbookservice.domain.Bankbook;
 import intelligent_pay.bankbookservice.exception.BankbookCustomException;
 import intelligent_pay.bankbookservice.exception.returnBool.BankbookCustomBoolException;
 import intelligent_pay.bankbookservice.exception.returnBool.BindingCustomBoolException;
