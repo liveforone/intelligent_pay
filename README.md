@@ -24,7 +24,7 @@
 
 # 3. 서비스별 문서
 * 서비스별 **요구사항**과 **설계**, **api 스펙**이 모두 기술되어 있습니다.
-* [회원(user) 서비스]()
+* [회원(user) 서비스](https://github.com/liveforone/intelligent_pay/blob/master/Documents/README_USER.md)
 * [계좌(bankbook) 서비스]()
 * [거래내역(record) 서비스]()
 * [입출금(statement) 서비스]()
@@ -34,7 +34,7 @@
 * [아키텍처와 전반설계](https://github.com/liveforone/intelligent_pay/blob/master/Documents/DESIGN.md)
 * [DB 설계와 모델링](https://github.com/liveforone/intelligent_pay/blob/master/Documents/DATABASE_DESIGN.md)
 * [마이크로 서비스 통합 설계](https://github.com/liveforone/intelligent_pay/blob/master/Documents/MICROSERVICE_DESIGN.md)
-* [화면 설계]()
+* [화면 설계](https://github.com/liveforone/intelligent_pay/blob/master/Documents/INTERFACE_DESIGN.md)
 * [수익모델]()
 
 # 5. Intelligent Pay를 지원하는 서비스
@@ -70,24 +70,55 @@ jpa에서 @Version 어노테이션을 붙인 버전 필드를 관리한다.
 ## 주요 포인트
 api + DB + 함수 + 마이크로서비스 : 의존성 제거하기 + 모듈화 + 응집도 높이기 + 확장/유지보수에 유연하게 대처가능
 
+## 통신
+내부에서의 통신은 카프카의 사용이 가능하지만,
+외부 통장에서 접근하는 즉 pg의 경우에는 rest-api로 통신하므로
+카프카를 활용할 수 없다.
+
 ## 거래내역 서비스
-입출금은 입출금, 거래의 경우 상품제목을 간략히 title에 저장한다.
+입금, 송금, 거래의 경우 상품제목을 간략히 title에 저장한다.
+특히나 송금/거래는 거래내역이 두개가 생성되는것에 유의(나/타인)
 인덱스는 연으로 검색, 연 + 월로 검색으로 두었다.
 왜냐하면 연 검색은 연 검색 단건이고,
 월 검색을 하려면 연도가 다 다르기때문에 반드시 연 검색이필요하다. 따라서 월검색 인덱스는 연 + 월 검색 인덱스로 구성해야한다.
 제목으로 검색쿼리를 만든다.
+카프카 컨슈머 필요
 
-## 입출금서비스
+## 입출금 서비스
+입금, 타 페이계좌에 송금, 타행 계좌에 송금
 입금 => 외부 은행계좌에서 pay 계좌로 송금처리하여 pay의 포인트로 전환
 외부계좌로 출금시 1% 수수료 
 항상 먼저 잔액을 체크하도록 계좌 서비스에 command 요청을 하여 bool 값을 리턴받고 진행한다.
 외부로부터 입금을 받을때에는 상관없다. 그것은 외부 타행 계좌 사정이기 때문이다. 출금이나 결제 시에는 반드시 계좌를 체크한다.
 입출금 시에는 반드시 입출금 금액이 잔액을 초과하는지 확인
 더티체킹한다.
+페인서비스로 계좌 서비스와 통신한다.
+카프카 프로듀서 필요
+타행 계좌에 송금하는 경우 pg사 api를 이용하기 때문에 생략한다.
 
 ## 결제 서비스
 결제 시에는 반드시 입출금 금액이 잔액을 초과하는지 확인
 더티체킹한다.
+페인서비스로 계좌 서비스와 통신한다.
+카프카 프로듀서 필요
+
+## 결제시 고민점
+결제로직에서는 표준화된 body 규격이 필요함.
+즉 rest-api를 호출하여 결제를 요청하는 경우 통일된 값을 받아야함.
+이를 통해 유지보수가 쉬워짐.
+rest-api도 난잡하게 이것저것 막 만드는것이 아니라
+극도로 모듈화시켜서 최대한 깔끔하게 rest-api를 만들어내야한다.
+즉 쇼핑몰에서 결제를 요청하건, 예약서비스에서 요청하건,
+외부에서 요청하건 결제 api는 하나여야하고, 따라서 규격은 모두동일해야한다.
+
+## 타 마이크로서비스 제공 api 예외처리 - 고민점
+* respones entity나 일반적인 형태의 json을 리턴하는 api가 아닌
+* 타 마이크로서비스에서 요청하면 이벤트를 처리하고, 요청한 서비스에서 리턴값을 판별해서 알맞는 처리를 하는 api가 있다.
+* 이 api의 경우에는 리턴값으로 boolean을 사용하는데,
+* 다른것은 문제되지 않지만 validation을 하고나서 예외를 터뜨리는것이 문제다.
+* 이 경우 custom 예외를 boolean값을 전달하도록 하는 예외로 다시 만들고,
+* 예외가 터졌을때 false를 리턴하도록 하면된다.
+* 코드 첨부
 
 ## 기능
 카카오페이처럼 자체 머니 방식으로 하기.
@@ -110,13 +141,16 @@ db를 설계하고, 전체 아키텍처를 설계할때도 마찬가지이지만
 -> 외부 api로 데이터를 가져오는것을 너무 두려워 해선 안될것 같음.
 
 ## 할일
-* 화면설계에는 말그대로 화면의 api가
-* 서비스별 설계 문서에는 제공하는 api스펙이 나타난다.
-* 두 문서는 프로젝트 시작 바로 직전에 작성한다.
-* 일례로 화면에는 회원 정보 api를 두고, 서비스 문서에는 간단한 회원 정보, 계좌서비스에서는 잔액 제공 등의 api가 존재할 수 있다. 이렇게 통합시켜서 진행하고, 절대로 화면에 종속되도록 설계하거나, 서비스 내의 api가 해당 서비스의 화면을 담당해야한다는 관념에서 벗어나야한다.
-* 설계문서보면서 코딩 하기
+* 계좌 등록시 바인딩 체크(비밀번호 수, null) 테스트
+* 송금 + 결제를 할때 내 계좌 출금을 먼저하고
+* 타 계좌에 입금을하는데, 입금 함수를 그대로 쓸경우 함수끼리의 의존성이 발생한다. 유의
+* 계좌서비스 제작 후 유저서비스 my-info에 잔액 정보 제공 테스트(헤더와 rest전이되는지 테스트) + 계좌 없을때 0리턴 테스트
 
 ## 명령어 -> detach 실행 편리함을 위한
 ```
 cd C:\Users\KYC\study\intelligent_pay\discovery-service\discovery-service\build\libs
+
+cd C:\Users\KYC\study\intelligent_pay\gateway-service\gateway-service\build\libs
+
+cd C:\Users\KYC\study\intelligent_pay\user-service\user-service\build\libs
 ```
