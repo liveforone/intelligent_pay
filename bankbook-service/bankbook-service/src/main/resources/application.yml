@@ -33,7 +33,6 @@ logging:
   level:
     org.hibernate.SQL: DEBUG
     org.springframework.web: DEBUG
-    #참조경로: DEBUG
 
 management:
   endpoints:
