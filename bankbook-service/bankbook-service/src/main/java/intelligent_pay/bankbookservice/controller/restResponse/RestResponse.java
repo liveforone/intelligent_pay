@@ -9,4 +9,8 @@ public class RestResponse {
                 .status(ResponseMessage.CREATE_BANKBOOK_SUCCESS.getStatus())
                 .body(ResponseMessage.CREATE_BANKBOOK_SUCCESS.getValue());
     }
+
+    public static ResponseEntity<?> updatePasswordSuccess() {
+        return ResponseEntity.ok(ResponseMessage.UPDATE_PASSWORD_SUCCESS.getValue());
+    }
 }
