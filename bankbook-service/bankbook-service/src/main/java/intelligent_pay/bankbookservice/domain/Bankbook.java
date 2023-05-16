@@ -59,4 +59,10 @@ public class Bankbook {
     public void addBalance(long inputMoney) {
         this.balance += inputMoney;
     }
+
+    public void subtractBalance(long inputMoney) {
+        if ((this.balance > ZERO) && (this.balance - inputMoney >= ZERO)) {
+            this.balance -= inputMoney;
+        }
+    }
 }
