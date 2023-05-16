@@ -44,4 +44,10 @@ public class BankbookService {
         Bankbook bankbook = bankbookRepository.findOneByBankbookNum(updatePasswordRequest.getBankbookNum());
         bankbook.updatePassword(updatePasswordRequest.getNewPassword());
     }
+
+    @Transactional
+    public void suspendBankbook(String bankbookNum) {
+        Bankbook bankbook = bankbookRepository.findOneByBankbookNum(bankbookNum);
+        bankbook.suspend();
+    }
 }
