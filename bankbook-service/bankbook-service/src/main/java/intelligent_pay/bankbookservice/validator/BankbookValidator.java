@@ -1,6 +1,7 @@
 package intelligent_pay.bankbookservice.validator;
 
 import intelligent_pay.bankbookservice.controller.restResponse.ResponseMessage;
+import intelligent_pay.bankbookservice.domain.BankbookState;
 import intelligent_pay.bankbookservice.exception.BankbookCustomException;
 import intelligent_pay.bankbookservice.exception.returnBool.BankbookCustomBoolException;
 import intelligent_pay.bankbookservice.exception.returnBool.BindingCustomBoolException;
@@ -97,6 +98,22 @@ public class BankbookValidator {
         }
 
         if (!passwordEncoder.matches(password, foundPassword)) {
+            throw new BankbookCustomBoolException();
+        }
+    }
+
+    public void validateBankbookState(String bankbookNum) {
+        BankbookState state = bankbookRepository.findStateByBankbookNum(bankbookNum);
+
+        if (state == BankbookState.SUSPEND) {
+            throw new BankbookCustomException(ResponseMessage.SUSPEND_BANKBOOK);
+        }
+    }
+
+    public void validateBankbookStateThrowBool(String bankbookNum) {
+        BankbookState state = bankbookRepository.findStateByBankbookNum(bankbookNum);
+
+        if (state == BankbookState.SUSPEND) {
             throw new BankbookCustomBoolException();
         }
     }
