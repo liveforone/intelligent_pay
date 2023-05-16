@@ -8,7 +8,8 @@ import lombok.Getter;
 public enum ControllerLog {
 
     CREATE_BANKBOOK_SUCCESS("Create Bankbook Success"),
-    ADD_BALANCE_SUCCESS("Add Balance Success | BankbookNum : ");
+    ADD_BALANCE_SUCCESS("Add Balance Success | BankbookNum : "),
+    SUBTRACT_BALANCE_SUCCESS("Subtract Balance Success | BankbookNum : ");
 
     private final String value;
 }
