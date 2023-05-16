@@ -77,7 +77,7 @@ public class MemberController {
     public ResponseEntity<?> myInfo(HttpServletRequest request) {
         String username = authenticationInfo.getUsername(request);
         MemberResponse member = memberService.getMemberByUsername(username);
-        long balance = getBalanceByUsername(username);
+        long balance = getBalanceByUsername();
 
         MemberInfoResponse response = MemberInfoResponse.builder()
                 .memberResponse(member)
@@ -87,16 +87,16 @@ public class MemberController {
         return ResponseEntity.ok(response);
     }
 
-    private long getBalanceByUsername(String username) {
+    private long getBalanceByUsername() {
         return circuitBreakerFactory
                 .create(CircuitLog.USER_CIRCUIT_LOG.getValue())
                 .run(
-                        () -> bankbookFeignService.getBalanceByUsername(username) ,
+                        bankbookFeignService::getBalanceByUsername,
                         throwable -> 0L
                 );
     }
 
-    @PatchMapping(CHANGE_EMAIL)
+    @PutMapping(CHANGE_EMAIL)
     public ResponseEntity<?> changeEmail(
             @RequestBody @Valid ChangeEmailRequest changeEmailRequest,
             BindingResult bindingResult,
@@ -112,7 +112,7 @@ public class MemberController {
         return RestResponse.changeEmailSuccess();
     }
 
-    @PatchMapping(CHANGE_PASSWORD)
+    @PutMapping(CHANGE_PASSWORD)
     public ResponseEntity<?> changePassword(
             @RequestBody @Valid ChangePasswordRequest changePasswordRequest,
             BindingResult bindingResult,
