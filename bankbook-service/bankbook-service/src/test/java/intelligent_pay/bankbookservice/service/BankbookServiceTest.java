@@ -1,10 +1,7 @@
 package intelligent_pay.bankbookservice.service;
 
 import intelligent_pay.bankbookservice.domain.BankbookState;
-import intelligent_pay.bankbookservice.dto.AddBalanceRequest;
-import intelligent_pay.bankbookservice.dto.BankbookRequest;
-import intelligent_pay.bankbookservice.dto.BankbookResponse;
-import intelligent_pay.bankbookservice.dto.SubtractBalanceRequest;
+import intelligent_pay.bankbookservice.dto.*;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,11 +99,22 @@ class BankbookServiceTest {
     }
 
     @Test
-    void updatePassword() {
-    }
+    @Transactional
+    void suspendBankbookTest() {
+        //given
+        String password = "2389238923892398";
+        String username = "ncnanfpqenfoqnvapojfoqpnfoenvhgerahfdqpoeuropeq";
+        createBankbook(password, username);
 
-    @Test
-    void suspendBankbook() {
+        //when
+        BankbookResponse bankbook = bankbookService.getBankbookByUsername(username);
+        bankbookService.suspendBankbook(bankbook.getBankbookNum());
+        em.flush();
+        em.clear();
+
+        //then
+        assertThat(bankbookService.getBankbookByUsername(username).getBankbookState())
+                .isEqualTo(BankbookState.SUSPEND);
     }
 
     @Test
