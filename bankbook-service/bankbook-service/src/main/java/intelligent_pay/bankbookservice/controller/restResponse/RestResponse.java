@@ -17,4 +17,8 @@ public class RestResponse {
     public static ResponseEntity<?> suspendSuccess() {
         return ResponseEntity.ok(ResponseMessage.SUSPEND_SUCCESS.getValue());
     }
+
+    public static ResponseEntity<?> cancelSuspendSuccess() {
+        return ResponseEntity.ok(ResponseMessage.CANCEL_SUSPEND_SUCCESS.getValue());
+    }
 }
