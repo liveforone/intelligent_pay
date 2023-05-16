@@ -1,10 +1,12 @@
 package intelligent_pay.bankbookservice.service;
 
+import intelligent_pay.bankbookservice.async.AsyncConstant;
 import intelligent_pay.bankbookservice.domain.Bankbook;
 import intelligent_pay.bankbookservice.dto.*;
 import intelligent_pay.bankbookservice.repository.BankbookRepository;
 import intelligent_pay.bankbookservice.service.util.BankbookMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,18 +42,21 @@ public class BankbookService {
     }
 
     @Transactional
+    @Async(AsyncConstant.commandAsync)
     public void updatePassword(UpdatePasswordRequest updatePasswordRequest) {
         Bankbook bankbook = bankbookRepository.findOneByBankbookNum(updatePasswordRequest.getBankbookNum());
         bankbook.updatePassword(updatePasswordRequest.getNewPassword());
     }
 
     @Transactional
+    @Async(AsyncConstant.commandAsync)
     public void suspendBankbook(String bankbookNum) {
         Bankbook bankbook = bankbookRepository.findOneByBankbookNum(bankbookNum);
         bankbook.suspend();
     }
 
     @Transactional
+    @Async(AsyncConstant.commandAsync)
     public void cancelSuspendBankbook(String bankbookNum) {
         Bankbook bankbook = bankbookRepository.findOneByBankbookNum(bankbookNum);
         bankbook.cancelSuspend();
