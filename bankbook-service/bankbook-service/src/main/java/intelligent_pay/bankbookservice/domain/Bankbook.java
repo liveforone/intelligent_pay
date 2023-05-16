@@ -73,4 +73,8 @@ public class Bankbook {
     public void suspend() {
         this.bankbookState = BankbookState.SUSPEND;
     }
+
+    public void cancelSuspend() {
+        this.bankbookState = BankbookState.WORK;
+    }
 }
