@@ -5,4 +5,5 @@ public final class EntityConstant {
 
     public static final int INITIAL_BALANCE = 0;
     public static final int SIZE_OF_BANKBOOK_NUM = 13;
+    public static final int ZERO = 0;
 }
