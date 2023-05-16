@@ -4,6 +4,7 @@ import intelligent_pay.bankbookservice.domain.Bankbook;
 import intelligent_pay.bankbookservice.dto.AddBalanceRequest;
 import intelligent_pay.bankbookservice.dto.BankbookRequest;
 import intelligent_pay.bankbookservice.dto.BankbookResponse;
+import intelligent_pay.bankbookservice.dto.SubtractBalanceRequest;
 import intelligent_pay.bankbookservice.repository.BankbookRepository;
 import intelligent_pay.bankbookservice.service.util.BankbookMapper;
 import lombok.RequiredArgsConstructor;
@@ -33,5 +34,11 @@ public class BankbookService {
     public void addBalance(AddBalanceRequest addBalanceRequest) {
         Bankbook bankbook = bankbookRepository.findOneByBankbookNum(addBalanceRequest.getBankbookNum());
         bankbook.addBalance(addBalanceRequest.getMoney());
+    }
+
+    @Transactional
+    public void subtractBalance(SubtractBalanceRequest subtractBalanceRequest) {
+        Bankbook bankbook = bankbookRepository.findOneByBankbookNum(subtractBalanceRequest.getBankbookNum());
+        bankbook.subtractBalance(subtractBalanceRequest.getMoney());
     }
 }
