@@ -93,18 +93,37 @@ public class BankbookController {
 
     @PutMapping(UPDATE_PASSWORD)
     public ResponseEntity<?> updatePassword(
-            @RequestBody @Valid UpdatePasswordRequest updatePasswordRequest,
+            @RequestBody @Valid UpdatePasswordRequest requestDto,
             BindingResult bindingResult
     ) {
         bankbookValidator.validateBinding(bindingResult);
         bankbookValidator.validatePassword(
-                updatePasswordRequest.getPassword(),
-                updatePasswordRequest.getBankbookNum()
+                requestDto.getPassword(),
+                requestDto.getBankbookNum()
         );
 
-        bankbookService.updatePassword(updatePasswordRequest);
-        log.info(ControllerLog.UPDATE_PASSWORD_SUCCESS.getValue() + updatePasswordRequest.getBankbookNum());
+        bankbookService.updatePassword(requestDto);
+        log.info(ControllerLog.UPDATE_PASSWORD_SUCCESS.getValue() + requestDto.getBankbookNum());
 
         return RestResponse.updatePasswordSuccess();
+    }
+
+    @PutMapping(SUSPEND)
+    public ResponseEntity<?> suspendBankbook(
+            @RequestBody @Valid UpdateBankbookStateRequest requestDto,
+            BindingResult bindingResult
+    ) {
+        bankbookValidator.validateBinding(bindingResult);
+        String bankbookNum = requestDto.getBankbookNum();
+        bankbookValidator.validateBankbookNull(bankbookNum);
+        bankbookValidator.validatePassword(
+                requestDto.getPassword(),
+                bankbookNum
+        );
+
+        bankbookService.suspendBankbook(bankbookNum);
+        log.info(ControllerLog.SUSPEND_SUCCESS.getValue() + bankbookNum);
+
+        return RestResponse.suspendSuccess();
     }
 }
