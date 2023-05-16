@@ -6,6 +6,7 @@ public interface BankbookCustomRepository {
 
     Long findIdByUsername(String username);
     Long findIdByBankbookNum(String bankbookNum);
+    String findPasswordByBankbookNum(String bankbookNum);
     Bankbook findOneByUsername(String username);
     Bankbook findOneByBankbookNum(String bankbookNum);
 }
