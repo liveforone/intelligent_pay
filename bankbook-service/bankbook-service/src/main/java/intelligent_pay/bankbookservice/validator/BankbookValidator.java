@@ -9,7 +9,7 @@ import intelligent_pay.bankbookservice.exception.BindingCustomException;
 import intelligent_pay.bankbookservice.repository.BankbookRepository;
 import intelligent_pay.bankbookservice.utility.CommonUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 
@@ -20,7 +20,7 @@ import java.util.Objects;
 public class BankbookValidator {
 
     private final BankbookRepository bankbookRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     public void validateBankbookNull(String identifier) {
         final int SIZE_OF_BANKBOOK_NUM = 13;
