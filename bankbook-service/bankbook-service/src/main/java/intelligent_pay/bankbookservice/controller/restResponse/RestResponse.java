@@ -9,8 +9,4 @@ public class RestResponse {
                 .status(ResponseMessage.CREATE_BANKBOOK_SUCCESS.getStatus())
                 .body(ResponseMessage.CREATE_BANKBOOK_SUCCESS.getValue());
     }
-
-    public static ResponseEntity<?> addBalanceSuccess() {
-        return ResponseEntity.ok(ResponseMessage.ADD_BALANCE_SUCCESS.getValue());
-    }
 }
