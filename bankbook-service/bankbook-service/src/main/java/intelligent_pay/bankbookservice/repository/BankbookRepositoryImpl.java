@@ -13,6 +13,22 @@ public class BankbookRepositoryImpl implements BankbookCustomRepository{
     private final JPAQueryFactory queryFactory;
     QBankbook bankbook = QBankbook.bankbook;
 
+    public Long findIdByUsername(String username) {
+        return queryFactory
+                .select(bankbook.id)
+                .from(bankbook)
+                .where(bankbook.username.eq(username))
+                .fetchOne();
+    }
+
+    public Long findIdByBankbookNum(String bankbookNum) {
+        return queryFactory
+                .select(bankbook.id)
+                .from(bankbook)
+                .where(bankbook.bankbookNum.eq(bankbookNum))
+                .fetchOne();
+    }
+
     public Bankbook findOneByUsername(String username) {
         return queryFactory
                 .selectFrom(bankbook)
