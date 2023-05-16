@@ -9,34 +9,62 @@
 ### 회원가입
 * 회원가입 창에 백엔드에서 제공하는 별다른 데이터가 필요없다.
 ```
-[GET/POST] : /signup
+/user/signup
 ```
 ### 로그인
 * 로그인 창에 백엔드에서 제공하는 별다른 데이터가 필요없다.
 ```
-[GET/POST] : /login
+/user/login
 ```
 ### 이메일 변경
 ```
-[GET/PUT] : /user/change/email
+/user/change/email
 ```
 ### 비밀번호 변경
 ```
-[GET/PUT] : /user/change/password
+/user/change/password
 ```
 ### 탈퇴
 ```
-[DELETE] : /user/withdraw
+/user/withdraw
 ```
 ### 회원정보
 * 회원 서비스에서 제공하는 이메일, 실명
 * 계좌 서비스에서 제공하는 잔액 필요
 ```
-[GET] : /my-info
+/user/my-info
 ```
 ### 어드민
 * 어드민은 회원 검색 및 조회가 가능하다.
 ```
-[GET] : /admin
-[GET] : /admin/search
+/admin
+/admin/search
+```
+
+## 계좌 관련
+### 송금
+* 비밀번호와 송금하려는 계좌번호, 금액을 입력한다.
+```
+/bankbook/remit
+```
+### 결제
+* 타 서비스에서 페이 결제를 누를경우 보이는 창이다.
+* 비밀번호를 입력한다.
+* 금액과 결제후 입금되는 계좌번호는 자동 입력된다.
+```
+/bankbook/pay
+```
+### 계좌 비밀번호 변경
+```
+/bankbook/update/password
+```
+### 계좌 정지
+* 정지시에는 비밀번호를 입력받는다.
+```
+/bankbook/suspend
+```
+### 계좌 정지 해제
+* 정지 해제시에는 비밀번호를 입력받는다.
+```
+/bankbook/cancel/suspend
 ```
