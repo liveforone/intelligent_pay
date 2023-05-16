@@ -1,5 +1,6 @@
 package intelligent_pay.bankbookservice.exception;
 
+import intelligent_pay.bankbookservice.exception.returnBool.BankbookCustomBoolException;
 import intelligent_pay.bankbookservice.exception.returnBool.BindingCustomBoolException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class BankbookControllerAdvice {
 
     @ExceptionHandler(BankbookCustomException.class)
-    protected ResponseEntity<?> shopCustomHandle(BankbookCustomException customException) {
+    protected ResponseEntity<?> bankbookCustomHandle(BankbookCustomException customException) {
         return ResponseEntity
                 .status(customException.getResponseMessage().getStatus())
                 .body(customException.getResponseMessage().getValue());
@@ -25,6 +26,11 @@ public class BankbookControllerAdvice {
 
     @ExceptionHandler(BindingCustomBoolException.class)
     protected boolean bindingBoolErrorHandle(BindingCustomBoolException bindingCustomBoolException) {
+        return false;
+    }
+
+    @ExceptionHandler(BankbookCustomBoolException.class)
+    protected boolean bankbookCustomBoolHandle(BankbookCustomBoolException bankbookCustomBoolException) {
         return false;
     }
 }
