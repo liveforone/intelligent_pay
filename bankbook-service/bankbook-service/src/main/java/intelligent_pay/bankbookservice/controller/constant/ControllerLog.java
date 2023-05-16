@@ -7,7 +7,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ControllerLog {
 
-    CREATE_BANKBOOK_SUCCESS("Create Bankbook Success");
+    CREATE_BANKBOOK_SUCCESS("Create Bankbook Success"),
+    ADD_BALANCE_SUCCESS("Add Balance Success | BankbookNum : ");
 
     private final String value;
 }
