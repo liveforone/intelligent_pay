@@ -49,7 +49,7 @@ public class Member implements UserDetails {
     public static Member create(MemberSignupRequest request) {
         final String ADMIN = "admin@maybeAllHere.com";
 
-        if (Objects.equals(request.getEmail(), ADMIN)) {
+        if (ADMIN.equals(request.getEmail())) {
             request.setAuth(Role.ADMIN);
         } else {
             request.setAuth(Role.MEMBER);
