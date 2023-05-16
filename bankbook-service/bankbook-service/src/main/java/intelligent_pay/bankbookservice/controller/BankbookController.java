@@ -1,15 +1,22 @@
 package intelligent_pay.bankbookservice.controller;
 
 import intelligent_pay.bankbookservice.authentication.AuthenticationInfo;
+import intelligent_pay.bankbookservice.controller.constant.ControllerLog;
+import intelligent_pay.bankbookservice.controller.restResponse.RestResponse;
+import intelligent_pay.bankbookservice.dto.BankbookRequest;
 import intelligent_pay.bankbookservice.dto.BankbookResponse;
 import intelligent_pay.bankbookservice.service.BankbookService;
 import intelligent_pay.bankbookservice.utility.CommonUtils;
 import intelligent_pay.bankbookservice.validator.BankbookValidator;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import static intelligent_pay.bankbookservice.controller.constant.BankbookUrl.*;
@@ -38,5 +45,22 @@ public class BankbookController {
 
         BankbookResponse bankbook = bankbookService.getBankbookByUsername(username);
         return ResponseEntity.ok(bankbook);
+    }
+
+    @PostMapping(CREATE)
+    public ResponseEntity<?> createBankbook(
+            @RequestBody @Valid BankbookRequest bankbookRequest,
+            BindingResult bindingResult,
+            HttpServletRequest request
+    ) {
+        bankbookValidator.validateBinding(bindingResult);
+
+        String username = authenticationInfo.getUsername(request);
+        bankbookValidator.validateDuplicateBankbook(username);
+
+        bankbookService.createBankbook(bankbookRequest, username);
+        log.info(ControllerLog.CREATE_BANKBOOK_SUCCESS.getValue());
+
+        return RestResponse.createBankbookSuccess();
     }
 }
