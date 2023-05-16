@@ -3,6 +3,7 @@ package intelligent_pay.bankbookservice.controller;
 import intelligent_pay.bankbookservice.authentication.AuthenticationInfo;
 import intelligent_pay.bankbookservice.controller.constant.ControllerLog;
 import intelligent_pay.bankbookservice.controller.restResponse.RestResponse;
+import intelligent_pay.bankbookservice.dto.AddBalanceRequest;
 import intelligent_pay.bankbookservice.dto.BankbookRequest;
 import intelligent_pay.bankbookservice.dto.BankbookResponse;
 import intelligent_pay.bankbookservice.service.BankbookService;
@@ -62,5 +63,19 @@ public class BankbookController {
         log.info(ControllerLog.CREATE_BANKBOOK_SUCCESS.getValue());
 
         return RestResponse.createBankbookSuccess();
+    }
+
+    @PostMapping(ADD_BALANCE)
+    public ResponseEntity<?> addBalance(
+            @RequestBody @Valid AddBalanceRequest addBalanceRequest,
+            BindingResult bindingResult
+    ) {
+        bankbookValidator.validateBinding(bindingResult);
+        bankbookValidator.validateBankbookNull(addBalanceRequest.getBankbookNum());
+
+        bankbookService.addBalance(addBalanceRequest);
+        log.info(ControllerLog.ADD_BALANCE_SUCCESS.getValue() + addBalanceRequest.getBankbookNum());
+
+        return RestResponse.addBalanceSuccess();
     }
 }
