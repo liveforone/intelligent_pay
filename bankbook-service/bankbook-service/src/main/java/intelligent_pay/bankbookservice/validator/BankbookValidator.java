@@ -34,4 +34,12 @@ public class BankbookValidator {
             throw new BindingCustomException(errorMessage);
         }
     }
+
+    public void validateDuplicateBankbook(String username) {
+        Bankbook foundBankbook = bankbookRepository.findOneByUsername(username);
+
+        if (!CommonUtils.isNull(foundBankbook)) {
+            throw new BankbookCustomException(ResponseMessage.BANKBOOK_IS_NULL);
+        }
+    }
 }
