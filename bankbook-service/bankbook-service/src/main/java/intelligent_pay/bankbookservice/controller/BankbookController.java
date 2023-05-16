@@ -66,10 +66,12 @@ public class BankbookController {
             BindingResult bindingResult
     ) {
         bankbookValidator.validateBindingThrowBool(bindingResult);
-        bankbookValidator.validateBankbookNullThrowBool(addBalanceRequest.getBankbookNum());
+        String bankbookNum = addBalanceRequest.getBankbookNum();
+        bankbookValidator.validateBankbookNullThrowBool(bankbookNum);
+        bankbookValidator.validateBankbookStateThrowBool(bankbookNum);
 
         bankbookService.addBalance(addBalanceRequest);
-        log.info(ControllerLog.ADD_BALANCE_SUCCESS.getValue() + addBalanceRequest.getBankbookNum());
+        log.info(ControllerLog.ADD_BALANCE_SUCCESS.getValue() + bankbookNum);
 
         return true;
     }
@@ -80,13 +82,15 @@ public class BankbookController {
             BindingResult bindingResult
     ) {
         bankbookValidator.validateBindingThrowBool(bindingResult);
+        String bankbookNum = subtractBalanceRequest.getBankbookNum();
+        bankbookValidator.validateBankbookStateThrowBool(bankbookNum);
         bankbookValidator.validatePasswordThrowBool(
                 subtractBalanceRequest.getPassword(),
-                subtractBalanceRequest.getBankbookNum()
+                bankbookNum
         );
 
         bankbookService.subtractBalance(subtractBalanceRequest);
-        log.info(ControllerLog.SUBTRACT_BALANCE_SUCCESS.getValue() + subtractBalanceRequest.getBankbookNum());
+        log.info(ControllerLog.SUBTRACT_BALANCE_SUCCESS.getValue() + bankbookNum);
 
         return true;
     }
@@ -97,13 +101,15 @@ public class BankbookController {
             BindingResult bindingResult
     ) {
         bankbookValidator.validateBinding(bindingResult);
+        String bankbookNum = requestDto.getBankbookNum();
+        bankbookValidator.validateBankbookState(bankbookNum);
         bankbookValidator.validatePassword(
                 requestDto.getPassword(),
-                requestDto.getBankbookNum()
+                bankbookNum
         );
 
         bankbookService.updatePassword(requestDto);
-        log.info(ControllerLog.UPDATE_PASSWORD_SUCCESS.getValue() + requestDto.getBankbookNum());
+        log.info(ControllerLog.UPDATE_PASSWORD_SUCCESS.getValue() + bankbookNum);
 
         return RestResponse.updatePasswordSuccess();
     }
