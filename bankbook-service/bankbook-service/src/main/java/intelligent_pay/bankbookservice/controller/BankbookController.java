@@ -126,4 +126,23 @@ public class BankbookController {
 
         return RestResponse.suspendSuccess();
     }
+
+    @PutMapping(CANCEL_SUSPEND)
+    public ResponseEntity<?> cancelSuspend(
+            @RequestBody @Valid UpdateBankbookStateRequest requestDto,
+            BindingResult bindingResult
+    ) {
+        bankbookValidator.validateBinding(bindingResult);
+        String bankbookNum = requestDto.getBankbookNum();
+        bankbookValidator.validateBankbookNull(bankbookNum);
+        bankbookValidator.validatePassword(
+                requestDto.getPassword(),
+                bankbookNum
+        );
+
+        bankbookService.cancelSuspendBankbook(bankbookNum);
+        log.info(ControllerLog.CANCEL_SUSPEND_SUCCESS.getValue() + bankbookNum);
+
+        return RestResponse.cancelSuspendSuccess();
+    }
 }
