@@ -2,6 +2,7 @@ package intelligent_pay.bankbookservice.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import intelligent_pay.bankbookservice.domain.Bankbook;
+import intelligent_pay.bankbookservice.domain.BankbookState;
 import intelligent_pay.bankbookservice.domain.QBankbook;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -32,6 +33,14 @@ public class BankbookRepositoryImpl implements BankbookCustomRepository{
     public String findPasswordByBankbookNum(String bankbookNum) {
         return queryFactory
                 .select(bankbook.password)
+                .from(bankbook)
+                .where(bankbook.bankbookNum.eq(bankbookNum))
+                .fetchOne();
+    }
+
+    public BankbookState findStateByBankbookNum(String bankbookNum) {
+        return queryFactory
+                .select(bankbook.bankbookState)
                 .from(bankbook)
                 .where(bankbook.bankbookNum.eq(bankbookNum))
                 .fetchOne();
