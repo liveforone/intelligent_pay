@@ -37,7 +37,8 @@
 
 ## API 설계
 ```
-[GET] /balance/{username} : 잔액 리턴
+[GET] /balance : 잔액 리턴
+[GET] /info
 [POST] /create : 통장 개설
 [POST] /add/balance : 잔액 plus 행위
 [POST] /subtract/balance : 잔액 minus 행위
