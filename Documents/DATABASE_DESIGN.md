@@ -28,7 +28,7 @@ CREATE INDEX username_idx ON member (username);
 ```
 CREATE TABLE bankbook (
     id bigint not null auto_increment,
-    balance bigint not null,
+    balance bigint,
     password varchar(100) not null
     bankbook_num varchar(255) UNIQUE not null,
     username varchar(255) UNIQUE not null,
