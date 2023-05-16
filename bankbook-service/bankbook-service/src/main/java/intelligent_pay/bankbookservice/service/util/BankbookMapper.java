@@ -5,7 +5,7 @@ import intelligent_pay.bankbookservice.dto.BankbookResponse;
 
 public class BankbookMapper {
 
-    public BankbookResponse entityToDto(Bankbook bankbook) {
+    public static BankbookResponse entityToDto(Bankbook bankbook) {
         return BankbookResponse.builder()
                 .id(bankbook.getId())
                 .balance(bankbook.getBalance())
