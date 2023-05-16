@@ -19,4 +19,11 @@ public class BankbookRepositoryImpl implements BankbookCustomRepository{
                 .where(bankbook.username.eq(username))
                 .fetchOne();
     }
+
+    public Bankbook findOneByBankbookNum(String bankbookNum) {
+        return queryFactory
+                .selectFrom(bankbook)
+                .where(bankbook.bankbookNum.eq(bankbookNum))
+                .fetchOne();
+    }
 }

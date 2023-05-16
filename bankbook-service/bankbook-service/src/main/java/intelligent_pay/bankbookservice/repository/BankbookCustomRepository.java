@@ -4,4 +4,5 @@ import intelligent_pay.bankbookservice.domain.Bankbook;
 
 public interface BankbookCustomRepository {
     Bankbook findOneByUsername(String username);
+    Bankbook findOneByBankbookNum(String bankbookNum);
 }
