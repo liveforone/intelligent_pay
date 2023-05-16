@@ -51,7 +51,7 @@ public class BankbookValidator {
         }
     }
 
-    public void validateBindingReturnBool(BindingResult bindingResult) {
+    public void validateBindingThrowBool(BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             String errorMessage = Objects
                     .requireNonNull(bindingResult.getFieldError())
