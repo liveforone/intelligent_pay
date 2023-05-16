@@ -1,6 +1,7 @@
 package intelligent_pay.bankbookservice.service;
 
 import intelligent_pay.bankbookservice.domain.Bankbook;
+import intelligent_pay.bankbookservice.dto.AddBalanceRequest;
 import intelligent_pay.bankbookservice.dto.BankbookRequest;
 import intelligent_pay.bankbookservice.dto.BankbookResponse;
 import intelligent_pay.bankbookservice.repository.BankbookRepository;
@@ -26,5 +27,11 @@ public class BankbookService {
     public void createBankbook(BankbookRequest bankbookRequest, String username) {
         Bankbook bankbook = Bankbook.create(bankbookRequest, username);
         bankbookRepository.save(bankbook);
+    }
+
+    @Transactional
+    public void addBalance(AddBalanceRequest addBalanceRequest) {
+        Bankbook bankbook = bankbookRepository.findOneByBankbookNum(addBalanceRequest.getBankbookNum());
+        bankbook.addBalance(addBalanceRequest.getMoney());
     }
 }
