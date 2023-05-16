@@ -13,4 +13,8 @@ public class RestResponse {
     public static ResponseEntity<?> updatePasswordSuccess() {
         return ResponseEntity.ok(ResponseMessage.UPDATE_PASSWORD_SUCCESS.getValue());
     }
+
+    public static ResponseEntity<?> suspendSuccess() {
+        return ResponseEntity.ok(ResponseMessage.SUSPEND_SUCCESS.getValue());
+    }
 }
