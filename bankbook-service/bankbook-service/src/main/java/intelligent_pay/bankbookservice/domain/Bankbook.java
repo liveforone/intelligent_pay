@@ -69,4 +69,8 @@ public class Bankbook {
     public void updatePassword(String password) {
         this.password = PasswordUtil.encodePassword(password);
     }
+
+    public void suspend() {
+        this.bankbookState = BankbookState.SUSPEND;
+    }
 }
