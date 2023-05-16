@@ -6,4 +6,5 @@ public final class BankbookUrl {
     public static final String RETURN_BALANCE = "/balance";
     public static final String INFO = "/info";
     public static final String CREATE = "/create";
+    public static final String ADD_BALANCE = "/add/balance";
 }
