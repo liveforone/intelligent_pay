@@ -20,19 +20,19 @@ import java.util.Objects;
 public class BankbookValidator {
 
     private final BankbookRepository bankbookRepository;
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     public void validateBankbookNull(String identifier) {
         final int SIZE_OF_BANKBOOK_NUM = 13;
 
-        Bankbook foundBankbook;
+        Long foundId;
         if (identifier.length() == SIZE_OF_BANKBOOK_NUM) {
-            foundBankbook = bankbookRepository.findOneByBankbookNum(identifier);
+            foundId = bankbookRepository.findIdByBankbookNum(identifier);
         } else {
-            foundBankbook = bankbookRepository.findOneByUsername(identifier);
+            foundId = bankbookRepository.findIdByUsername(identifier);
         }
 
-        if (CommonUtils.isNull(foundBankbook)) {
+        if (CommonUtils.isNull(foundId)) {
             throw new BankbookCustomException(ResponseMessage.BANKBOOK_IS_NULL);
         }
     }
@@ -40,14 +40,14 @@ public class BankbookValidator {
     public void validateBankbookNullThrowBool(String identifier) {
         final int SIZE_OF_BANKBOOK_NUM = 13;
 
-        Bankbook foundBankbook;
+        Long foundId;
         if (identifier.length() == SIZE_OF_BANKBOOK_NUM) {
-            foundBankbook = bankbookRepository.findOneByBankbookNum(identifier);
+            foundId = bankbookRepository.findIdByBankbookNum(identifier);
         } else {
-            foundBankbook = bankbookRepository.findOneByUsername(identifier);
+            foundId = bankbookRepository.findIdByUsername(identifier);
         }
 
-        if (CommonUtils.isNull(foundBankbook)) {
+        if (CommonUtils.isNull(foundId)) {
             throw new BankbookCustomBoolException();
         }
     }
@@ -71,33 +71,33 @@ public class BankbookValidator {
     }
 
     public void validateDuplicateBankbook(String username) {
-        Bankbook foundBankbook = bankbookRepository.findOneByUsername(username);
+        Long foundId = bankbookRepository.findIdByUsername(username);
 
-        if (!CommonUtils.isNull(foundBankbook)) {
+        if (!CommonUtils.isNull(foundId)) {
             throw new BankbookCustomException(ResponseMessage.BANKBOOK_IS_NULL);
         }
     }
 
     public void validatePassword(String password, String bankbookNum) {
-        Bankbook foundBankbook = bankbookRepository.findOneByBankbookNum(bankbookNum);
+        String foundPassword = bankbookRepository.findPasswordByBankbookNum(bankbookNum);
 
-        if (CommonUtils.isNull(foundBankbook)) {
+        if (CommonUtils.isNull(foundPassword)) {
             throw new BankbookCustomException(ResponseMessage.BANKBOOK_IS_NULL);
         }
 
-        if (!passwordEncoder.matches(password, foundBankbook.getPassword())) {
+        if (!passwordEncoder.matches(password, foundPassword)) {
             throw new BankbookCustomException(ResponseMessage.PASSWORD_NOT_MATCH);
         }
     }
 
     public void validatePasswordThrowBool(String password, String bankbookNum) {
-        Bankbook foundBankbook = bankbookRepository.findOneByBankbookNum(bankbookNum);
+        String foundPassword = bankbookRepository.findPasswordByBankbookNum(bankbookNum);
 
-        if (CommonUtils.isNull(foundBankbook)) {
+        if (CommonUtils.isNull(foundPassword)) {
             throw new BankbookCustomBoolException();
         }
 
-        if (!passwordEncoder.matches(password, foundBankbook.getPassword())) {
+        if (!passwordEncoder.matches(password, foundPassword)) {
             throw new BankbookCustomBoolException();
         }
     }
