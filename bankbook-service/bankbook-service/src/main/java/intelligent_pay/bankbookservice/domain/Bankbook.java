@@ -12,6 +12,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 
+import static intelligent_pay.bankbookservice.domain.constant.EntityConstant.*;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -41,6 +43,7 @@ public class Bankbook {
     private LocalDate createdDate;
 
     private Bankbook(String password, String bankbookNum, String username) {
+        this.balance = INITIAL_BALANCE;
         this.password = password;
         this.bankbookNum = bankbookNum;
         this.username = username;
@@ -49,7 +52,7 @@ public class Bankbook {
 
     public static Bankbook create(BankbookRequest bankbookRequest, String username) {
         String encodedPassword = PasswordUtil.encodePassword(bankbookRequest.getPassword());
-        String bankbookNum = RandomStringUtils.randomNumeric(13);
+        String bankbookNum = RandomStringUtils.randomNumeric(SIZE_OF_BANKBOOK_NUM);
         return new Bankbook(encodedPassword, bankbookNum, username);
     }
 }
