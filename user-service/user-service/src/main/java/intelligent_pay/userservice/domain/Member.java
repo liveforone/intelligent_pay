@@ -47,7 +47,7 @@ public class Member implements UserDetails {
     }
 
     public static Member create(MemberSignupRequest request) {
-        final String ADMIN = "admin@maybeAllHere.com";
+        final String ADMIN = "admin@intelligentpay.com";
 
         if (ADMIN.equals(request.getEmail())) {
             request.setAuth(Role.ADMIN);
