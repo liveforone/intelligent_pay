@@ -74,7 +74,7 @@ public class BankbookValidator {
         Long foundId = bankbookRepository.findIdByUsername(username);
 
         if (!CommonUtils.isNull(foundId)) {
-            throw new BankbookCustomException(ResponseMessage.BANKBOOK_IS_NULL);
+            throw new BankbookCustomException(ResponseMessage.DUPLICATE_BANKBOOK);
         }
     }
 
