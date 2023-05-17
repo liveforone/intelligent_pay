@@ -77,7 +77,7 @@ public class MemberController {
     public ResponseEntity<?> myInfo(HttpServletRequest request) {
         String username = authenticationInfo.getUsername(request);
         MemberResponse member = memberService.getMemberByUsername(username);
-        long balance = getBalanceByUsername();
+        long balance = getBalanceByUsername(username);
 
         MemberInfoResponse response = MemberInfoResponse.builder()
                 .memberResponse(member)
@@ -87,11 +87,11 @@ public class MemberController {
         return ResponseEntity.ok(response);
     }
 
-    private long getBalanceByUsername() {
+    private long getBalanceByUsername(String username) {
         return circuitBreakerFactory
                 .create(CircuitLog.USER_CIRCUIT_LOG.getValue())
                 .run(
-                        bankbookFeignService::getBalanceByUsername,
+                        () -> bankbookFeignService.getBalanceByUsername(username),
                         throwable -> 0L
                 );
     }
