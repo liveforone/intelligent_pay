@@ -27,7 +27,22 @@ class BankbookDomainTest {
 
     @Test
     void overSubtractBalanceTest() {
+        //given
+        String username = "jdsolafeoaefjoenfojaefoiejwfaeofjoaf";
+        String password = "12345678";
+        long money = 3000;
+        BankbookRequest request = new BankbookRequest();
+        request.setPassword(password);
+        Bankbook bankbook = Bankbook.create(request, username);
+        bankbook.addBalance(money);
 
+        //when
+        long overMoney = 4000;
+        bankbook.subtractBalance(overMoney);
+
+        //then
+        assertThat(bankbook.getBalance())
+                .isEqualTo(money);
     }
 
     @Test
