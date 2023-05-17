@@ -1,9 +1,11 @@
 package intelligent_pay.bankbookservice.repository;
 
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import intelligent_pay.bankbookservice.domain.Bankbook;
 import intelligent_pay.bankbookservice.domain.BankbookState;
 import intelligent_pay.bankbookservice.domain.QBankbook;
+import intelligent_pay.bankbookservice.dto.BasicInfoResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -43,6 +45,17 @@ public class BankbookRepositoryImpl implements BankbookCustomRepository{
                 .select(bankbook.bankbookState)
                 .from(bankbook)
                 .where(bankbook.bankbookNum.eq(bankbookNum))
+                .fetchOne();
+    }
+
+    public BasicInfoResponse findBasicInfoByUsername(String username) {
+        return queryFactory
+                .select(Projections.constructor(BasicInfoResponse.class,
+                        bankbook.bankbookNum,
+                        bankbook.balance)
+                )
+                .from(bankbook)
+                .where(bankbook.username.eq(username))
                 .fetchOne();
     }
 
