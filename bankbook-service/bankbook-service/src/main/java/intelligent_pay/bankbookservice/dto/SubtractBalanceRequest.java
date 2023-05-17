@@ -4,9 +4,10 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-@NotBlank
+@NoArgsConstructor
 public class SubtractBalanceRequest {
 
     @NotBlank(message = "계좌번호를 입력해주세요.")
