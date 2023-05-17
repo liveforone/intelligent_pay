@@ -83,6 +83,20 @@ class BankbookDomainTest {
     }
 
     @Test
-    void cancelSuspend() {
+    void cancelSuspendTest() {
+        //given
+        String username = "jdsolafeoaefjoenfojaefoiejwfaeofjoaf";
+        String password = "12345678";
+        BankbookRequest request = new BankbookRequest();
+        request.setPassword(password);
+        Bankbook bankbook = Bankbook.create(request, username);
+        bankbook.suspend();
+
+        //when
+        bankbook.cancelSuspend();
+
+        //then
+        assertThat(bankbook.getBankbookState())
+                .isEqualTo(BankbookState.WORK);
     }
 }
