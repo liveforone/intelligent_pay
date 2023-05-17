@@ -23,6 +23,10 @@ public class BankbookService {
         );
     }
 
+    public BasicInfoResponse getBasicInfoByUsername(String username) {
+        return bankbookRepository.findBasicInfoByUsername(username);
+    }
+
     @Transactional
     public void createBankbook(BankbookRequest bankbookRequest, String username) {
         Bankbook bankbook = Bankbook.create(bankbookRequest, username);
