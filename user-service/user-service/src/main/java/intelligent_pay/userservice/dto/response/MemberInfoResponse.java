@@ -1,5 +1,6 @@
 package intelligent_pay.userservice.dto.response;
 
+import intelligent_pay.userservice.dto.bankbook.BasicBankbookInfoResponse;
 import lombok.*;
 
 @Data
@@ -9,5 +10,5 @@ import lombok.*;
 public class MemberInfoResponse {
 
     private MemberResponse memberResponse;
-    private long balance;
+    private BasicBankbookInfoResponse basicBankbookInfoResponse;
 }
