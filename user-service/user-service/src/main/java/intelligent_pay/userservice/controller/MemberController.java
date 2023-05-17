@@ -6,6 +6,7 @@ import intelligent_pay.userservice.controller.constant.MemberParam;
 import intelligent_pay.userservice.controller.restResponse.RestResponse;
 import intelligent_pay.userservice.dto.changeInfo.ChangeEmailRequest;
 import intelligent_pay.userservice.dto.changeInfo.ChangePasswordRequest;
+import intelligent_pay.userservice.dto.bankbook.BasicBankbookInfoResponse;
 import intelligent_pay.userservice.dto.response.MemberInfoResponse;
 import intelligent_pay.userservice.dto.response.MemberResponse;
 import intelligent_pay.userservice.dto.signupAndLogin.MemberLoginRequest;
@@ -77,22 +78,22 @@ public class MemberController {
     public ResponseEntity<?> myInfo(HttpServletRequest request) {
         String username = authenticationInfo.getUsername(request);
         MemberResponse member = memberService.getMemberByUsername(username);
-        long balance = getBalanceByUsername(username);
+        BasicBankbookInfoResponse bankbookInfo = getBasicBankbookInfoByUsername(username);
 
         MemberInfoResponse response = MemberInfoResponse.builder()
                 .memberResponse(member)
-                .balance(balance)
+                .basicBankbookInfoResponse(bankbookInfo)
                 .build();
 
         return ResponseEntity.ok(response);
     }
 
-    private long getBalanceByUsername(String username) {
+    private BasicBankbookInfoResponse getBasicBankbookInfoByUsername(String username) {
         return circuitBreakerFactory
                 .create(CircuitLog.USER_CIRCUIT_LOG.getValue())
                 .run(
-                        () -> bankbookFeignService.getBalanceByUsername(username),
-                        throwable -> 0L
+                        () -> bankbookFeignService.getBasicInfoByUsername(username),
+                        throwable -> new BasicBankbookInfoResponse()
                 );
     }
 
