@@ -1,7 +1,6 @@
 package intelligent_pay.userservice.domain;
 
 import intelligent_pay.userservice.dto.signupAndLogin.MemberSignupRequest;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
