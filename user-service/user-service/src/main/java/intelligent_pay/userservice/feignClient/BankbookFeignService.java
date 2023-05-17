@@ -1,7 +1,10 @@
 package intelligent_pay.userservice.feignClient;
 
+import intelligent_pay.userservice.feignClient.constant.BankbookParam;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import static intelligent_pay.userservice.feignClient.constant.BankbookUrl.*;
 
@@ -9,5 +12,5 @@ import static intelligent_pay.userservice.feignClient.constant.BankbookUrl.*;
 public interface BankbookFeignService {
 
     @GetMapping(MY_BALANCE)
-    long getBalanceByUsername();
+    long getBalanceByUsername(@PathVariable(BankbookParam.USERNAME) String username);
 }
