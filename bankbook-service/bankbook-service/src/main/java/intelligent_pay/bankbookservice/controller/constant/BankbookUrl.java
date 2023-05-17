@@ -3,7 +3,7 @@ package intelligent_pay.bankbookservice.controller.constant;
 public final class BankbookUrl {
     private BankbookUrl() {}
 
-    public static final String RETURN_BALANCE = "/balance/{username}";
+    public static final String BASIC_INFO = "/basic/info/{username}";
     public static final String INFO = "/info";
     public static final String CREATE = "/create";
     public static final String ADD_BALANCE = "/add/balance";
