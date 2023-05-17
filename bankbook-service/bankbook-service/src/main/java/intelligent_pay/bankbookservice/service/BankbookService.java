@@ -2,12 +2,12 @@ package intelligent_pay.bankbookservice.service;
 
 import intelligent_pay.bankbookservice.async.AsyncConstant;
 import intelligent_pay.bankbookservice.domain.Bankbook;
-import intelligent_pay.bankbookservice.dto.*;
 import intelligent_pay.bankbookservice.dto.request.AddBalanceRequest;
 import intelligent_pay.bankbookservice.dto.request.BankbookRequest;
 import intelligent_pay.bankbookservice.dto.request.SubtractBalanceRequest;
 import intelligent_pay.bankbookservice.dto.response.BankbookResponse;
 import intelligent_pay.bankbookservice.dto.response.BasicInfoResponse;
+import intelligent_pay.bankbookservice.dto.update.UpdatePasswordRequest;
 import intelligent_pay.bankbookservice.repository.BankbookRepository;
 import intelligent_pay.bankbookservice.service.util.BankbookMapper;
 import lombok.RequiredArgsConstructor;
