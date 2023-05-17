@@ -28,7 +28,24 @@ class MemberDomainTest {
     }
 
     @Test
-    void updateEmail() {
+    void updateEmailTest() {
+        //given
+        String email = "test@gmail.com";
+        String realName = "test_name";
+        String password = "12345678";
+        MemberSignupRequest request = new MemberSignupRequest();
+        request.setEmail(email);
+        request.setRealName(realName);
+        request.setPassword(password);
+        Member member = Member.create(request);
+
+        //when
+        String newEmail = "test_new@naver.com";
+        member.updateEmail(newEmail);
+
+        //then
+        assertThat(member.getEmail())
+                .isEqualTo(newEmail);
     }
 
     @Test
