@@ -6,7 +6,6 @@ import intelligent_pay.bankbookservice.controller.constant.ControllerLog;
 import intelligent_pay.bankbookservice.controller.restResponse.RestResponse;
 import intelligent_pay.bankbookservice.dto.*;
 import intelligent_pay.bankbookservice.service.BankbookService;
-import intelligent_pay.bankbookservice.utility.CommonUtils;
 import intelligent_pay.bankbookservice.validator.BankbookValidator;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -27,10 +26,11 @@ public class BankbookController {
     private final AuthenticationInfo authenticationInfo;
     private final BankbookValidator bankbookValidator;
 
-    @GetMapping(RETURN_BALANCE)
-    public long returnBalance(@PathVariable(BankbookParam.USERNAME) String username) {
-        BankbookResponse bankbook = bankbookService.getBankbookByUsername(username);
-        return CommonUtils.isNull(bankbook) ? 0L : bankbook.getBalance();
+    @GetMapping(BASIC_INFO)
+    public BasicInfoResponse basicInfo(
+            @PathVariable(BankbookParam.USERNAME) String username
+    ) {
+        return bankbookService.getBasicInfoByUsername(username);
     }
 
     @GetMapping(INFO)
