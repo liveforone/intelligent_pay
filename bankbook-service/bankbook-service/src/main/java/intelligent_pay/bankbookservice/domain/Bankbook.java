@@ -1,7 +1,7 @@
 package intelligent_pay.bankbookservice.domain;
 
 import intelligent_pay.bankbookservice.domain.util.PasswordUtil;
-import intelligent_pay.bankbookservice.dto.BankbookRequest;
+import intelligent_pay.bankbookservice.dto.request.BankbookRequest;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

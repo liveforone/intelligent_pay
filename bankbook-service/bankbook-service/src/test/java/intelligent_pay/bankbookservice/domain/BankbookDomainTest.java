@@ -1,6 +1,6 @@
 package intelligent_pay.bankbookservice.domain;
 
-import intelligent_pay.bankbookservice.dto.BankbookRequest;
+import intelligent_pay.bankbookservice.dto.request.BankbookRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 

@@ -1,4 +1,4 @@
-package intelligent_pay.bankbookservice.dto;
+package intelligent_pay.bankbookservice.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
