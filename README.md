@@ -139,12 +139,45 @@ db를 설계하고, 전체 아키텍처를 설계할때도 마찬가지이지만
 -> 마치 아래에서 소개된 상품을 조회할때 여러 서비스에서 필요한 데이터들을 가져와 최종적으로 조합하듯 말이다.
 -> 데이터를 아주 섬세하게 저장하고 섬세하게 가져오자!!
 -> 외부 api로 데이터를 가져오는것을 너무 두려워 해선 안될것 같음.
+-> 화면에 종속되지 않는 api는 파라미터에 데이터를 끼워보내기 보단, json 으로(dto로) 보내는것이 더욱 좋은 방법이다. 화면에 무슨 값이 있으니깐 이값을 어떻게 보내고 이런식의 생각은 좋지 않다.
+
+## cqs 패턴 - 고민점 or 설계
+[cqs]
+커맨드와 쿼리를 분리할때 그것이
+db단까지 분리한 cqrs라 할지라도
+변경이 아닌 경우
+즉 insert에 한해서는 리턴값을 두도록한다.
+리턴이 존재해야 테스트를 작성하능것더 가능하고
+클라이언트에게 id를 리턴하능것도 가능하기 때문이다.
+커맨드 쿼리 분리 후 osiv 끄기.
+혹은 도메인 분리
+핵심은 클라이언트에게 전달하는 최종값을 모두 가지고 쿼리에서 처리하고 컨트롤러에 넘기는것이다. 
+osiv가 트랜잭션 범위내(서비스, 리파지)에만 머물기 때문에.
+그 안에서 매퍼를 이용해 변환하고, 등등 모든 일을 처리해서 컨트롤러에는 결과값만 띡 가져다준다.
+[cqrs]
+Write, Read가 분리되어 있는 데이터베이스로 가정하고 설명드릴게요.
+이렇게 분리가 되어 있는 경우 등록과 조회는 각각의 데이터베이스 용도에 맞도록 분리해서 사용하면 됩니다.
+다만 질문하신 것 처럼 변경하자마자 그 결과를 바로 받아서 사용해야 하는 특별한 경우가 있습니다. 
+그런데 Wrtie에서 아직 Read에 싱크가 안되었기 때문에 Write를 하자마자 바로 Read에서 읽어야 하면 데이터가 누락될 수 있습니다.
+이런 특별한 경우에 한정해서는 Write 데이터베이스에서 쓰고 Write 데이터베이스에서 바로 읽어오는 것이 
+데이터 동기화 이슈가 없는 가장 안전한 방법입니다.
+
+## 페인클라이언트 - 새롭게 알게된점
+일반적인 api도 마찬가지 이지만
+request body는 command의 경우에만 가지고 있다.
+get 매핑의 한해서는 pathvariable이나 request param처럼 url에 정보를 넣어서 전달한다.
+
+## dto projection - 새롭게 알게된점
+생성자를 사용하는 경우 : @AllArgsConstructor 필요, setter가 필요 없다.
+Projections.fields 필드 직접접근
+필드에 값을 딱 꽂아주기 때문에 setter와 기본생성자가 필요없습니다.
+Projections.bean 프라퍼티 접근
+setter(bean)를 통해 데이터를 인젝션 해주며 기본 생성자가 무조건 필요하다.
 
 ## 할일
-* 계좌 등록시 바인딩 체크(비밀번호 수, null) 테스트
+* 거래내역 서비스제작
 * 송금 + 결제를 할때 내 계좌 출금을 먼저하고
 * 타 계좌에 입금을하는데, 입금 함수를 그대로 쓸경우 함수끼리의 의존성이 발생한다. 유의
-* 계좌서비스 제작 후 유저서비스 my-info에 잔액 정보 제공 테스트(헤더와 rest전이되는지 테스트) + 계좌 없을때 0리턴 테스트
 
 ## 명령어 -> detach 실행 편리함을 위한
 ```
@@ -153,4 +186,6 @@ cd C:\Users\KYC\study\intelligent_pay\discovery-service\discovery-service\build\
 cd C:\Users\KYC\study\intelligent_pay\gateway-service\gateway-service\build\libs
 
 cd C:\Users\KYC\study\intelligent_pay\user-service\user-service\build\libs
+
+cd C:\Users\KYC\study\intelligent_pay\bankbook-service\bankbook-service\build\libs
 ```
