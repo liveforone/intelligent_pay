@@ -5,7 +5,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import intelligent_pay.bankbookservice.domain.Bankbook;
 import intelligent_pay.bankbookservice.domain.BankbookState;
 import intelligent_pay.bankbookservice.domain.QBankbook;
-import intelligent_pay.bankbookservice.dto.BasicInfoResponse;
+import intelligent_pay.bankbookservice.dto.response.BasicInfoResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

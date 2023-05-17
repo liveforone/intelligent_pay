@@ -1,4 +1,4 @@
-package intelligent_pay.bankbookservice.dto;
+package intelligent_pay.bankbookservice.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,7 +1,7 @@
 package intelligent_pay.bankbookservice.service.util;
 
 import intelligent_pay.bankbookservice.domain.Bankbook;
-import intelligent_pay.bankbookservice.dto.BankbookResponse;
+import intelligent_pay.bankbookservice.dto.response.BankbookResponse;
 import intelligent_pay.bankbookservice.utility.CommonUtils;
 
 public class BankbookMapper {

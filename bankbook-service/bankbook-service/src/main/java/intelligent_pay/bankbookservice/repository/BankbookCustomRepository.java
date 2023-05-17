@@ -2,7 +2,7 @@ package intelligent_pay.bankbookservice.repository;
 
 import intelligent_pay.bankbookservice.domain.Bankbook;
 import intelligent_pay.bankbookservice.domain.BankbookState;
-import intelligent_pay.bankbookservice.dto.BasicInfoResponse;
+import intelligent_pay.bankbookservice.dto.response.BasicInfoResponse;
 
 public interface BankbookCustomRepository {
 
