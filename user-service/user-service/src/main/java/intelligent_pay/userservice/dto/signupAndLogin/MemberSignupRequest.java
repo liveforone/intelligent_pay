@@ -10,8 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MemberSignupRequest {
 
-    private Long id;
-
     @Email(message = "이메일 형식을 지켜 작성해주세요.")
     @NotBlank(message = "이메일은 반드시 기입해주세요.")
     private String email;
