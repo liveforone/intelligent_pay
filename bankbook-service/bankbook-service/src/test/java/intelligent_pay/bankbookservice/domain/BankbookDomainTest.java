@@ -2,6 +2,7 @@ package intelligent_pay.bankbookservice.domain;
 
 import intelligent_pay.bankbookservice.dto.BankbookRequest;
 import org.junit.jupiter.api.Test;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -46,7 +47,22 @@ class BankbookDomainTest {
     }
 
     @Test
-    void updatePassword() {
+    void updatePasswordTest() {
+        //given
+        String username = "jdsolafeoaefjoenfojaefoiejwfaeofjoaf";
+        String password = "12345678";
+        BankbookRequest request = new BankbookRequest();
+        request.setPassword(password);
+        Bankbook bankbook = Bankbook.create(request, username);
+
+        //when
+        String updatedPassword = "1111111111";
+        bankbook.updatePassword(updatedPassword);
+
+        //then
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        assertThat(encoder.matches(updatedPassword, bankbook.getPassword()))
+                .isTrue();
     }
 
     @Test
