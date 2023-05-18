@@ -1,6 +1,7 @@
 package intelligent_pay.bankbookservice.controller;
 
 import intelligent_pay.bankbookservice.authentication.AuthenticationInfo;
+import intelligent_pay.bankbookservice.command.BankbookCommandService;
 import intelligent_pay.bankbookservice.controller.constant.BankbookParam;
 import intelligent_pay.bankbookservice.controller.constant.ControllerLog;
 import intelligent_pay.bankbookservice.controller.restResponse.RestResponse;
@@ -11,7 +12,7 @@ import intelligent_pay.bankbookservice.dto.response.BankbookResponse;
 import intelligent_pay.bankbookservice.dto.response.BasicInfoResponse;
 import intelligent_pay.bankbookservice.dto.update.UpdateBankbookStateRequest;
 import intelligent_pay.bankbookservice.dto.update.UpdatePasswordRequest;
-import intelligent_pay.bankbookservice.service.BankbookService;
+import intelligent_pay.bankbookservice.query.BankbookQueryService;
 import intelligent_pay.bankbookservice.validator.BankbookValidator;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -28,7 +29,8 @@ import static intelligent_pay.bankbookservice.controller.constant.BankbookUrl.*;
 @Slf4j
 public class BankbookController {
 
-    private final BankbookService bankbookService;
+    private final BankbookCommandService bankbookCommandService;
+    private final BankbookQueryService bankbookQueryService;
     private final AuthenticationInfo authenticationInfo;
     private final BankbookValidator bankbookValidator;
 
@@ -36,7 +38,7 @@ public class BankbookController {
     public BasicInfoResponse basicInfo(
             @PathVariable(BankbookParam.USERNAME) String username
     ) {
-        return bankbookService.getBasicInfoByUsername(username);
+        return bankbookQueryService.getBasicInfoByUsername(username);
     }
 
     @GetMapping(INFO)
@@ -44,7 +46,7 @@ public class BankbookController {
         String username = authenticationInfo.getUsername(request);
         bankbookValidator.validateBankbookNull(username);
 
-        BankbookResponse bankbook = bankbookService.getBankbookByUsername(username);
+        BankbookResponse bankbook = bankbookQueryService.getBankbookByUsername(username);
         return ResponseEntity.ok(bankbook);
     }
 
@@ -59,7 +61,7 @@ public class BankbookController {
         String username = authenticationInfo.getUsername(request);
         bankbookValidator.validateDuplicateBankbook(username);
 
-        bankbookService.createBankbook(bankbookRequest, username);
+        bankbookCommandService.createBankbook(bankbookRequest, username);
         log.info(ControllerLog.CREATE_BANKBOOK_SUCCESS.getValue());
 
         return RestResponse.createBankbookSuccess();
@@ -75,7 +77,7 @@ public class BankbookController {
         bankbookValidator.validateBankbookNullThrowBool(bankbookNum);
         bankbookValidator.validateBankbookStateThrowBool(bankbookNum);
 
-        bankbookService.addBalance(addBalanceRequest);
+        bankbookCommandService.addBalance(addBalanceRequest);
         log.info(ControllerLog.ADD_BALANCE_SUCCESS.getValue() + bankbookNum);
 
         return true;
@@ -94,7 +96,7 @@ public class BankbookController {
                 bankbookNum
         );
 
-        bankbookService.subtractBalance(subtractBalanceRequest);
+        bankbookCommandService.subtractBalance(subtractBalanceRequest);
         log.info(ControllerLog.SUBTRACT_BALANCE_SUCCESS.getValue() + bankbookNum);
 
         return true;
@@ -113,7 +115,7 @@ public class BankbookController {
                 bankbookNum
         );
 
-        bankbookService.updatePassword(requestDto);
+        bankbookCommandService.updatePassword(requestDto);
         log.info(ControllerLog.UPDATE_PASSWORD_SUCCESS.getValue() + bankbookNum);
 
         return RestResponse.updatePasswordSuccess();
@@ -132,7 +134,7 @@ public class BankbookController {
                 bankbookNum
         );
 
-        bankbookService.suspendBankbook(bankbookNum);
+        bankbookCommandService.suspendBankbook(bankbookNum);
         log.info(ControllerLog.SUSPEND_SUCCESS.getValue() + bankbookNum);
 
         return RestResponse.suspendSuccess();
@@ -151,7 +153,7 @@ public class BankbookController {
                 bankbookNum
         );
 
-        bankbookService.cancelSuspendBankbook(bankbookNum);
+        bankbookCommandService.cancelSuspendBankbook(bankbookNum);
         log.info(ControllerLog.CANCEL_SUSPEND_SUCCESS.getValue() + bankbookNum);
 
         return RestResponse.cancelSuspendSuccess();
