@@ -24,6 +24,9 @@ public class Record {
     @Column(nullable = false, updatable = false)
     private String bankBookNum;
 
+    @Column(nullable = false, updatable = false)
+    private String username;
+
     @Column(updatable = false)
     private long money;
 
@@ -37,19 +40,21 @@ public class Record {
     @Column(updatable = false)
     private Month createdMonth;
 
-    private Record(String title, String bankBookNum, long money, RecordState recordState) {
+    private Record(String title, String bankBookNum, String username, long money, RecordState recordState) {
         this.title = title;
         this.bankBookNum = bankBookNum;
+        this.username = username;
         this.money = money;
         this.recordState = recordState;
         this.createdYear = LocalDate.now().getYear();
         this.createdMonth = LocalDate.now().getMonth();
     }
 
-    public static Record create(RecordRequest recordRequest, RecordState recordState) {
+    public static Record create(RecordRequest recordRequest, String username, RecordState recordState) {
         return new Record(
                 recordRequest.getTitle(),
                 recordRequest.getBankBookNum(),
+                username,
                 recordRequest.getMoney(),
                 recordState
         );
