@@ -47,6 +47,18 @@ spring:
               args:
                 name: bankbook-service
                 fallbackuri: forward:/fallback/bankbook
+        - id: record-service
+          uri: lb://RECORD-SERVICE
+          predicates:
+            - Path=/record-service/**
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/record-service/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
+            - name: CircuitBreaker
+              args:
+                name: record-service
+                fallbackuri: forward:/fallback/record
 
 management:
   endpoints:

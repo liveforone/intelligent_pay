@@ -41,4 +41,20 @@ public class FallbackController {
     public Mono<String> fallbackBankbookPut() {
         return Mono.just(FallbackMessage.BANKBOOK_LOG);
     }
+
+    @GetMapping(FallbackUrl.RECORD)
+    public Mono<String> fallbackRecordGet() {
+        return Mono.just(FallbackMessage.RECORD_LOG);
+    }
+
+    @PostMapping(FallbackUrl.RECORD)
+    public Mono<String> fallbackRecordPost() {
+        return Mono.just(FallbackMessage.RECORD_LOG);
+    }
+
+    @PutMapping(FallbackUrl.RECORD)
+    public Mono<String> fallbackRecordPut() {
+        return Mono.just(FallbackMessage.RECORD_LOG);
+    }
+
 }
