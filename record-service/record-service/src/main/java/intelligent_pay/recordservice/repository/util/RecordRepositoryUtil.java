@@ -8,6 +8,7 @@ import intelligent_pay.recordservice.dto.RecordResponse;
 
 public class RecordRepositoryUtil {
 
+    public static final int PAGE_SIZE = 10;
     private static final QRecord record;
 
     static {
