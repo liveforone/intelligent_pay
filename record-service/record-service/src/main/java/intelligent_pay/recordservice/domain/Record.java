@@ -1,10 +1,12 @@
 package intelligent_pay.recordservice.domain;
 
+import intelligent_pay.recordservice.dto.RecordRequest;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.Month;
 
 @Entity
@@ -35,12 +37,21 @@ public class Record {
     @Column(updatable = false)
     private Month createdMonth;
 
-    private Record(String title, String bankBookNum, long money, RecordState recordState, int createdYear, Month createdMonth) {
+    private Record(String title, String bankBookNum, long money, RecordState recordState) {
         this.title = title;
         this.bankBookNum = bankBookNum;
         this.money = money;
         this.recordState = recordState;
-        this.createdYear = createdYear;
-        this.createdMonth = createdMonth;
+        this.createdYear = LocalDate.now().getYear();
+        this.createdMonth = LocalDate.now().getMonth();
+    }
+
+    public static Record create(RecordRequest recordRequest, RecordState recordState) {
+        return new Record(
+                recordRequest.getTitle(),
+                recordRequest.getBankBookNum(),
+                recordRequest.getMoney(),
+                recordState
+        );
     }
 }
