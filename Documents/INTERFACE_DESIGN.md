@@ -72,3 +72,18 @@
 ```
 /bankbook/cancel/suspend
 ```
+
+## 거래내역 관련
+### 입금된 거래내역 조회
+```
+/record/deposit
+```
+### 출금된 거래내역 조회
+```
+/record/withdraw
+```
+### 거래내역 검색
+* 연도별, 월별, 제목으로 검색은 모두 한 url에서 처리한다.
+```
+/record/search
+```
