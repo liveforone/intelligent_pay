@@ -1,4 +1,4 @@
-package intelligent_pay.bankbookservice.query;
+package intelligent_pay.bankbookservice.command;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 @Slf4j
 public class BankbookConsumerService {
 
@@ -25,7 +26,6 @@ public class BankbookConsumerService {
 
     @KafkaListener(topics = QueryTopic.REMOVE_BANKBOOK_BELONG_USER)
     @Async(AsyncConstant.commandAsync)
-    @Transactional
     public void removeBankbook(String kafkaMessage) throws JsonProcessingException {
         log.info(KafkaLog.KAFKA_RECEIVE_LOG.getValue() + kafkaMessage);
 
