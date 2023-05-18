@@ -1,6 +1,7 @@
 package intelligent_pay.userservice.controller;
 
 import intelligent_pay.userservice.authentication.AuthenticationInfo;
+import intelligent_pay.userservice.command.MemberCommandService;
 import intelligent_pay.userservice.controller.constant.ControllerLog;
 import intelligent_pay.userservice.controller.constant.MemberParam;
 import intelligent_pay.userservice.controller.restResponse.RestResponse;
@@ -15,7 +16,7 @@ import intelligent_pay.userservice.feignClient.BankbookFeignService;
 import intelligent_pay.userservice.feignClient.constant.CircuitLog;
 import intelligent_pay.userservice.jwt.TokenInfo;
 import intelligent_pay.userservice.jwt.constant.JwtConstant;
-import intelligent_pay.userservice.service.MemberService;
+import intelligent_pay.userservice.query.MemberQueryService;
 import intelligent_pay.userservice.validator.MemberValidator;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -36,7 +37,8 @@ import static intelligent_pay.userservice.controller.constant.MemberUrl.*;
 @Slf4j
 public class MemberController {
 
-    private final MemberService memberService;
+    private final MemberCommandService memberCommandService;
+    private final MemberQueryService memberQueryService;
     private final MemberValidator memberValidator;
     private final AuthenticationInfo authenticationInfo;
     private final BankbookFeignService bankbookFeignService;
@@ -52,7 +54,7 @@ public class MemberController {
         String email = memberSignupRequest.getEmail();
         memberValidator.validateDuplicateEmail(email);
 
-        memberService.signup(memberSignupRequest);
+        memberCommandService.signup(memberSignupRequest);
         log.info(ControllerLog.SIGNUP_SUCCESS.getValue());
 
         return RestResponse.signupSuccess();
@@ -66,7 +68,7 @@ public class MemberController {
     ) {
         memberValidator.validateBinding(bindingResult);
 
-        TokenInfo tokenInfo = memberService.login(memberLoginRequest);
+        TokenInfo tokenInfo = memberCommandService.login(memberLoginRequest);
         log.info(ControllerLog.LOGIN_SUCCESS.getValue());
 
         response.addHeader(JwtConstant.ACCESS_TOKEN, tokenInfo.getAccessToken());
@@ -77,7 +79,7 @@ public class MemberController {
     @GetMapping(MY_INFO)
     public ResponseEntity<?> myInfo(HttpServletRequest request) {
         String username = authenticationInfo.getUsername(request);
-        MemberResponse member = memberService.getMemberByUsername(username);
+        MemberResponse member = memberQueryService.getMemberByUsername(username);
         BasicBankbookInfoResponse bankbookInfo = getBasicBankbookInfoByUsername(username);
 
         MemberInfoResponse response = MemberInfoResponse.builder()
@@ -107,7 +109,7 @@ public class MemberController {
         memberValidator.validateDuplicateEmail(changeEmailRequest.getEmail());
 
         String username = authenticationInfo.getUsername(request);
-        memberService.updateEmail(changeEmailRequest, username);
+        memberCommandService.updateEmail(changeEmailRequest, username);
         log.info(ControllerLog.CHANGE_EMAIL_SUCCESS.getValue());
 
         return RestResponse.changeEmailSuccess();
@@ -126,7 +128,7 @@ public class MemberController {
         memberValidator.validatePassword(inputPw, username);
 
         String requestPw = changePasswordRequest.getNewPassword();
-        memberService.updatePassword(requestPw, username);
+        memberCommandService.updatePassword(requestPw, username);
         log.info(ControllerLog.CHANGE_PASSWORD_SUCCESS.getValue());
 
         return RestResponse.changePasswordSuccess();
@@ -140,7 +142,7 @@ public class MemberController {
         String username = authenticationInfo.getUsername(request);
         memberValidator.validatePassword(password, username);
 
-        memberService.withdrawByUsername(username);
+        memberCommandService.withdrawByUsername(username);
         log.info(ControllerLog.WITHDRAW_SUCCESS.getValue() + username);
 
         return RestResponse.withdrawSuccess();
@@ -155,7 +157,7 @@ public class MemberController {
         memberValidator.validateAdmin(username);
         log.info(ControllerLog.ADMIN_SUCCESS.getValue());
 
-        List<MemberResponse> foundMember = memberService.searchByEmail(email);
+        List<MemberResponse> foundMember = memberQueryService.searchByEmail(email);
         return ResponseEntity.ok(foundMember);
     }
 
