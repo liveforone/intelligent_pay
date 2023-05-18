@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import intelligent_pay.bankbookservice.async.AsyncConstant;
 import intelligent_pay.bankbookservice.domain.Bankbook;
 import intelligent_pay.bankbookservice.kafka.KafkaLog;
-import intelligent_pay.bankbookservice.kafka.QueryTopic;
+import intelligent_pay.bankbookservice.kafka.Topic;
 import intelligent_pay.bankbookservice.repository.BankbookRepository;
 import intelligent_pay.bankbookservice.utility.CommonUtils;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ public class BankbookConsumerService {
     private final BankbookRepository bankbookRepository;
     ObjectMapper objectMapper = new ObjectMapper();
 
-    @KafkaListener(topics = QueryTopic.REMOVE_BANKBOOK_BELONG_USER)
+    @KafkaListener(topics = Topic.REMOVE_BANKBOOK_BELONG_USER)
     @Async(AsyncConstant.commandAsync)
     public void removeBankbook(String kafkaMessage) throws JsonProcessingException {
         log.info(KafkaLog.KAFKA_RECEIVE_LOG.getValue() + kafkaMessage);

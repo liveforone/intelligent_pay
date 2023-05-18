@@ -1,8 +1,8 @@
 package intelligent_pay.bankbookservice.kafka;
 
-public final class QueryTopic {
+public final class Topic {
 
-    private QueryTopic() {}
+    private Topic() {}
 
     public static final String REMOVE_BANKBOOK_BELONG_USER = "remove-bankbook-belong-user";
 }
