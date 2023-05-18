@@ -1,4 +1,4 @@
-package intelligent_pay.bankbookservice.service.util;
+package intelligent_pay.bankbookservice.query.util;
 
 import intelligent_pay.bankbookservice.domain.Bankbook;
 import intelligent_pay.bankbookservice.dto.response.BankbookResponse;
