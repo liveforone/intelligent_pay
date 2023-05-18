@@ -5,4 +5,5 @@ import intelligent_pay.recordservice.domain.Record;
 public interface RecordCustomRepository {
 
     Record findOneByUsername(String username);
+    Record findOneById(Long id);
 }

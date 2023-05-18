@@ -19,4 +19,11 @@ public class RecordRepositoryImpl implements RecordCustomRepository {
                 .where(record.username.eq(username))
                 .fetchOne();
     }
+
+    public Record findOneById(Long id) {
+        return queryFactory
+                .selectFrom(record)
+                .where(record.id.eq(id))
+                .fetchOne();
+    }
 }
