@@ -15,10 +15,11 @@
 * 입금하는 api는 타 은행에서 사용하는 api입니다.
 * pay의 목적에 맞게 다른 마이크로서비스와 통신하는 api가 잔액을 마이너스 하는 api입니다.
 * 따라서 입금과 송금 + 결제를 하는 api는 목적이 완전히 다릅니다.
+* 회원 탈퇴시 계좌는 삭제됩니다.
 
 ## API 설계
 ```
-[GET] /basic/info/{username} : 잔액 리턴
+[GET] /basic/info/{username} : 간단한 회원 정보 리턴
 [GET] /info : 통장 정보 리턴
 [POST] /create : 통장 개설
 [POST] /add/balance : 잔액 plus 행위, bool 리턴
@@ -26,6 +27,12 @@
 [PUT] /update/password
 [PUT] /suspend : 통장 정지
 [PUT] /cancel/suspend : 통장 정지 해제
+```
+
+## 서비스 간 통신
+### 회원 탈퇴시 계좌 삭제
+```
+KAFKA TOPIC : remove-bankbook-belong-user
 ```
 
 ## 표준화 body 규격
