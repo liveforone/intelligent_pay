@@ -2,6 +2,7 @@ package intelligent_pay.userservice.controller;
 
 import intelligent_pay.userservice.authentication.AuthenticationInfo;
 import intelligent_pay.userservice.command.MemberCommandService;
+import intelligent_pay.userservice.command.MemberProducerService;
 import intelligent_pay.userservice.controller.constant.ControllerLog;
 import intelligent_pay.userservice.controller.constant.MemberParam;
 import intelligent_pay.userservice.controller.restResponse.RestResponse;
@@ -39,6 +40,7 @@ public class MemberController {
 
     private final MemberCommandService memberCommandService;
     private final MemberQueryService memberQueryService;
+    private final MemberProducerService memberProducerService;
     private final MemberValidator memberValidator;
     private final AuthenticationInfo authenticationInfo;
     private final BankbookFeignService bankbookFeignService;
@@ -142,6 +144,8 @@ public class MemberController {
         String username = authenticationInfo.getUsername(request);
         memberValidator.validatePassword(password, username);
 
+        memberProducerService.removeBankbook(username);
+        memberProducerService.removeRecord(username);
         memberCommandService.withdrawByUsername(username);
         log.info(ControllerLog.WITHDRAW_SUCCESS.getValue() + username);
 
