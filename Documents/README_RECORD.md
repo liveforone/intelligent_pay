@@ -17,19 +17,36 @@
 * recordState가 입금, 출금, 취소 로 구분되고 입금이던 출금이던 해당 api를 호출하면 취소로 변경시킨다.
 * 거래내역 취소가 가능한지 아닌지는 거래내역 서비스에서 검증하지 않는다. 
 * 이에 대한 정책은 해당 api를 호출하는 마이크로 서비스에서 한다.
+* 회원탈퇴시 거래내역은 자동 삭제된다.
 
 ## API 설계
+```
+
+```
 
 ## Json body 예시
 
-## 서비스간 통신
+## 서비스 간 통신
+### 회원 탈퇴시 거래내역 삭제
+```
+KAFKA TOPIC : remove-record-belong-user
+```
 
 ## 월 단위 검색
 * 월단위 검색은 반드시 연도기입이 필요하다.
 * 그 이유는 당연하게도 2022년에도 1월이 있고, 2023년에도 1월이 있고, 앞으로도 영원히 그러하기 때문이다.
 * 따라서 월단위로 검색할 때에는 반드시 연도도 기입하여야한다.
 
+## 거래내역 제목 표준 규격
+### 입금
+* 결제의 경우 : 구매자 + 입금
+* 일반 입금 : 입금자 + 입금
+### 출금
+* 송금의 경우 : 송금받는 대상 + 송금
+* 결제의 경우 : 결제상품 + 구매
+
 [할일]
+거래내역 서비스 회원탈퇴시 삭제 컨슈머 서비스
 입금거래내역조회
 출금거래내역조회
 연검색
@@ -45,7 +62,7 @@ recordState가 입금, 출금, 취소 로 구분되고 입금이던 출금이던
 취소가 가능한지 아닌지는 거래내역 서비스에서 검증하지 않는다. 
 이에 대한 정책은 해당 api를 호출하는 마이크로 서비스에서 한다.
 
-[검색 링크](https://github.com/liveforone/middle/tree/master/shop-service/shop-service/src/main/java/middle/shopservice/repository)
+[검색쿼리 + 파라미터 디폴드 참고 링크](https://github.com/liveforone/middle/tree/master/shop-service/shop-service/src/main/java/middle/shopservice/repository)
 
 인덱스 걸기
 
