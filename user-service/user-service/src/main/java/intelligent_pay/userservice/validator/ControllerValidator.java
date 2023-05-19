@@ -19,7 +19,7 @@ import java.util.Objects;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class MemberValidator {
+public class ControllerValidator {
 
     private final MemberRepository memberRepository;
 

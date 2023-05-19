@@ -18,7 +18,7 @@ import intelligent_pay.userservice.feignClient.constant.CircuitLog;
 import intelligent_pay.userservice.jwt.TokenInfo;
 import intelligent_pay.userservice.jwt.constant.JwtConstant;
 import intelligent_pay.userservice.query.MemberQueryService;
-import intelligent_pay.userservice.validator.MemberValidator;
+import intelligent_pay.userservice.validator.ControllerValidator;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -41,7 +41,7 @@ public class MemberController {
     private final MemberCommandService memberCommandService;
     private final MemberQueryService memberQueryService;
     private final MemberProducerService memberProducerService;
-    private final MemberValidator memberValidator;
+    private final ControllerValidator controllerValidator;
     private final AuthenticationInfo authenticationInfo;
     private final BankbookFeignService bankbookFeignService;
     private final CircuitBreakerFactory<?, ?> circuitBreakerFactory;
@@ -51,10 +51,10 @@ public class MemberController {
             @RequestBody @Valid MemberSignupRequest memberSignupRequest,
             BindingResult bindingResult
     ) {
-        memberValidator.validateBinding(bindingResult);
+        controllerValidator.validateBinding(bindingResult);
 
         String email = memberSignupRequest.getEmail();
-        memberValidator.validateDuplicateEmail(email);
+        controllerValidator.validateDuplicateEmail(email);
 
         memberCommandService.signup(memberSignupRequest);
         log.info(ControllerLog.SIGNUP_SUCCESS.getValue());
@@ -68,7 +68,7 @@ public class MemberController {
             BindingResult bindingResult,
             HttpServletResponse response
     ) {
-        memberValidator.validateBinding(bindingResult);
+        controllerValidator.validateBinding(bindingResult);
 
         TokenInfo tokenInfo = memberCommandService.login(memberLoginRequest);
         log.info(ControllerLog.LOGIN_SUCCESS.getValue());
@@ -107,8 +107,8 @@ public class MemberController {
             BindingResult bindingResult,
             HttpServletRequest request
     ) {
-        memberValidator.validateBinding(bindingResult);
-        memberValidator.validateDuplicateEmail(changeEmailRequest.getEmail());
+        controllerValidator.validateBinding(bindingResult);
+        controllerValidator.validateDuplicateEmail(changeEmailRequest.getEmail());
 
         String username = authenticationInfo.getUsername(request);
         memberCommandService.updateEmail(changeEmailRequest, username);
@@ -123,11 +123,11 @@ public class MemberController {
             BindingResult bindingResult,
             HttpServletRequest request
     ) {
-        memberValidator.validateBinding(bindingResult);
+        controllerValidator.validateBinding(bindingResult);
 
         String inputPw = changePasswordRequest.getOldPassword();
         String username = authenticationInfo.getUsername(request);
-        memberValidator.validatePassword(inputPw, username);
+        controllerValidator.validatePassword(inputPw, username);
 
         String requestPw = changePasswordRequest.getNewPassword();
         memberCommandService.updatePassword(requestPw, username);
@@ -142,7 +142,7 @@ public class MemberController {
             HttpServletRequest request
     ) {
         String username = authenticationInfo.getUsername(request);
-        memberValidator.validatePassword(password, username);
+        controllerValidator.validatePassword(password, username);
 
         memberProducerService.removeBankbook(username);
         memberProducerService.removeRecord(username);
@@ -158,7 +158,7 @@ public class MemberController {
             HttpServletRequest request
     ) {
         String username = authenticationInfo.getUsername(request);
-        memberValidator.validateAdmin(username);
+        controllerValidator.validateAdmin(username);
         log.info(ControllerLog.ADMIN_SUCCESS.getValue());
 
         List<MemberResponse> foundMember = memberQueryService.searchByEmail(email);
