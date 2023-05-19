@@ -1,12 +1,11 @@
 package intelligent_pay.userservice.dto.changeInfo;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor
 public class ChangePasswordRequest {
 
     @NotBlank(message = "현재 비밀번호를 반드시 입력하세요.")
