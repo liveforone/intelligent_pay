@@ -7,10 +7,8 @@ import intelligent_pay.userservice.domain.Role;
 import intelligent_pay.userservice.exception.BindingCustomException;
 import intelligent_pay.userservice.exception.MemberCustomException;
 import intelligent_pay.userservice.repository.MemberRepository;
-import intelligent_pay.userservice.utility.CommonUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 
@@ -22,17 +20,6 @@ import java.util.Objects;
 public class ControllerValidator {
 
     private final MemberRepository memberRepository;
-
-    static BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-    public void validatePassword(String inputPassword, String username) {
-        Member foundMember = memberRepository.findByUsername(username);
-        String originalPassword = foundMember.getPassword();
-
-        if (!passwordEncoder.matches(inputPassword, originalPassword)) {
-            throw new MemberCustomException(ResponseMessage.NOT_MATCH_PASSWORD);
-        }
-    }
 
     public void validateBinding(BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
