@@ -53,9 +53,6 @@ public class MemberController {
     ) {
         controllerValidator.validateBinding(bindingResult);
 
-        String email = memberSignupRequest.getEmail();
-        controllerValidator.validateDuplicateEmail(email);
-
         memberCommandService.signup(memberSignupRequest);
         log.info(ControllerLog.SIGNUP_SUCCESS.getValue());
 
