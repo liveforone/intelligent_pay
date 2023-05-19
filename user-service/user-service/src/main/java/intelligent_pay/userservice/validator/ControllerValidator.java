@@ -43,14 +43,6 @@ public class ControllerValidator {
         }
     }
 
-    public void validateDuplicateEmail(String email) {
-        Member member = memberRepository.findByEmail(email);
-
-        if (!CommonUtils.isNull(member)) {
-            throw new MemberCustomException(ResponseMessage.DUPLICATE_EMAIL);
-        }
-    }
-
     public void validateAdmin(String username) {
         Member member = memberRepository.findByUsername(username);
         if (!member.getAuth().equals(Role.ADMIN)) {
