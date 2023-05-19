@@ -41,10 +41,4 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
                 .where(member.email.startsWith(email))
                 .fetch();
     }
-
-    public void deleteByUsername(String username) {
-        queryFactory.delete(member)
-                .where(member.username.eq(username))
-                .execute();
-    }
 }

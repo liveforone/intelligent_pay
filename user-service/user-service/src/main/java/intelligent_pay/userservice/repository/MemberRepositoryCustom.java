@@ -11,5 +11,4 @@ public interface MemberRepositoryCustom {
     Member findByUsername(String username);
     Member findByEmail(String email);
     List<MemberResponse> searchMemberByEmail(String email);
-    void deleteByUsername(String username);
 }
