@@ -1,6 +1,7 @@
 package intelligent_pay.userservice.command;
 
 import intelligent_pay.userservice.dto.changeInfo.ChangeEmailRequest;
+import intelligent_pay.userservice.dto.changeInfo.ChangePasswordRequest;
 import intelligent_pay.userservice.dto.signupAndLogin.MemberLoginRequest;
 import intelligent_pay.userservice.dto.signupAndLogin.MemberSignupRequest;
 import intelligent_pay.userservice.jwt.TokenInfo;
@@ -93,15 +94,18 @@ class MemberCommandServiceTest {
 
         //when
         String updatedPassword = "9999";
-        memberCommandService.updatePassword(updatedPassword, username);
+        ChangePasswordRequest request = new ChangePasswordRequest();
+        request.setOldPassword(password);
+        request.setNewPassword(updatedPassword);
+        memberCommandService.updatePassword(request, username);
         em.flush();
         em.clear();
 
         //then
-        MemberLoginRequest request = new MemberLoginRequest();
-        request.setEmail(email);
-        request.setPassword(updatedPassword);
-        TokenInfo token = memberCommandService.login(request);
+        MemberLoginRequest loginRequest = new MemberLoginRequest();
+        loginRequest.setEmail(email);
+        loginRequest.setPassword(updatedPassword);
+        TokenInfo token = memberCommandService.login(loginRequest);
         assertThat(token).isNotNull();
     }
 }
