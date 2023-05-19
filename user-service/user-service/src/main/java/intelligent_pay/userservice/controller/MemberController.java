@@ -9,6 +9,7 @@ import intelligent_pay.userservice.controller.restResponse.RestResponse;
 import intelligent_pay.userservice.dto.changeInfo.ChangeEmailRequest;
 import intelligent_pay.userservice.dto.changeInfo.ChangePasswordRequest;
 import intelligent_pay.userservice.dto.bankbook.BasicBankbookInfoResponse;
+import intelligent_pay.userservice.dto.changeInfo.WithdrawRequest;
 import intelligent_pay.userservice.dto.response.MemberInfoResponse;
 import intelligent_pay.userservice.dto.response.MemberResponse;
 import intelligent_pay.userservice.dto.signupAndLogin.MemberLoginRequest;
@@ -105,7 +106,6 @@ public class MemberController {
             HttpServletRequest request
     ) {
         controllerValidator.validateBinding(bindingResult);
-        controllerValidator.validateDuplicateEmail(changeEmailRequest.getEmail());
 
         String username = authenticationInfo.getUsername(request);
         memberCommandService.updateEmail(changeEmailRequest, username);
@@ -122,12 +122,8 @@ public class MemberController {
     ) {
         controllerValidator.validateBinding(bindingResult);
 
-        String inputPw = changePasswordRequest.getOldPassword();
         String username = authenticationInfo.getUsername(request);
-        controllerValidator.validatePassword(inputPw, username);
-
-        String requestPw = changePasswordRequest.getNewPassword();
-        memberCommandService.updatePassword(requestPw, username);
+        memberCommandService.updatePassword(changePasswordRequest, username);
         log.info(ControllerLog.CHANGE_PASSWORD_SUCCESS.getValue());
 
         return RestResponse.changePasswordSuccess();
@@ -135,15 +131,16 @@ public class MemberController {
 
     @DeleteMapping(WITHDRAW)
     public ResponseEntity<?> withdraw(
-            @RequestBody String password,
+            @RequestBody @Valid WithdrawRequest withdrawRequest,
+            BindingResult bindingResult,
             HttpServletRequest request
     ) {
-        String username = authenticationInfo.getUsername(request);
-        controllerValidator.validatePassword(password, username);
+        controllerValidator.validateBinding(bindingResult);
 
+        String username = authenticationInfo.getUsername(request);
+        memberCommandService.withdrawByUsername(withdrawRequest, username);
         memberProducerService.removeBankbook(username);
         memberProducerService.removeRecord(username);
-        memberCommandService.withdrawByUsername(username);
         log.info(ControllerLog.WITHDRAW_SUCCESS.getValue() + username);
 
         return RestResponse.withdrawSuccess();
