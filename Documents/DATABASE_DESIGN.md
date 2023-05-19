@@ -48,14 +48,14 @@ CREATE TABLE record (
     created_month varchar(255) not null,
     record_state varchar(255),
     title varchar(255) not null,
-    bankbook_num varchar(255) UNIQUE not null,
-    username varchar(255) UNIQUE not null,
-    created_date datetime(6),
+    bankbook_num varchar(255) not null,
+    username varchar(255) not null,
     primary key (id)
 );
 CREATE INDEX created_year_idx ON record (created_year);
 CREATE INDEX created_year_month_idx ON record (created_year, created_month);
 CREATE INDEX title_idx ON record (title);
+CREATE INDEX record_state_idx ON record (record_state);
 CREATE INDEX bankbook_num_idx ON record (bankbook_num);
 CREATE INDEX username_idx ON record (username);
 ```
