@@ -14,7 +14,8 @@
 2. [프로젝트 고민](#2-프로젝트-고민)
 3. [서비스별 문서](#3-서비스별-문서)
 4. [프로젝트 설계 문서](#4-프로젝트-설계-문서)
-5. [Intelligent Pay를 지원하는 서비스](#5-intelligent-pay를-지원하는-서비스)
+5. [새롭게 알게된 점](#5-새롭게-알게된-점)
+6. [Intelligent Pay를 지원하는 서비스](#6-intelligent-pay를-지원하는-서비스)
 
 # 1. 프로젝트 소개
 * [Intelligent 시리즈 소개](https://github.com/liveforone/intelligent_pay/blob/master/Documents/INTELLIGENT_COMPANY.md)
@@ -25,8 +26,8 @@
 # 3. 서비스별 문서
 * 서비스별 **요구사항**과 **설계**, **api 스펙**이 모두 기술되어 있습니다.
 * [회원(user) 서비스](https://github.com/liveforone/intelligent_pay/blob/master/Documents/README_USER.md)
-* [계좌(bankbook) 서비스]()
-* [거래내역(record) 서비스]()
+* [계좌(bankbook) 서비스](https://github.com/liveforone/intelligent_pay/blob/master/Documents/README_BANKBOOK.md)
+* [거래내역(record) 서비스](https://github.com/liveforone/intelligent_pay/blob/master/Documents/README_RECORD.md)
 * [입출금(statement) 서비스]()
 * [결제(pay) 서비스]()
 
@@ -37,7 +38,9 @@
 * [화면 설계](https://github.com/liveforone/intelligent_pay/blob/master/Documents/INTERFACE_DESIGN.md)
 * [수익모델]()
 
-# 5. Intelligent Pay를 지원하는 서비스
+# 5. 새롭게 알게된 점
+
+# 6. Intelligent Pay를 지원하는 서비스
 * [Intelligent Store]() : 예정(제작 미완료)
 * [Intelligent Booking]() : 예정(제작 미완료)
 
@@ -74,15 +77,6 @@ api + DB + 함수 + 마이크로서비스 : 의존성 제거하기 + 모듈화 +
 내부에서의 통신은 카프카의 사용이 가능하지만,
 외부 통장에서 접근하는 즉 pg의 경우에는 rest-api로 통신하므로
 카프카를 활용할 수 없다.
-
-## 거래내역 서비스
-입금, 송금, 거래의 경우 상품제목을 간략히 title에 저장한다.
-특히나 송금/거래는 거래내역이 두개가 생성되는것에 유의(나/타인)
-인덱스는 연으로 검색, 연 + 월로 검색으로 두었다.
-왜냐하면 연 검색은 연 검색 단건이고,
-월 검색을 하려면 연도가 다 다르기때문에 반드시 연 검색이필요하다. 따라서 월검색 인덱스는 연 + 월 검색 인덱스로 구성해야한다.
-제목으로 검색쿼리를 만든다.
-카프카 컨슈머 필요
 
 ## 입출금 서비스
 입금, 타 페이계좌에 송금, 타행 계좌에 송금
@@ -142,7 +136,17 @@ db를 설계하고, 전체 아키텍처를 설계할때도 마찬가지이지만
 -> 화면에 종속되지 않는 api는 파라미터에 데이터를 끼워보내기 보단, json 으로(dto로) 보내는것이 더욱 좋은 방법이다. 화면에 무슨 값이 있으니깐 이값을 어떻게 보내고 이런식의 생각은 좋지 않다.
 
 ## cqs 패턴 - 고민점 or 설계
+[카프카]
+카프카를 사용시에도 cq를 구분하라.
+즉 command 디렉터리에 producer를 넣고
+query 디렉터리에 consumer를 넣어서 처리하라.
 [cqs]
+이 메서드를 호출 했을 때, 내부에서 변경(사이드 이펙트)가 일어나는 메서드인지, 아니면 내부에서 변경이 전혀 일어나지 않는 메서드인지 명확히 분리하는 것이지요.
+그렇게 되면 데이터 변경 관련 이슈가 발생했을 때, 변경이 일어나는 메서드만 찾아보면 됩니다^^
+정말 크리티컬한 이슈들은 대부분 데이터를 변경하는 곳에서 발생하지요.
+변경 메서드도 변경에만 집중하면 되기 때문에 유지보수가 더 좋아집니다.
+제가 권장하는 방법은 insert는 id만 반환하고(아무것도 없으면 조회가 안되니), update는 아무것도 반환하지 않고, 조회는 내부의 변경이 없는 메서드로 설계하면 좋습니다^^
+
 커맨드와 쿼리를 분리할때 그것이
 db단까지 분리한 cqrs라 할지라도
 변경이 아닌 경우
@@ -154,6 +158,15 @@ db단까지 분리한 cqrs라 할지라도
 핵심은 클라이언트에게 전달하는 최종값을 모두 가지고 쿼리에서 처리하고 컨트롤러에 넘기는것이다. 
 osiv가 트랜잭션 범위내(서비스, 리파지)에만 머물기 때문에.
 그 안에서 매퍼를 이용해 변환하고, 등등 모든 일을 처리해서 컨트롤러에는 결과값만 띡 가져다준다.
+사실 마이크로서비스 별로 어떤 서비스는 조회가많고
+어떤 서비스는 명령이 많다.
+이에 따라 많은 것들에 집중할 수 있게 시작부터 분리하는것은 아주 좋다.
+이런 경우가 아니라도 일반적인 상황에서는 조회하는 것이 더 많기때문에 시작부터 분리하고 가면 좋다.
+XxCommandService
+XxQueryService
+https://wonit.tistory.com/629
+https://velog.io/@sangmin7648/%EC%84%9C%EB%B9%84%EC%8A%A4-%EA%B3%84%EC%B8%B5-CQS%EB%A5%BC-%EC%83%9D%ED%99%9C%ED%99%94-%ED%95%98%EC%9E%90-814vmzx1
+https://wonit.tistory.com/628
 [cqrs]
 Write, Read가 분리되어 있는 데이터베이스로 가정하고 설명드릴게요.
 이렇게 분리가 되어 있는 경우 등록과 조회는 각각의 데이터베이스 용도에 맞도록 분리해서 사용하면 됩니다.
@@ -174,8 +187,41 @@ Projections.fields 필드 직접접근
 Projections.bean 프라퍼티 접근
 setter(bean)를 통해 데이터를 인젝션 해주며 기본 생성자가 무조건 필요하다.
 
+## 쿠팡 분산 시스템
+https://medium.com/coupang-engineering/%EB%8C%80%EC%9A%A9%EB%9F%89-%ED%8A%B8%EB%9E%98%ED%94%BD-%EC%B2%98%EB%A6%AC%EB%A5%BC-%EC%9C%84%ED%95%9C-%EC%BF%A0%ED%8C%A1%EC%9D%98-%EB%B0%B1%EC%97%94%EB%93%9C-%EC%A0%84%EB%9E%B5-184f7fdb1367
+
+## 연쇄 삭제 금지
+* 유저가 탈퇴하면 a서비스에 삭제 메세지보내고, a는 b에보내고.. 너무 의존적이고 연쇄적이다.
+* 각각 유저는 a, 유저는 b이렇게 메세지를 보내는것이 옳다.
+
+## 계층별 유효성 검증 나누기 - 고민점
+* 사실 상 모든 계층에서 검사를 해야한다.
+* 그런데 이전에 필자의 방식은 컨트롤러에서 모든 검증을 마치는 것이 었다.
+* 이렇게 하기 보다는 계층별로 내려가면서 유효성을 검증하는데,
+* 점점 깊게 검증하는 것이다.
+* 컨트롤러에서는 입력값이 자릿수라던지, 즉 바인딩에 관한 유효성을 검증하여 다음 계층으로 보내고,
+* 최종적으로 도메인 로직이 돌아가는 엔티티에서는 입력값이 도메인 로직의 입장에서 유효한지 검증한다.
+* 즉 컨트롤러 부터 얕게 시작하여 엔티티로 가면 갈 수록 유효성의 범위가 깊어지고,
+* 또한 자신이 하는 일에 대해서만 validation을 하는 것이 적절하다.
+### 형태
+* 가장 일반적인 형태는 컨트롤러에서는 입력받은 값(dto)를 그대로 전달하고, 그 dto에서 값을 추출해 validation 한다.
+* validator를 호출하는 함수는 위의 형태도 하지만, 
+* validator의 경우 파라미터를 dto로 하면 해당 이벤트 종속적으로 변하기에, dto를 파라미터로 받지 않는다.
+
+## 계층간 분리 - 고민점(대표적 : 유저서비스)
+* 계층간 의존성을 떨어뜨리기 제일 쉬운 방법이 바로 dto이다.
+* dto를 주고 받는것은 하나의 값을 주고 받는것보다 훨씬 의존성이 떨어진다. 따라서 계층간에 철저한 분리는 dto를 표준화하여 서로 통일하고
+* 변경이 생기면 dto만 변경하도록 한다.
+* 이러면 서로를 호출하는 함수사이에서 파라미터가 변경되거나 모호하여 논리적 오류를 발생하는 문제에서 쉽게 벗어날 수 있다.
+* validator의 경우 파라미터를 dto로 하면 해당 이벤트 종속적으로 변하는 반면,
+* 일반적인 계층에서 파라미터를 dto로 하면 그런 문제는 생기지 않고 오히려 장점이 늘어난다.
+
 ## 할일
-* 거래내역 서비스제작
+* 계층별 validator 분리하고(서비스 계층의 경우 async 걷어내야한다. 앞으로 서비스계층에 validator가 들어가는 경우 async를 넣지 말자), 
+* 계좌에서 타 서비스에서 호출함 api에서 도메인 로직이 동작할때 예외 발생하면 예외던지기
+* controller advice에서 false를 넘기기 때문에 상관없음
+* 여튼 어떠한 경우던 컨트롤러만 validator를 두지말고,
+* 도메인 로직이 작동하는 경우에도 예외가 충분히 발생하므로(컨트롤러 validator에서 잡지못하는 경우에) 이 경우에는 도메인 로직에 validator를 만들어 처리하라.
 * 송금 + 결제를 할때 내 계좌 출금을 먼저하고
 * 타 계좌에 입금을하는데, 입금 함수를 그대로 쓸경우 함수끼리의 의존성이 발생한다. 유의
 
@@ -183,9 +229,17 @@ setter(bean)를 통해 데이터를 인젝션 해주며 기본 생성자가 무�
 ```
 cd C:\Users\KYC\study\intelligent_pay\discovery-service\discovery-service\build\libs
 
+java -jar discovery-service-1.0.jar
+
 cd C:\Users\KYC\study\intelligent_pay\gateway-service\gateway-service\build\libs
+
+java -jar gateway-service-1.0.jar
 
 cd C:\Users\KYC\study\intelligent_pay\user-service\user-service\build\libs
 
+java -jar user-service-1.0.jar
+
 cd C:\Users\KYC\study\intelligent_pay\bankbook-service\bankbook-service\build\libs
+
+java -jar bankbook-service-1.0.jar
 ```
