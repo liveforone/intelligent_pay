@@ -73,5 +73,14 @@ public class RecordController {
         return ResponseEntity.ok(records);
     }
 
-    @GetMapping
+    @GetMapping(SEARCH_MONTH)
+    public ResponseEntity<?> searchMonth(
+            @PathVariable(BANKBOOK_NUM) String bankbookNum,
+            @RequestParam(value = YEAR, required = false) int year,
+            @RequestParam(value = MONTH, required = false) int month,
+            @RequestParam(value = LAST_ID, required = false, defaultValue = DEFAULT_ID) Long lastId
+    ) {
+        List<RecordResponse> records = recordQueryService.searchMonth(year, month, bankbookNum, lastId);
+        return ResponseEntity.ok(records);
+    }
 }
