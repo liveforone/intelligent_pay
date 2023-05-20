@@ -14,7 +14,8 @@ public enum ResponseMessage {
     PASSWORD_NOT_MATCH(400, "비밀번호가 일치하지 않습니다."),
     UPDATE_PASSWORD_SUCCESS(200, "비밀번호 변경에 성공하였습니다."),
     SUSPEND_SUCCESS(200, "계좌 정지에 성공하엿습니다."),
-    CANCEL_SUSPEND_SUCCESS(200, "계좌 정지 해제에 성공하엿습니다.");
+    CANCEL_SUSPEND_SUCCESS(200, "계좌 정지 해제에 성공하엿습니다."),
+    USERNAME_NOT_MATCH(401, "계좌의 주인이 아닙니다.");
 
     private final int status;
     private final String value;
