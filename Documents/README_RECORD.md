@@ -21,7 +21,16 @@
 
 ## API 설계
 ```
-
+[GET] /record/info/{id} : 거래내역 상세 조회
+[GET] /record/{bankbookNum} : 모든 거래내역 조회
+[GET] /record/deposit/info/{bankbookNum} : 입금 내역 조회
+[GET] /record/withdraw/info/{bankbookNum} : 출금 내역 조회
+[GET] /record/search/year/{bankbookNum}?{year} : 연도로 검색
+[GET] /record/search/month/{bankbookNum}?{year}&{month} : 월로 검색
+[GET] /record/search/title/{bankbookNum}?{keyword} : 제목으로 검색
+[POST] /record/deposit : 입금
+[POST] /record/withdraw : 출금
+[PUT] /record/update/state : 거래내역 상태 변경
 ```
 
 ## Json body 예시
@@ -63,7 +72,5 @@ recordState가 입금, 출금, 취소 로 구분되고 입금이던 출금이던
 이에 대한 정책은 해당 api를 호출하는 마이크로 서비스에서 한다.
 
 [검색쿼리 + 파라미터 디폴드 참고 링크](https://github.com/liveforone/middle/tree/master/shop-service/shop-service/src/main/java/middle/shopservice/repository)
-
-인덱스 걸기
 
 표준 규격 문서화(해당 문서에)
