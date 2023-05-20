@@ -109,7 +109,7 @@ public class MemberController {
 
         String username = authenticationInfo.getUsername(request);
         memberCommandService.updateEmail(changeEmailRequest, username);
-        log.info(ControllerLog.CHANGE_EMAIL_SUCCESS.getValue());
+        log.info(ControllerLog.CHANGE_EMAIL_SUCCESS.getValue() + username);
 
         return RestResponse.changeEmailSuccess();
     }
@@ -124,7 +124,7 @@ public class MemberController {
 
         String username = authenticationInfo.getUsername(request);
         memberCommandService.updatePassword(changePasswordRequest, username);
-        log.info(ControllerLog.CHANGE_PASSWORD_SUCCESS.getValue());
+        log.info(ControllerLog.CHANGE_PASSWORD_SUCCESS.getValue() + username);
 
         return RestResponse.changePasswordSuccess();
     }
