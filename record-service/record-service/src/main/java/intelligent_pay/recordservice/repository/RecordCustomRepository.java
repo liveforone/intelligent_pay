@@ -12,4 +12,5 @@ public interface RecordCustomRepository {
     Record findOneById(Long id);
     List<RecordResponse> findRecordsByBankbookNum(String bankbookNum, Long lastId);
     List<RecordResponse> findRecordsByBankbookNumAndRecordState(String bankbookNum, RecordState recordState, Long lastId);
+    List<RecordResponse> searchRecordsByYear(int year, String bankbookNum, Long lastId);
 }

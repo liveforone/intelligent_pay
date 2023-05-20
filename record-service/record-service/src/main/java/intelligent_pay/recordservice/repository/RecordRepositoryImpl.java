@@ -66,4 +66,18 @@ public class RecordRepositoryImpl implements RecordCustomRepository {
                 .limit(PAGE_SIZE)
                 .fetch();
     }
+
+    public List<RecordResponse> searchRecordsByYear(int year, String bankbookNum, Long lastId) {
+        return queryFactory
+                .select(dtoConstructor())
+                .from(record)
+                .where(
+                        record.bankBookNum.eq(bankbookNum),
+                        record.createdYear.eq(year),
+                        ltRecordId(lastId)
+                )
+                .orderBy(record.id.desc())
+                .limit(PAGE_SIZE)
+                .fetch();
+    }
 }
