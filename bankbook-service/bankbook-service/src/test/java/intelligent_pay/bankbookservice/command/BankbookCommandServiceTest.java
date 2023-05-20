@@ -5,6 +5,7 @@ import intelligent_pay.bankbookservice.dto.request.AddBalanceRequest;
 import intelligent_pay.bankbookservice.dto.request.BankbookRequest;
 import intelligent_pay.bankbookservice.dto.request.SubtractBalanceRequest;
 import intelligent_pay.bankbookservice.dto.response.BankbookResponse;
+import intelligent_pay.bankbookservice.dto.update.UpdateBankbookStateRequest;
 import intelligent_pay.bankbookservice.query.BankbookQueryService;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
@@ -115,7 +116,10 @@ class BankbookCommandServiceTest {
 
         //when
         BankbookResponse bankbook = bankbookQueryService.getBankbookByUsername(username);
-        bankbookCommandService.suspendBankbook(bankbook.getBankbookNum());
+        UpdateBankbookStateRequest request = new UpdateBankbookStateRequest();
+        request.setBankbookNum(bankbook.getBankbookNum());
+        request.setPassword(password);
+        bankbookCommandService.suspendBankbook(request);
         em.flush();
         em.clear();
 
@@ -133,12 +137,15 @@ class BankbookCommandServiceTest {
         createBankbook(password, username);
         BankbookResponse bankbook = bankbookQueryService.getBankbookByUsername(username);
         String bankbookNum = bankbook.getBankbookNum();
-        bankbookCommandService.suspendBankbook(bankbookNum);
+        UpdateBankbookStateRequest request = new UpdateBankbookStateRequest();
+        request.setBankbookNum(bankbookNum);
+        request.setPassword(password);
+        bankbookCommandService.suspendBankbook(request);
         em.flush();
         em.clear();
 
         //when
-        bankbookCommandService.cancelSuspendBankbook(bankbookNum);
+        bankbookCommandService.cancelSuspendBankbook(request);
         em.flush();
         em.clear();
 
