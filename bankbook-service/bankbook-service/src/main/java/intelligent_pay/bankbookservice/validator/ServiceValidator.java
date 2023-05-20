@@ -95,10 +95,10 @@ public class ServiceValidator {
         }
     }
 
-    public void validateBalanceWhenSubtract(String bankbookNum) {
+    public void validateBalanceWhenSubtract(String bankbookNum, long inputMoney) {
         long foundBalance = bankbookRepository.findBalanceByBankbookNum(bankbookNum);
 
-        if (foundBalance == 0) {
+        if (foundBalance == 0 || foundBalance - inputMoney < 0) {
             throw new BankbookCustomBoolException();
         }
     }
