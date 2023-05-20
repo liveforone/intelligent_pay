@@ -43,6 +43,7 @@ public class BankbookCommandService {
         String bankbookNum = subtractBalanceRequest.getBankbookNum();
         serviceValidator.validateBankbookStateThrowBool(bankbookNum);
         serviceValidator.validatePasswordThrowBool(subtractBalanceRequest.getPassword(), bankbookNum);
+        serviceValidator.validateBalanceWhenSubtract(bankbookNum);
 
         Bankbook bankbook = bankbookRepository.findOneByBankbookNum(bankbookNum);
         bankbook.subtractBalance(subtractBalanceRequest.getMoney());
