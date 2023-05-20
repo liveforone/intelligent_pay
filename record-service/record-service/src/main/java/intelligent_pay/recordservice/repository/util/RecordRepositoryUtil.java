@@ -7,9 +7,12 @@ import intelligent_pay.recordservice.domain.QRecord;
 import intelligent_pay.recordservice.dto.RecordResponse;
 import intelligent_pay.recordservice.utility.CommonUtils;
 
+import java.time.LocalDate;
+
 public class RecordRepositoryUtil {
 
     public static final int PAGE_SIZE = 10;
+    private static final int DEFAULT_INT = 0;
     private static final QRecord record;
 
     static {
@@ -17,7 +20,7 @@ public class RecordRepositoryUtil {
     }
 
     public static BooleanExpression ltRecordId(Long lastId) {
-        if (lastId == 0) {
+        if (lastId == DEFAULT_INT) {
             return null;
         }
 
@@ -40,5 +43,19 @@ public class RecordRepositoryUtil {
         }
 
         return record.title.startsWith(title);
+    }
+
+    public static BooleanExpression dynamicYear(int year) {
+        if (year == DEFAULT_INT) {
+            return record.createdYear.eq(LocalDate.now().getYear());
+        }
+
+        return record.createdYear.eq(year);
+    }
+
+    public static BooleanExpression dynamicMonth(int month) {
+        if (month == DEFAULT_INT) {
+
+        }
     }
 }

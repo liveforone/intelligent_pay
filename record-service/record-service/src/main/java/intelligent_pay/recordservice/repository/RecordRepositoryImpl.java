@@ -74,7 +74,7 @@ public class RecordRepositoryImpl implements RecordCustomRepository {
                 .from(record)
                 .where(
                         record.bankBookNum.eq(bankbookNum),
-                        record.createdYear.eq(year),
+                        dynamicYear(year),
                         ltRecordId(lastId)
                 )
                 .orderBy(record.id.desc())
@@ -88,7 +88,7 @@ public class RecordRepositoryImpl implements RecordCustomRepository {
                 .from(record)
                 .where(
                         record.bankBookNum.eq(bankbookNum),
-                        record.createdYear.eq(year),
+                        dynamicYear(year),
                         record.createdMonth.eq(Month.of(month)),
                         ltRecordId(lastId)
                 )
