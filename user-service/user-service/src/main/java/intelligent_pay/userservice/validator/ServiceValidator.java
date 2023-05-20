@@ -1,7 +1,6 @@
 package intelligent_pay.userservice.validator;
 
 import intelligent_pay.userservice.controller.restResponse.ResponseMessage;
-import intelligent_pay.userservice.domain.Member;
 import intelligent_pay.userservice.exception.MemberCustomException;
 import intelligent_pay.userservice.repository.MemberRepository;
 import intelligent_pay.userservice.utility.CommonUtils;
@@ -26,10 +25,9 @@ public class ServiceValidator {
     }
 
     public void validatePassword(String inputPassword, String username) {
-        Member foundMember = memberRepository.findByUsername(username);
-        String originalPassword = foundMember.getPassword();
+        String foundPassword = memberRepository.findPasswordByUsername(username);
 
-        if (!passwordEncoder.matches(inputPassword, originalPassword)) {
+        if (!passwordEncoder.matches(inputPassword, foundPassword)) {
             throw new MemberCustomException(ResponseMessage.NOT_MATCH_PASSWORD);
         }
     }
