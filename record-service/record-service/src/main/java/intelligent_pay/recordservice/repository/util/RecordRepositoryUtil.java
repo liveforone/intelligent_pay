@@ -8,6 +8,7 @@ import intelligent_pay.recordservice.dto.RecordResponse;
 import intelligent_pay.recordservice.utility.CommonUtils;
 
 import java.time.LocalDate;
+import java.time.Month;
 
 public class RecordRepositoryUtil {
 
@@ -55,7 +56,9 @@ public class RecordRepositoryUtil {
 
     public static BooleanExpression dynamicMonth(int month) {
         if (month == DEFAULT_INT) {
-
+            return record.createdMonth.eq(LocalDate.now().getMonth());
         }
+
+        return record.createdMonth.eq(Month.of(month));
     }
 }

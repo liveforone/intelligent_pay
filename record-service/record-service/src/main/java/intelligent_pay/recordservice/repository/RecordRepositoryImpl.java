@@ -8,7 +8,6 @@ import intelligent_pay.recordservice.dto.RecordResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import java.time.Month;
 import java.util.List;
 
 import static intelligent_pay.recordservice.repository.util.RecordRepositoryUtil.*;
@@ -89,7 +88,7 @@ public class RecordRepositoryImpl implements RecordCustomRepository {
                 .where(
                         record.bankBookNum.eq(bankbookNum),
                         dynamicYear(year),
-                        record.createdMonth.eq(Month.of(month)),
+                        dynamicMonth(month),
                         ltRecordId(lastId)
                 )
                 .orderBy(record.id.desc())
