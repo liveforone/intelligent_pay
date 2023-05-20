@@ -5,6 +5,7 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import intelligent_pay.recordservice.domain.QRecord;
 import intelligent_pay.recordservice.dto.RecordResponse;
+import intelligent_pay.recordservice.utility.CommonUtils;
 
 public class RecordRepositoryUtil {
 
@@ -31,5 +32,13 @@ public class RecordRepositoryUtil {
                 record.recordState,
                 record.createdYear,
                 record.createdMonth);
+    }
+
+    public static BooleanExpression searchTitle(String title) {
+        if (CommonUtils.isNull(title)) {
+            return null;
+        }
+
+        return record.title.startsWith(title);
     }
 }
