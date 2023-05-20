@@ -9,4 +9,5 @@ public final class RecordParam {
     public static final String DEFAULT_ID = "0";
     public static final String YEAR = "year";
     public static final String MONTH = "month";
+    public static final String DEFAULT_KEYWORD = "";
 }
