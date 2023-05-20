@@ -13,7 +13,7 @@ import intelligent_pay.bankbookservice.dto.response.BasicInfoResponse;
 import intelligent_pay.bankbookservice.dto.update.UpdateBankbookStateRequest;
 import intelligent_pay.bankbookservice.dto.update.UpdatePasswordRequest;
 import intelligent_pay.bankbookservice.query.BankbookQueryService;
-import intelligent_pay.bankbookservice.validator.BankbookValidator;
+import intelligent_pay.bankbookservice.validator.ControllerValidator;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +32,7 @@ public class BankbookController {
     private final BankbookCommandService bankbookCommandService;
     private final BankbookQueryService bankbookQueryService;
     private final AuthenticationInfo authenticationInfo;
-    private final BankbookValidator bankbookValidator;
+    private final ControllerValidator controllerValidator;
 
     @GetMapping(BASIC_INFO)
     public BasicInfoResponse basicInfo(
@@ -44,24 +44,20 @@ public class BankbookController {
     @GetMapping(INFO)
     public ResponseEntity<?> bankbookInfo(HttpServletRequest request) {
         String username = authenticationInfo.getUsername(request);
-        bankbookValidator.validateBankbookNull(username);
-
         BankbookResponse bankbook = bankbookQueryService.getBankbookByUsername(username);
         return ResponseEntity.ok(bankbook);
     }
 
     @PostMapping(CREATE)
     public ResponseEntity<?> createBankbook(
-            @RequestBody @Valid BankbookRequest bankbookRequest,
+            @RequestBody @Valid BankbookRequest requestDto,
             BindingResult bindingResult,
             HttpServletRequest request
     ) {
-        bankbookValidator.validateBinding(bindingResult);
+        controllerValidator.validateBinding(bindingResult);
 
         String username = authenticationInfo.getUsername(request);
-        bankbookValidator.validateDuplicateBankbook(username);
-
-        bankbookCommandService.createBankbook(bankbookRequest, username);
+        bankbookCommandService.createBankbook(requestDto, username);
         log.info(ControllerLog.CREATE_BANKBOOK_SUCCESS.getValue());
 
         return RestResponse.createBankbookSuccess();
@@ -69,35 +65,26 @@ public class BankbookController {
 
     @PostMapping(ADD_BALANCE)
     public boolean addBalance(
-            @RequestBody @Valid AddBalanceRequest addBalanceRequest,
+            @RequestBody @Valid AddBalanceRequest requestDto,
             BindingResult bindingResult
     ) {
-        bankbookValidator.validateBindingThrowBool(bindingResult);
-        String bankbookNum = addBalanceRequest.getBankbookNum();
-        bankbookValidator.validateBankbookNullThrowBool(bankbookNum);
-        bankbookValidator.validateBankbookStateThrowBool(bankbookNum);
+        controllerValidator.validateBindingThrowBool(bindingResult);
 
-        bankbookCommandService.addBalance(addBalanceRequest);
-        log.info(ControllerLog.ADD_BALANCE_SUCCESS.getValue() + bankbookNum);
+        bankbookCommandService.addBalance(requestDto);
+        log.info(ControllerLog.ADD_BALANCE_SUCCESS.getValue() + requestDto.getBankbookNum());
 
         return true;
     }
 
     @PostMapping(SUBTRACT_BALANCE)
     public boolean subtractBalance(
-            @RequestBody @Valid SubtractBalanceRequest subtractBalanceRequest,
+            @RequestBody @Valid SubtractBalanceRequest requestDto,
             BindingResult bindingResult
     ) {
-        bankbookValidator.validateBindingThrowBool(bindingResult);
-        String bankbookNum = subtractBalanceRequest.getBankbookNum();
-        bankbookValidator.validateBankbookStateThrowBool(bankbookNum);
-        bankbookValidator.validatePasswordThrowBool(
-                subtractBalanceRequest.getPassword(),
-                bankbookNum
-        );
+        controllerValidator.validateBindingThrowBool(bindingResult);
 
-        bankbookCommandService.subtractBalance(subtractBalanceRequest);
-        log.info(ControllerLog.SUBTRACT_BALANCE_SUCCESS.getValue() + bankbookNum);
+        bankbookCommandService.subtractBalance(requestDto);
+        log.info(ControllerLog.SUBTRACT_BALANCE_SUCCESS.getValue() + requestDto.getBankbookNum());
 
         return true;
     }
@@ -107,16 +94,10 @@ public class BankbookController {
             @RequestBody @Valid UpdatePasswordRequest requestDto,
             BindingResult bindingResult
     ) {
-        bankbookValidator.validateBinding(bindingResult);
-        String bankbookNum = requestDto.getBankbookNum();
-        bankbookValidator.validateBankbookState(bankbookNum);
-        bankbookValidator.validatePassword(
-                requestDto.getPassword(),
-                bankbookNum
-        );
+        controllerValidator.validateBinding(bindingResult);
 
         bankbookCommandService.updatePassword(requestDto);
-        log.info(ControllerLog.UPDATE_PASSWORD_SUCCESS.getValue() + bankbookNum);
+        log.info(ControllerLog.UPDATE_PASSWORD_SUCCESS.getValue() + requestDto.getBankbookNum());
 
         return RestResponse.updatePasswordSuccess();
     }
@@ -126,16 +107,10 @@ public class BankbookController {
             @RequestBody @Valid UpdateBankbookStateRequest requestDto,
             BindingResult bindingResult
     ) {
-        bankbookValidator.validateBinding(bindingResult);
-        String bankbookNum = requestDto.getBankbookNum();
-        bankbookValidator.validateBankbookNull(bankbookNum);
-        bankbookValidator.validatePassword(
-                requestDto.getPassword(),
-                bankbookNum
-        );
+        controllerValidator.validateBinding(bindingResult);
 
-        bankbookCommandService.suspendBankbook(bankbookNum);
-        log.info(ControllerLog.SUSPEND_SUCCESS.getValue() + bankbookNum);
+        bankbookCommandService.suspendBankbook(requestDto);
+        log.info(ControllerLog.SUSPEND_SUCCESS.getValue() + requestDto.getBankbookNum());
 
         return RestResponse.suspendSuccess();
     }
@@ -145,16 +120,10 @@ public class BankbookController {
             @RequestBody @Valid UpdateBankbookStateRequest requestDto,
             BindingResult bindingResult
     ) {
-        bankbookValidator.validateBinding(bindingResult);
-        String bankbookNum = requestDto.getBankbookNum();
-        bankbookValidator.validateBankbookNull(bankbookNum);
-        bankbookValidator.validatePassword(
-                requestDto.getPassword(),
-                bankbookNum
-        );
+        controllerValidator.validateBinding(bindingResult);
 
-        bankbookCommandService.cancelSuspendBankbook(bankbookNum);
-        log.info(ControllerLog.CANCEL_SUSPEND_SUCCESS.getValue() + bankbookNum);
+        bankbookCommandService.cancelSuspendBankbook(requestDto);
+        log.info(ControllerLog.CANCEL_SUSPEND_SUCCESS.getValue() + requestDto.getBankbookNum());
 
         return RestResponse.cancelSuspendSuccess();
     }
