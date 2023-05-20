@@ -9,4 +9,5 @@ public final class RecordUrl {
     public static final String WITHDRAW_RECORD = "/record/withdraw/info/{bankbookNum}";
     public static final String SEARCH_YEAR = "/record/search/year/{bankbookNum}";
     public static final String SEARCH_MONTH = "/record/search/month/{bankbookNum}";
+    public static final String SEARCH_TITLE = "/record/search/title/{bankbookNum}";
 }
