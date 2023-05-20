@@ -36,4 +36,8 @@ public class RecordQueryService {
                 bankbookNum, RecordState.WITHDRAW, lastId
         );
     }
+
+    public List<RecordResponse> searchYear(int year, String bankbookNum, Long lastId) {
+        return recordRepository.searchRecordsByYear(year, bankbookNum, lastId);
+    }
 }
