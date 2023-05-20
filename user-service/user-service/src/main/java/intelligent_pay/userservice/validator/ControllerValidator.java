@@ -2,7 +2,6 @@ package intelligent_pay.userservice.validator;
 
 import intelligent_pay.userservice.controller.constant.ControllerLog;
 import intelligent_pay.userservice.controller.restResponse.ResponseMessage;
-import intelligent_pay.userservice.domain.Member;
 import intelligent_pay.userservice.domain.Role;
 import intelligent_pay.userservice.exception.BindingCustomException;
 import intelligent_pay.userservice.exception.MemberCustomException;
@@ -31,8 +30,9 @@ public class ControllerValidator {
     }
 
     public void validateAdmin(String username) {
-        Member member = memberRepository.findByUsername(username);
-        if (!member.getAuth().equals(Role.ADMIN)) {
+        Role foundAuth = memberRepository.findAuthByUsername(username);
+
+        if (!foundAuth.equals(Role.ADMIN)) {
             log.error(ControllerLog.ADMIN_FAIL.getValue());
             throw new MemberCustomException(ResponseMessage.PROHIBITION);
         }
