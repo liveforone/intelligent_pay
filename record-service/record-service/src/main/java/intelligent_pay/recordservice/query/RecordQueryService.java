@@ -1,5 +1,6 @@
 package intelligent_pay.recordservice.query;
 
+import intelligent_pay.recordservice.domain.RecordState;
 import intelligent_pay.recordservice.dto.RecordResponse;
 import intelligent_pay.recordservice.query.util.RecordMapper;
 import intelligent_pay.recordservice.repository.RecordRepository;
@@ -22,5 +23,11 @@ public class RecordQueryService {
 
     public List<RecordResponse> getRecordsByBankbookNum(String bankbookNum, Long lastId) {
         return recordRepository.findRecordsByBankbookNum(bankbookNum, lastId);
+    }
+
+    public List<RecordResponse> getDepositRecords(String bankbookNum, Long lastId) {
+        return recordRepository.findRecordsByBankbookNumAndRecordState(
+                bankbookNum, RecordState.DEPOSIT, lastId
+        );
     }
 }
