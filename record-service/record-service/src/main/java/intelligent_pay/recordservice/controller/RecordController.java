@@ -62,4 +62,14 @@ public class RecordController {
         List<RecordResponse> records = recordQueryService.getWithdrawRecords(bankbookNum, lastId);
         return ResponseEntity.ok(records);
     }
+
+    @GetMapping(SEARCH_YEAR)
+    public ResponseEntity<?> searchYear(
+            @PathVariable(BANKBOOK_NUM) String bankbookNum,
+            @RequestParam(value = YEAR, required = false) int year,
+            @RequestParam(value = LAST_ID, required = false, defaultValue = DEFAULT_ID) Long lastId
+    ) {
+        List<RecordResponse> records = recordQueryService.searchYear(year, bankbookNum, lastId);
+        return ResponseEntity.ok(records);
+    }
 }
