@@ -40,4 +40,8 @@ public class RecordQueryService {
     public List<RecordResponse> searchYear(int year, String bankbookNum, Long lastId) {
         return recordRepository.searchRecordsByYear(year, bankbookNum, lastId);
     }
+
+    public List<RecordResponse> searchMonth(int year, int month, String bankbookNum, Long lastId) {
+        return recordRepository.searchRecordsByMonth(year, month, bankbookNum, lastId);
+    }
 }
