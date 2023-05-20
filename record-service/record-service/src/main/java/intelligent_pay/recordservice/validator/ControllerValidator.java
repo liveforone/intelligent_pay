@@ -10,7 +10,7 @@ import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
-public class RecordValidator {
+public class ControllerValidator {
 
     private final RecordRepository recordRepository;
 
