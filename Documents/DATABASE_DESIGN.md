@@ -45,6 +45,7 @@ CREATE TABLE record (
     id bigint not null auto_increment,
     money bigint not null,
     created_year integer,
+
     created_month varchar(255) not null,
     record_state varchar(255),
     title varchar(255) not null,
@@ -52,9 +53,9 @@ CREATE TABLE record (
     username varchar(255) not null,
     primary key (id)
 );
-CREATE INDEX created_year_idx ON record (created_year);
-CREATE INDEX created_year_month_idx ON record (created_year, created_month);
-CREATE INDEX title_idx ON record (title);
+CREATE INDEX created_year_idx ON record (bankbook_num, created_year);
+CREATE INDEX created_year_month_idx ON record (bankbook_num, created_year, created_month);
+CREATE INDEX title_idx ON record (bankbook_num, title);
 CREATE INDEX record_state_idx ON record (record_state);
 CREATE INDEX bankbook_num_idx ON record (bankbook_num);
 CREATE INDEX username_idx ON record (username);
