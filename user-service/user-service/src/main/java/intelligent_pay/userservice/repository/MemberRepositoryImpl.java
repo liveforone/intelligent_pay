@@ -34,6 +34,14 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
                 .fetchOne();
     }
 
+    public String findPasswordByUsername(String username) {
+        return queryFactory
+                .select(member.password)
+                .from(member)
+                .where(member.username.eq(username))
+                .fetchOne();
+    }
+
     public Member findByUsername(String username) {
         return queryFactory.selectFrom(member)
                 .where(member.username.eq(username))
