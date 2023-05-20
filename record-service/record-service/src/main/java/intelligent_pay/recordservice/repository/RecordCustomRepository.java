@@ -13,4 +13,6 @@ public interface RecordCustomRepository {
     List<RecordResponse> findRecordsByBankbookNum(String bankbookNum, Long lastId);
     List<RecordResponse> findRecordsByBankbookNumAndRecordState(String bankbookNum, RecordState recordState, Long lastId);
     List<RecordResponse> searchRecordsByYear(int year, String bankbookNum, Long lastId);
+    List<RecordResponse> searchRecordsByMonth(int year, int month, String bankbookNum, Long lastId);
+    List<RecordResponse> searchRecordsByTitle(String keyword, String bankbookNum, Long lastId);
 }

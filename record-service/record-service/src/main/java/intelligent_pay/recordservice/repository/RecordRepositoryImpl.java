@@ -8,6 +8,7 @@ import intelligent_pay.recordservice.dto.RecordResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.time.Month;
 import java.util.List;
 
 import static intelligent_pay.recordservice.repository.util.RecordRepositoryUtil.*;
@@ -74,6 +75,35 @@ public class RecordRepositoryImpl implements RecordCustomRepository {
                 .where(
                         record.bankBookNum.eq(bankbookNum),
                         record.createdYear.eq(year),
+                        ltRecordId(lastId)
+                )
+                .orderBy(record.id.desc())
+                .limit(PAGE_SIZE)
+                .fetch();
+    }
+
+    public List<RecordResponse> searchRecordsByMonth(int year, int month, String bankbookNum, Long lastId) {
+        return queryFactory
+                .select(dtoConstructor())
+                .from(record)
+                .where(
+                        record.bankBookNum.eq(bankbookNum),
+                        record.createdYear.eq(year),
+                        record.createdMonth.eq(Month.of(month)),
+                        ltRecordId(lastId)
+                )
+                .orderBy(record.id.desc())
+                .limit(PAGE_SIZE)
+                .fetch();
+    }
+
+    public List<RecordResponse> searchRecordsByTitle(String keyword, String bankbookNum, Long lastId) {
+        return queryFactory
+                .select(dtoConstructor())
+                .from(record)
+                .where(
+                        record.bankBookNum.eq(bankbookNum),
+                        searchTitle(keyword),
                         ltRecordId(lastId)
                 )
                 .orderBy(record.id.desc())
