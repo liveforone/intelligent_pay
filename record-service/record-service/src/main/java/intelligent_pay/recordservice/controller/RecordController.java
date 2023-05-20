@@ -72,4 +72,6 @@ public class RecordController {
         List<RecordResponse> records = recordQueryService.searchYear(year, bankbookNum, lastId);
         return ResponseEntity.ok(records);
     }
+
+    @GetMapping
 }
