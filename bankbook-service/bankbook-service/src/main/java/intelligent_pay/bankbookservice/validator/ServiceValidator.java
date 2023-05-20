@@ -94,4 +94,12 @@ public class ServiceValidator {
             throw new BankbookCustomBoolException();
         }
     }
+
+    public void validateBalanceWhenSubtract(String bankbookNum) {
+        long foundBalance = bankbookRepository.findBalanceByBankbookNum(bankbookNum);
+
+        if (foundBalance == 0) {
+            throw new BankbookCustomBoolException();
+        }
+    }
 }
