@@ -3,8 +3,8 @@ package intelligent_pay.recordservice.repository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import intelligent_pay.recordservice.domain.QRecord;
 import intelligent_pay.recordservice.domain.Record;
+import intelligent_pay.recordservice.domain.RecordState;
 import intelligent_pay.recordservice.dto.RecordResponse;
-import intelligent_pay.recordservice.repository.util.RecordRepositoryUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -42,6 +42,24 @@ public class RecordRepositoryImpl implements RecordCustomRepository {
                 .from(record)
                 .where(
                         record.bankBookNum.eq(bankbookNum),
+                        ltRecordId(lastId)
+                )
+                .orderBy(record.id.desc())
+                .limit(PAGE_SIZE)
+                .fetch();
+    }
+
+    public List<RecordResponse> findRecordsByBankbookNumAndRecordState(
+            String bankbookNum,
+            RecordState recordState,
+            Long lastId
+    ) {
+        return queryFactory
+                .select(dtoConstructor())
+                .from(record)
+                .where(
+                        record.bankBookNum.eq(bankbookNum),
+                        record.recordState.eq(recordState),
                         ltRecordId(lastId)
                 )
                 .orderBy(record.id.desc())
