@@ -4,6 +4,7 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import intelligent_pay.userservice.domain.Member;
 import intelligent_pay.userservice.domain.QMember;
+import intelligent_pay.userservice.domain.Role;
 import intelligent_pay.userservice.dto.response.MemberResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -16,6 +17,14 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
 
     private final JPAQueryFactory queryFactory;
     QMember member = QMember.member;
+
+    public Role findAuthByUsername(String username) {
+        return queryFactory
+                .select(member.auth)
+                .from(member)
+                .where(member.username.eq(username))
+                .fetchOne();
+    }
 
     public Member findByUsername(String username) {
         return queryFactory.selectFrom(member)
