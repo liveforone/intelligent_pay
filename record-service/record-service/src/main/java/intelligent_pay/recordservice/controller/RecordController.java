@@ -39,13 +39,18 @@ public class RecordController {
     @GetMapping(RECORD_HOME)
     public ResponseEntity<?> recordHome(
             @PathVariable(BANKBOOK_NUM) String bankbookNum,
-            @RequestParam(
-                    value = LAST_ID,
-                    required = false,
-                    defaultValue = DEFAULT_ID
-            ) Long lastId
+            @RequestParam(value = LAST_ID, required = false, defaultValue = DEFAULT_ID) Long lastId
     ) {
         List<RecordResponse> records = recordQueryService.getRecordsByBankbookNum(bankbookNum, lastId);
+        return ResponseEntity.ok(records);
+    }
+
+    @GetMapping(DEPOSIT_RECORD)
+    public ResponseEntity<?> depositRecord(
+            @PathVariable(BANKBOOK_NUM) String bankbookNum,
+            @RequestParam(value = LAST_ID, required = false, defaultValue = DEFAULT_ID) Long lastId
+    ) {
+        List<RecordResponse> records = recordQueryService.getDepositRecords(bankbookNum, lastId);
         return ResponseEntity.ok(records);
     }
 }
