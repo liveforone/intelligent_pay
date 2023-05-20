@@ -18,9 +18,9 @@ public class ServiceValidator {
     static BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public void validateDuplicateEmail(String email) {
-        Member member = memberRepository.findByEmail(email);
+        Long foundId = memberRepository.findIdByEmail(email);
 
-        if (!CommonUtils.isNull(member)) {
+        if (!CommonUtils.isNull(foundId)) {
             throw new MemberCustomException(ResponseMessage.DUPLICATE_EMAIL);
         }
     }
