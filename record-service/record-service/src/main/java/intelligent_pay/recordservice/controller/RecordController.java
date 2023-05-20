@@ -53,4 +53,13 @@ public class RecordController {
         List<RecordResponse> records = recordQueryService.getDepositRecords(bankbookNum, lastId);
         return ResponseEntity.ok(records);
     }
+
+    @GetMapping(WITHDRAW_RECORD)
+    public ResponseEntity<?> withdrawRecord(
+            @PathVariable(BANKBOOK_NUM) String bankbookNum,
+            @RequestParam(value = LAST_ID, required = false, defaultValue = DEFAULT_ID) Long lastId
+    ) {
+        List<RecordResponse> records = recordQueryService.getWithdrawRecords(bankbookNum, lastId);
+        return ResponseEntity.ok(records);
+    }
 }
