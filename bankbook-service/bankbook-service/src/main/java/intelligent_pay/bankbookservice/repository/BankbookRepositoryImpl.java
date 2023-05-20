@@ -6,6 +6,7 @@ import intelligent_pay.bankbookservice.domain.Bankbook;
 import intelligent_pay.bankbookservice.domain.BankbookState;
 import intelligent_pay.bankbookservice.domain.QBankbook;
 import intelligent_pay.bankbookservice.dto.response.BasicInfoResponse;
+import intelligent_pay.bankbookservice.utility.CommonUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -46,6 +47,20 @@ public class BankbookRepositoryImpl implements BankbookCustomRepository{
                 .from(bankbook)
                 .where(bankbook.bankbookNum.eq(bankbookNum))
                 .fetchOne();
+    }
+
+    public long findBalanceByBankbookNum(String bankbookNum) {
+        Long foundBalance = queryFactory
+                .select(bankbook.balance)
+                .from(bankbook)
+                .where(bankbook.bankbookNum.eq(bankbookNum))
+                .fetchOne();
+
+        if (CommonUtils.isNull(foundBalance)) {
+            return 0;
+        } else {
+            return foundBalance;
+        }
     }
 
     public BasicInfoResponse findBasicInfoByUsername(String username) {
