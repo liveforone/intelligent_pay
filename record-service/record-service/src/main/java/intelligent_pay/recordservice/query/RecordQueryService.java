@@ -30,4 +30,10 @@ public class RecordQueryService {
                 bankbookNum, RecordState.DEPOSIT, lastId
         );
     }
+
+    public List<RecordResponse> getWithdrawRecords(String bankbookNum, Long lastId) {
+        return recordRepository.findRecordsByBankbookNumAndRecordState(
+                bankbookNum, RecordState.WITHDRAW, lastId
+        );
+    }
 }
