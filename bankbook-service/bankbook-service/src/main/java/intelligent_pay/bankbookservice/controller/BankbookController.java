@@ -92,12 +92,16 @@ public class BankbookController {
     @PutMapping(UPDATE_PASSWORD)
     public ResponseEntity<?> updatePassword(
             @RequestBody @Valid UpdatePasswordRequest requestDto,
-            BindingResult bindingResult
+            BindingResult bindingResult,
+            HttpServletRequest request
     ) {
+        String username = authenticationInfo.getUsername(request);
+        String bankbookNum = requestDto.getBankbookNum();
+        controllerValidator.validateUsername(username, bankbookNum);
         controllerValidator.validateBinding(bindingResult);
 
         bankbookCommandService.updatePassword(requestDto);
-        log.info(ControllerLog.UPDATE_PASSWORD_SUCCESS.getValue() + requestDto.getBankbookNum());
+        log.info(ControllerLog.UPDATE_PASSWORD_SUCCESS.getValue() + bankbookNum);
 
         return RestResponse.updatePasswordSuccess();
     }
@@ -105,12 +109,16 @@ public class BankbookController {
     @PutMapping(SUSPEND)
     public ResponseEntity<?> suspendBankbook(
             @RequestBody @Valid UpdateBankbookStateRequest requestDto,
-            BindingResult bindingResult
+            BindingResult bindingResult,
+            HttpServletRequest request
     ) {
+        String username = authenticationInfo.getUsername(request);
+        String bankbookNum = requestDto.getBankbookNum();
+        controllerValidator.validateUsername(username, bankbookNum);
         controllerValidator.validateBinding(bindingResult);
 
         bankbookCommandService.suspendBankbook(requestDto);
-        log.info(ControllerLog.SUSPEND_SUCCESS.getValue() + requestDto.getBankbookNum());
+        log.info(ControllerLog.SUSPEND_SUCCESS.getValue() + bankbookNum);
 
         return RestResponse.suspendSuccess();
     }
@@ -118,12 +126,16 @@ public class BankbookController {
     @PutMapping(CANCEL_SUSPEND)
     public ResponseEntity<?> cancelSuspend(
             @RequestBody @Valid UpdateBankbookStateRequest requestDto,
-            BindingResult bindingResult
+            BindingResult bindingResult,
+            HttpServletRequest request
     ) {
+        String username = authenticationInfo.getUsername(request);
+        String bankbookNum = requestDto.getBankbookNum();
+        controllerValidator.validateUsername(username, bankbookNum);
         controllerValidator.validateBinding(bindingResult);
 
         bankbookCommandService.cancelSuspendBankbook(requestDto);
-        log.info(ControllerLog.CANCEL_SUSPEND_SUCCESS.getValue() + requestDto.getBankbookNum());
+        log.info(ControllerLog.CANCEL_SUSPEND_SUCCESS.getValue() + bankbookNum);
 
         return RestResponse.cancelSuspendSuccess();
     }
