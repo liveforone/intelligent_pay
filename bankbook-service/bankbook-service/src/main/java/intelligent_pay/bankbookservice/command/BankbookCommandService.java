@@ -1,14 +1,14 @@
 package intelligent_pay.bankbookservice.command;
 
-import intelligent_pay.bankbookservice.async.AsyncConstant;
 import intelligent_pay.bankbookservice.domain.Bankbook;
 import intelligent_pay.bankbookservice.dto.request.AddBalanceRequest;
 import intelligent_pay.bankbookservice.dto.request.BankbookRequest;
 import intelligent_pay.bankbookservice.dto.request.SubtractBalanceRequest;
+import intelligent_pay.bankbookservice.dto.update.UpdateBankbookStateRequest;
 import intelligent_pay.bankbookservice.dto.update.UpdatePasswordRequest;
 import intelligent_pay.bankbookservice.repository.BankbookRepository;
+import intelligent_pay.bankbookservice.validator.ServiceValidator;
 import lombok.RequiredArgsConstructor;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,42 +18,62 @@ import org.springframework.transaction.annotation.Transactional;
 public class BankbookCommandService {
 
     private final BankbookRepository bankbookRepository;
+    private final ServiceValidator serviceValidator;
 
     @Transactional
     public void createBankbook(BankbookRequest bankbookRequest, String username) {
+        serviceValidator.validateDuplicateBankbook(username);
+
         Bankbook bankbook = Bankbook.create(bankbookRequest, username);
         bankbookRepository.save(bankbook);
     }
 
     @Transactional
     public void addBalance(AddBalanceRequest addBalanceRequest) {
-        Bankbook bankbook = bankbookRepository.findOneByBankbookNum(addBalanceRequest.getBankbookNum());
+        String bankbookNum = addBalanceRequest.getBankbookNum();
+        serviceValidator.validateBankbookNullThrowBool(bankbookNum);
+        serviceValidator.validateBankbookStateThrowBool(bankbookNum);
+
+        Bankbook bankbook = bankbookRepository.findOneByBankbookNum(bankbookNum);
         bankbook.addBalance(addBalanceRequest.getMoney());
     }
 
     @Transactional
     public void subtractBalance(SubtractBalanceRequest subtractBalanceRequest) {
-        Bankbook bankbook = bankbookRepository.findOneByBankbookNum(subtractBalanceRequest.getBankbookNum());
+        String bankbookNum = subtractBalanceRequest.getBankbookNum();
+        serviceValidator.validateBankbookStateThrowBool(bankbookNum);
+        serviceValidator.validatePasswordThrowBool(subtractBalanceRequest.getPassword(), bankbookNum);
+
+        Bankbook bankbook = bankbookRepository.findOneByBankbookNum(bankbookNum);
         bankbook.subtractBalance(subtractBalanceRequest.getMoney());
     }
 
     @Transactional
-    @Async(AsyncConstant.commandAsync)
     public void updatePassword(UpdatePasswordRequest updatePasswordRequest) {
-        Bankbook bankbook = bankbookRepository.findOneByBankbookNum(updatePasswordRequest.getBankbookNum());
+        String bankbookNum = updatePasswordRequest.getBankbookNum();
+        serviceValidator.validateBankbookState(bankbookNum);
+        serviceValidator.validatePassword(updatePasswordRequest.getPassword(), bankbookNum);
+
+        Bankbook bankbook = bankbookRepository.findOneByBankbookNum(bankbookNum);
         bankbook.updatePassword(updatePasswordRequest.getNewPassword());
     }
 
     @Transactional
-    @Async(AsyncConstant.commandAsync)
-    public void suspendBankbook(String bankbookNum) {
+    public void suspendBankbook(UpdateBankbookStateRequest requestDto) {
+        String bankbookNum = requestDto.getBankbookNum();
+        serviceValidator.validateBankbookNull(bankbookNum);
+        serviceValidator.validatePassword(requestDto.getPassword(), bankbookNum);
+
         Bankbook bankbook = bankbookRepository.findOneByBankbookNum(bankbookNum);
         bankbook.suspend();
     }
 
     @Transactional
-    @Async(AsyncConstant.commandAsync)
-    public void cancelSuspendBankbook(String bankbookNum) {
+    public void cancelSuspendBankbook(UpdateBankbookStateRequest requestDto) {
+        String bankbookNum = requestDto.getBankbookNum();
+        serviceValidator.validateBankbookNull(bankbookNum);
+        serviceValidator.validatePassword(requestDto.getPassword(), bankbookNum);
+
         Bankbook bankbook = bankbookRepository.findOneByBankbookNum(bankbookNum);
         bankbook.cancelSuspend();
     }
