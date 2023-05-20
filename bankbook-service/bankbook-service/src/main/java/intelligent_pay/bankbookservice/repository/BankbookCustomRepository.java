@@ -11,6 +11,7 @@ public interface BankbookCustomRepository {
     String findPasswordByBankbookNum(String bankbookNum);
     BankbookState findStateByBankbookNum(String bankbookNum);
     long findBalanceByBankbookNum(String bankbookNum);
+    String findUsernameByBankbookNum(String bankbookNum);
     BasicInfoResponse findBasicInfoByUsername(String username);
     Bankbook findOneByUsername(String username);
     Bankbook findOneByBankbookNum(String bankbookNum);

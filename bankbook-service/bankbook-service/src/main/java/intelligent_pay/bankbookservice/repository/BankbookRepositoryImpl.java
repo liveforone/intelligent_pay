@@ -63,6 +63,14 @@ public class BankbookRepositoryImpl implements BankbookCustomRepository{
         }
     }
 
+    public String findUsernameByBankbookNum(String bankbookNum) {
+        return queryFactory
+                .select(bankbook.username)
+                .from(bankbook)
+                .where(bankbook.bankbookNum.eq(bankbookNum))
+                .fetchOne();
+    }
+
     public BasicInfoResponse findBasicInfoByUsername(String username) {
         return queryFactory
                 .select(Projections.constructor(BasicInfoResponse.class,
