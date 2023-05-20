@@ -10,6 +10,8 @@ import java.util.List;
 public interface MemberRepositoryCustom {
 
     Role findAuthByUsername(String username);
+    Long findIdByEmail(String email);
+    String findPasswordByUsername(String username);
     Member findByUsername(String username);
     Member findByEmail(String email);
     List<MemberResponse> searchMemberByEmail(String email);

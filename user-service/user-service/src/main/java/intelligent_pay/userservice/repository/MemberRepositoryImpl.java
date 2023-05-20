@@ -26,6 +26,14 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
                 .fetchOne();
     }
 
+    public Long findIdByEmail(String email) {
+        return queryFactory
+                .select(member.id)
+                .from(member)
+                .where(member.email.eq(email))
+                .fetchOne();
+    }
+
     public Member findByUsername(String username) {
         return queryFactory.selectFrom(member)
                 .where(member.username.eq(username))
