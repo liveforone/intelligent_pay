@@ -1,7 +1,6 @@
 package intelligent_pay.recordservice.command;
 
 import intelligent_pay.recordservice.domain.Record;
-import intelligent_pay.recordservice.domain.RecordState;
 import intelligent_pay.recordservice.dto.RecordRequest;
 import intelligent_pay.recordservice.repository.RecordRepository;
 import lombok.RequiredArgsConstructor;
