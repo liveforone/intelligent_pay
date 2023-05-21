@@ -2,6 +2,8 @@
 
 ## 거래내역 서비스 소개
 * 거래내역 서비스는 입금, 송금, 거래 등이 다양한 금전 이벤트에 대한 거래내역을 저장하고 관리합니다.
+* 조회의 경우에는 사용자가 컨트롤할 수 있으나
+* command의 경우에는 오로지 타 서비스에서 컨트롤하여 호출합니다.
 
 ## 요구사항
 * 입금, 송금, 거래 등의 금전 이벤트 발생시 거래에 대한 제목을 저장한다.
@@ -14,39 +16,44 @@
 * 월단위 검색의 기본값은 조회 당일의 연도이다.
 * 제목으로도 검색이 가능하다.
 * 출금 거래내역의 경우 거래한 금액에 마이너스를 붙여서 저장한다.
-* recordState가 입금, 출금, 취소 로 구분되고 입금이던 출금이던 해당 api를 호출하면 취소로 변경시킨다.
-* 거래내역 취소가 가능한지 아닌지는 거래내역 서비스에서 검증하지 않는다. 
-* 이에 대한 정책은 해당 api를 호출하는 마이크로 서비스에서 한다.
-* 회원탈퇴시 거래내역은 자동 삭제된다.
+* 거래내역은 삭제하지 않는다.(법적 문제)
 
 ## API 설계
 ```
 [GET] /record/info/{id} : 거래내역 상세 조회
-[GET] /record/{bankbookNum} : 모든 거래내역 조회
-[GET] /record/deposit/info/{bankbookNum} : 입금 내역 조회
-[GET] /record/withdraw/info/{bankbookNum} : 출금 내역 조회
-[GET] /record/search/year/{bankbookNum}?{year} : 연도로 검색
-[GET] /record/search/month/{bankbookNum}?{year}&{month} : 월로 검색
-[GET] /record/search/title/{bankbookNum}?{keyword} : 제목으로 검색
+[GET] /record/{bankbookNum}?{lastId} : 모든 거래내역 조회
+[GET] /record/deposit/info/{bankbookNum}?{lastId} : 입금 내역 조회
+[GET] /record/withdraw/info/{bankbookNum}?{lastId} : 출금 내역 조회
+[GET] /record/search/year/{bankbookNum}?{year}&{lastId} : 연도로 검색
+[GET] /record/search/month/{bankbookNum}?{year}&{month}&{lastId} : 월로 검색
+[GET] /record/search/title/{bankbookNum}?{keyword}&{lastId} : 제목으로 검색
 [POST] /record/deposit : 입금
 [POST] /record/withdraw : 출금
-[PUT] /record/update/state : 거래내역 상태 변경
 ```
 
 ## Json body 예시
-
-## 서비스 간 통신
-### 회원 탈퇴시 거래내역 삭제
 ```
-KAFKA TOPIC : remove-record-belong-user
+{
+  "title": "홍길동 입금",
+  "bankBookNum": "1234567894321",
+  "money": 40000
+}
+
+{
+  "title": "맛좋은 물 결제",
+  "bankBookNum": "1234567894321",
+  "money": 40000
+}
 ```
 
 ## 월 단위 검색
 * 월단위 검색은 반드시 연도기입이 필요하다.
 * 그 이유는 당연하게도 2022년에도 1월이 있고, 2023년에도 1월이 있고, 앞으로도 영원히 그러하기 때문이다.
 * 따라서 월단위로 검색할 때에는 반드시 연도도 기입하여야한다.
+* 기입하지 않은경우 해당 년도를 기본값으로 한다.
 
 ## 거래내역 제목 표준 규격
+* 필수는 아니나, 웬만해선 규격을 지켜주기를 바랍니다.
 ### 입금
 * 결제의 경우 : 구매자 + 입금
 * 일반 입금 : 입금자 + 입금
@@ -54,23 +61,20 @@ KAFKA TOPIC : remove-record-belong-user
 * 송금의 경우 : 송금받는 대상 + 송금
 * 결제의 경우 : 결제상품 + 구매
 
-[할일]
-거래내역 서비스 회원탈퇴시 삭제 컨슈머 서비스
-입금거래내역조회
-출금거래내역조회
-연검색
-연 + 월검색 -> 기본연도는 해당년도
-제목으로 검색
-
-입금의 경우 그대로
-출금의 경우 마이너스(-)기호 붙여서 저장
-
-거래내역 상태 변경 api -> 입금, 송금, 거래 취소시
-하나의 api에서 처리한다.
-recordState가 입금, 출금, 취소 로 구분되고 입금이던 출금이던 해당 api를 호출하면 취소로 변경시킨다.
-취소가 가능한지 아닌지는 거래내역 서비스에서 검증하지 않는다. 
-이에 대한 정책은 해당 api를 호출하는 마이크로 서비스에서 한다.
-
-[검색쿼리 + 파라미터 디폴드 참고 링크](https://github.com/liveforone/middle/tree/master/shop-service/shop-service/src/main/java/middle/shopservice/repository)
-
-표준 규격 문서화(해당 문서에)
+## 거래내역 취소 매커니즘
+* 입금, 송금에서는 사용 불가능하다.
+* 오로지 결제 서비스만 사용가능하다
+* 거래내역 취소시 거래내역은 취소되지 않고,
+* 입금과 출금이 서로 바뀌어 새로운 거래내역이 생성된다.
+### 거래자
+* 거래자는 두 종류가 있다.
+* 상품을 제공하는 공급자와
+* 상품을 구매하는 소비자가 있다.
+### 매커니즘
+* 타 서비스로부터 입금된 계좌와 출금된 계좌를 입력받는다.
+* 결제서비스는 계좌서비스로 입출금을 서로 바꾸어 api call을 한다.
+* 거래내역 서비스로는 계좌서비스 api call과 마찬가지로 입금과 출금을 서로바꾸어 거래내역으로 call한다.
+### 간단 정리
+* 입금된 계좌, 출금된 계좌 입력받음
+* 결제서비스가 계좌서비스로 입금 출금 서로 exchange해서 api call
+* 거래내역 서비스로는 입금 출금 서로 exchange해서 api call한다.
