@@ -10,4 +10,10 @@ public class RestResponse {
                 .status(HttpStatus.CREATED)
                 .body(depositId);
     }
+
+    public static ResponseEntity<?> createWithdrawRecordSuccess(Long withdrawId) {
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(withdrawId);
+    }
 }
