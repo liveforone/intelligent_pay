@@ -19,14 +19,6 @@ public class RecordRepositoryImpl implements RecordCustomRepository {
     private final JPAQueryFactory queryFactory;
     QRecord record = QRecord.record;
 
-    public Long findIdById(Long id) {
-        return queryFactory
-                .select(record.id)
-                .from(record)
-                .where(record.id.eq(id))
-                .fetchOne();
-    }
-
     public Record findOneById(Long id) {
         return queryFactory
                 .selectFrom(record)
