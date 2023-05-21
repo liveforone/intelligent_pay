@@ -54,4 +54,8 @@ public class Record {
                 recordState
         );
     }
+
+    public void cancelState() {
+        this.recordState = RecordState.CANCEL;
+    }
 }
