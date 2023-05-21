@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface RecordCustomRepository {
 
+    Long findIdById(Long id);
     Record findOneByUsername(String username);
     Record findOneById(Long id);
     List<RecordResponse> findRecordsByBankbookNum(String bankbookNum, Long lastId);
