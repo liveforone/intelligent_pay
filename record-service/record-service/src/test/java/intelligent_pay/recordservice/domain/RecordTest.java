@@ -35,5 +35,21 @@ class RecordTest {
 
     @Test
     void cancelStateTest() {
+        //given
+        String bankbookNum = "8128139239821";
+        long money = 4000;
+        String title = "홍길동 입금";
+        RecordRequest request = new RecordRequest();
+        request.setBankBookNum(bankbookNum);
+        request.setMoney(money);
+        request.setTitle(title);
+        Record record = Record.create(request, RecordState.DEPOSIT);
+
+        //when
+        record.cancelState();
+
+        //then
+        assertThat(record.getRecordState())
+                .isEqualTo(RecordState.CANCEL);
     }
 }
