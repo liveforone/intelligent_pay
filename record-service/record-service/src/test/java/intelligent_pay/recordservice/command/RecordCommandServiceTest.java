@@ -39,12 +39,31 @@ class RecordCommandServiceTest {
         em.flush();
         em.clear();
 
+        //then
         assertThat(recordQueryService.getRecordById(depositRecordId).getId())
                 .isEqualTo(depositRecordId);
     }
 
     @Test
-    void createWithdrawRecord() {
+    @Transactional
+    void createWithdrawRecordTest() {
+        //given
+        String bankbookNum = "8128139239821";
+        long money = 4000;
+        String title = "홍길동 출금";
+        RecordRequest request = new RecordRequest();
+        request.setBankBookNum(bankbookNum);
+        request.setMoney(money);
+        request.setTitle(title);
+
+        //when
+        Long depositRecordId = recordCommandService.createWithdrawRecord(request);
+        em.flush();
+        em.clear();
+
+        //then
+        assertThat(recordQueryService.getRecordById(depositRecordId).getId())
+                .isEqualTo(depositRecordId);
     }
 
     @Test
