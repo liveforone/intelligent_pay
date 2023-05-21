@@ -16,12 +16,12 @@ public class RecordCommandService {
     private final RecordRepository recordRepository;
 
     public Long createDepositRecord(RecordRequest requestDto) {
-        Record record = Record.create(requestDto, RecordState.DEPOSIT);
+        Record record = Record.createDeposit(requestDto);
         return recordRepository.save(record).getId();
     }
 
     public Long createWithdrawRecord(RecordRequest requestDto) {
-        Record record = Record.create(requestDto, RecordState.WITHDRAW);
+        Record record = Record.createWithdraw(requestDto);
         return recordRepository.save(record).getId();
     }
 }
