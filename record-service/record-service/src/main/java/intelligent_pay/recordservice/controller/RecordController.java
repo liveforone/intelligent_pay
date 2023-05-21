@@ -104,7 +104,7 @@ public class RecordController {
         Long depositId = recordCommandService.createDepositRecord(requestDto);
         log.info(ControllerLog.CREATE_DEPOSIT_RECORD.getValue() + depositId);
 
-        return RestResponse.createDepositRecordSuccess(depositId);
+        return RestResponse.createDepositRecordSuccess();
     }
 
     @PostMapping(WITHDRAW)
@@ -117,6 +117,6 @@ public class RecordController {
         Long withdrawId = recordCommandService.createWithdrawRecord(requestDto);
         log.info(ControllerLog.CREATE_WITHDRAW_RECORD.getValue() + withdrawId);
 
-        return RestResponse.createWithdrawRecordSuccess(withdrawId);
+        return RestResponse.createWithdrawRecordSuccess();
     }
 }
