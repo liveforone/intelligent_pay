@@ -46,12 +46,21 @@ public class Record {
         this.createdMonth = LocalDate.now().getMonth();
     }
 
-    public static Record create(RecordRequest recordRequest, RecordState recordState) {
+    public static Record createDeposit(RecordRequest recordRequest) {
         return new Record(
                 recordRequest.getTitle(),
                 recordRequest.getBankBookNum(),
                 recordRequest.getMoney(),
-                recordState
+                RecordState.DEPOSIT
+        );
+    }
+
+    public static Record createWithdraw(RecordRequest recordRequest) {
+        return new Record(
+                recordRequest.getTitle(),
+                recordRequest.getBankBookNum(),
+                -recordRequest.getMoney(),
+                RecordState.WITHDRAW
         );
     }
 }
