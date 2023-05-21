@@ -1,7 +1,8 @@
 package intelligent_pay.recordservice.controller.constant;
 
 public final class RecordUrl {
-    private RecordUrl() {}
+    private RecordUrl() {
+    }
 
     public static final String RECORD_DETAIL = "/record/info/{id}";
     public static final String RECORD_HOME = "/record/{bankbookNum}";
@@ -12,4 +13,5 @@ public final class RecordUrl {
     public static final String SEARCH_TITLE = "/record/search/title/{bankbookNum}";
     public static final String DEPOSIT = "/record/deposit";
     public static final String WITHDRAW = "/record/withdraw";
+    public static final String UPDATE_STATE = "/record/update/state";
 }
