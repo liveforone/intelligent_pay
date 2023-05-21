@@ -10,13 +10,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class RecordControllerAdvice {
 
-    @ExceptionHandler(RecordCustomException.class)
-    protected ResponseEntity<?> shopCustomHandle(RecordCustomException customException) {
-        return ResponseEntity
-                .status(customException.getResponseMessage().getStatus())
-                .body(customException.getResponseMessage().getValue());
-    }
-
     @ExceptionHandler(BindingCustomException.class)
     protected ResponseEntity<?> bindingErrorHandle(BindingCustomException customException) {
         return ResponseEntity
@@ -30,7 +23,7 @@ public class RecordControllerAdvice {
     }
 
     @ExceptionHandler(RecordCustomBoolException.class)
-    protected boolean bankbookCustomBoolHandle(RecordCustomBoolException recordCustomBoolException) {
+    protected boolean recordCustomBoolHandle(RecordCustomBoolException recordCustomBoolException) {
         return false;
     }
 }
