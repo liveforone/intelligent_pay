@@ -1,19 +1,18 @@
 package intelligent_pay.recordservice.controller.restResponse;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 public class RestResponse {
 
-    public static ResponseEntity<?> createDepositRecordSuccess(Long depositId) {
+    public static ResponseEntity<?> createDepositRecordSuccess() {
         return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(depositId);
+                .status(ResponseMessage.CREATE_DEPOSIT_SUCCESS.getStatus())
+                .body(ResponseMessage.CREATE_DEPOSIT_SUCCESS.getValue());
     }
 
-    public static ResponseEntity<?> createWithdrawRecordSuccess(Long withdrawId) {
+    public static ResponseEntity<?> createWithdrawRecordSuccess() {
         return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(withdrawId);
+                .status(ResponseMessage.CREATE_WITHDRAW_SUCCESS.getStatus())
+                .body(ResponseMessage.CREATE_WITHDRAW_SUCCESS.getValue());
     }
 }
