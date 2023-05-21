@@ -20,4 +20,8 @@ public class RecordCommandService {
         return recordRepository.save(record).getId();
     }
 
+    public Long createWithdrawRecord(RecordRequest requestDto) {
+        Record record = Record.create(requestDto, RecordState.WITHDRAW);
+        return recordRepository.save(record).getId();
+    }
 }
