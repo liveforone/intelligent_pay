@@ -11,5 +11,5 @@ public final class RecordUrl {
     public static final String SEARCH_MONTH = "/record/search/month/{bankbookNum}";
     public static final String SEARCH_TITLE = "/record/search/title/{bankbookNum}";
     public static final String DEPOSIT = "/record/deposit";
-
+    public static final String WITHDRAW = "/record/withdraw";
 }
