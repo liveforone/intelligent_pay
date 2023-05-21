@@ -3,6 +3,7 @@ package intelligent_pay.recordservice.controller;
 import intelligent_pay.recordservice.command.RecordCommandService;
 import intelligent_pay.recordservice.controller.constant.ControllerLog;
 import intelligent_pay.recordservice.controller.restResponse.RestResponse;
+import intelligent_pay.recordservice.dto.CancelStateRequest;
 import intelligent_pay.recordservice.dto.RecordRequest;
 import intelligent_pay.recordservice.dto.RecordResponse;
 import intelligent_pay.recordservice.query.RecordQueryService;
@@ -112,11 +113,24 @@ public class RecordController {
             @RequestBody @Valid RecordRequest requestDto,
             BindingResult bindingResult
     ) {
-        controllerValidator.validateBindingThrowBool(bindingResult);
+        controllerValidator.validateBinding(bindingResult);
 
         Long withdrawId = recordCommandService.createWithdrawRecord(requestDto);
         log.info(ControllerLog.CREATE_WITHDRAW_RECORD.getValue() + withdrawId);
 
         return RestResponse.createWithdrawRecordSuccess(withdrawId);
+    }
+
+    @PutMapping(CANCEL_STATE)
+    public boolean cancelState(
+            @RequestBody @Valid CancelStateRequest requestDto,
+            BindingResult bindingResult
+    ) {
+        controllerValidator.validateBindingThrowBool(bindingResult);
+
+        recordCommandService.cancelState(requestDto);
+        log.info(ControllerLog.CANCEL_RECORD_SUCCESS.getValue());
+
+        return true;
     }
 }
