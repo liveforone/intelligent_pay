@@ -54,7 +54,6 @@ spring:
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/record-service/(?<segment>.*), /$\{segment}
-            - AuthorizationHeaderFilter
             - name: CircuitBreaker
               args:
                 name: record-service
