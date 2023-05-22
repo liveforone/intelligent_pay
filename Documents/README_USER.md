@@ -73,10 +73,6 @@
 ```
 KAFKA TOPIC : remove-bankbook-belong-user
 ```
-### 회원 탈퇴시 거래내역 삭제 요청
-```
-KAFKA TOPIC : remove-record-belong-user
-```
 
 ## 어드민 회원가입
 * 어드민 회원가입은 일반 회원 가입과 사뭇다릅니다.
