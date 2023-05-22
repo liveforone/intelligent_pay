@@ -2,7 +2,6 @@ package intelligent_pay.recordservice.controller;
 
 import intelligent_pay.recordservice.command.RecordCommandService;
 import intelligent_pay.recordservice.controller.constant.ControllerLog;
-import intelligent_pay.recordservice.controller.restResponse.RestResponse;
 import intelligent_pay.recordservice.dto.RecordRequest;
 import intelligent_pay.recordservice.dto.RecordResponse;
 import intelligent_pay.recordservice.query.RecordQueryService;
@@ -95,28 +94,28 @@ public class RecordController {
     }
 
     @PostMapping(DEPOSIT)
-    public ResponseEntity<?> deposit(
+    public boolean deposit(
             @RequestBody @Valid RecordRequest requestDto,
             BindingResult bindingResult
     ) {
-        controllerValidator.validateBinding(bindingResult);
+        controllerValidator.validateBindingThrowBool(bindingResult);
 
         Long depositId = recordCommandService.createDepositRecord(requestDto);
         log.info(ControllerLog.CREATE_DEPOSIT_RECORD.getValue() + depositId);
 
-        return RestResponse.createDepositRecordSuccess();
+        return true;
     }
 
     @PostMapping(WITHDRAW)
-    public ResponseEntity<?> withdraw(
+    public boolean withdraw(
             @RequestBody @Valid RecordRequest requestDto,
             BindingResult bindingResult
     ) {
-        controllerValidator.validateBinding(bindingResult);
+        controllerValidator.validateBindingThrowBool(bindingResult);
 
         Long withdrawId = recordCommandService.createWithdrawRecord(requestDto);
         log.info(ControllerLog.CREATE_WITHDRAW_RECORD.getValue() + withdrawId);
 
-        return RestResponse.createWithdrawRecordSuccess();
+        return true;
     }
 }
