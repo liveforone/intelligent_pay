@@ -119,7 +119,7 @@ class BankbookCommandServiceTest {
         UpdateBankbookStateRequest request = new UpdateBankbookStateRequest();
         request.setBankbookNum(bankbook.getBankbookNum());
         request.setPassword(password);
-        bankbookCommandService.suspendBankbook(request);
+        bankbookCommandService.suspendBankbook(request, username);
         em.flush();
         em.clear();
 
@@ -140,12 +140,12 @@ class BankbookCommandServiceTest {
         UpdateBankbookStateRequest request = new UpdateBankbookStateRequest();
         request.setBankbookNum(bankbookNum);
         request.setPassword(password);
-        bankbookCommandService.suspendBankbook(request);
+        bankbookCommandService.suspendBankbook(request, username);
         em.flush();
         em.clear();
 
         //when
-        bankbookCommandService.cancelSuspendBankbook(request);
+        bankbookCommandService.cancelSuspendBankbook(request, username);
         em.flush();
         em.clear();
 
