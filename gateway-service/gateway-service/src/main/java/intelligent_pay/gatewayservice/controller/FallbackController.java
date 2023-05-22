@@ -57,9 +57,9 @@ public class FallbackController {
         return Mono.just(FallbackMessage.RECORD_LOG);
     }
 
-    @PostMapping(FallbackUrl.STATEMENT)
-    public Mono<String> fallbackStatementPost() {
-        return Mono.just(FallbackMessage.STATEMENT_LOG);
+    @PostMapping(FallbackUrl.REMIT)
+    public Mono<String> fallbackRemitPost() {
+        return Mono.just(FallbackMessage.REMIT_LOG);
     }
 
 }
