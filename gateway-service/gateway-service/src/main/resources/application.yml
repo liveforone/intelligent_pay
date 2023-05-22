@@ -58,6 +58,17 @@ spring:
               args:
                 name: record-service
                 fallbackuri: forward:/fallback/record
+        - id: statement-service
+          uri: lb://STATEMENT-SERVICE
+          predicates:
+            - Path=/statement-service/**
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/statement-service/(?<segment>.*), /$\{segment}
+            - name: CircuitBreaker
+              args:
+                name: record-service
+                fallbackuri: forward:/fallback/statement
 
 management:
   endpoints:
