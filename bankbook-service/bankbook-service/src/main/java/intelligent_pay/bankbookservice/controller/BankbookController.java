@@ -95,13 +95,11 @@ public class BankbookController {
             BindingResult bindingResult,
             HttpServletRequest request
     ) {
-        String username = authenticationInfo.getUsername(request);
-        String bankbookNum = requestDto.getBankbookNum();
-        controllerValidator.validateUsername(username, bankbookNum);
         controllerValidator.validateBinding(bindingResult);
 
-        bankbookCommandService.updatePassword(requestDto);
-        log.info(ControllerLog.UPDATE_PASSWORD_SUCCESS.getValue() + bankbookNum);
+        String username = authenticationInfo.getUsername(request);
+        bankbookCommandService.updatePassword(requestDto, username);
+        log.info(ControllerLog.UPDATE_PASSWORD_SUCCESS.getValue() + requestDto.getBankbookNum());
 
         return RestResponse.updatePasswordSuccess();
     }
@@ -112,13 +110,11 @@ public class BankbookController {
             BindingResult bindingResult,
             HttpServletRequest request
     ) {
-        String username = authenticationInfo.getUsername(request);
-        String bankbookNum = requestDto.getBankbookNum();
-        controllerValidator.validateUsername(username, bankbookNum);
         controllerValidator.validateBinding(bindingResult);
 
-        bankbookCommandService.suspendBankbook(requestDto);
-        log.info(ControllerLog.SUSPEND_SUCCESS.getValue() + bankbookNum);
+        String username = authenticationInfo.getUsername(request);
+        bankbookCommandService.suspendBankbook(requestDto, username);
+        log.info(ControllerLog.SUSPEND_SUCCESS.getValue() + requestDto.getBankbookNum());
 
         return RestResponse.suspendSuccess();
     }
@@ -129,13 +125,11 @@ public class BankbookController {
             BindingResult bindingResult,
             HttpServletRequest request
     ) {
-        String username = authenticationInfo.getUsername(request);
-        String bankbookNum = requestDto.getBankbookNum();
-        controllerValidator.validateUsername(username, bankbookNum);
         controllerValidator.validateBinding(bindingResult);
 
-        bankbookCommandService.cancelSuspendBankbook(requestDto);
-        log.info(ControllerLog.CANCEL_SUSPEND_SUCCESS.getValue() + bankbookNum);
+        String username = authenticationInfo.getUsername(request);
+        bankbookCommandService.cancelSuspendBankbook(requestDto, username);
+        log.info(ControllerLog.CANCEL_SUSPEND_SUCCESS.getValue() + requestDto.getBankbookNum());
 
         return RestResponse.cancelSuspendSuccess();
     }
