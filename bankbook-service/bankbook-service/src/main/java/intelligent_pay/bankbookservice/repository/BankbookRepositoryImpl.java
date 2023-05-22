@@ -3,10 +3,8 @@ package intelligent_pay.bankbookservice.repository;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import intelligent_pay.bankbookservice.domain.Bankbook;
-import intelligent_pay.bankbookservice.domain.BankbookState;
 import intelligent_pay.bankbookservice.domain.QBankbook;
 import intelligent_pay.bankbookservice.dto.response.BasicInfoResponse;
-import intelligent_pay.bankbookservice.utility.CommonUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -22,52 +20,6 @@ public class BankbookRepositoryImpl implements BankbookCustomRepository{
                 .select(bankbook.id)
                 .from(bankbook)
                 .where(bankbook.username.eq(username))
-                .fetchOne();
-    }
-
-    public Long findIdByBankbookNum(String bankbookNum) {
-        return queryFactory
-                .select(bankbook.id)
-                .from(bankbook)
-                .where(bankbook.bankbookNum.eq(bankbookNum))
-                .fetchOne();
-    }
-
-    public String findPasswordByBankbookNum(String bankbookNum) {
-        return queryFactory
-                .select(bankbook.password)
-                .from(bankbook)
-                .where(bankbook.bankbookNum.eq(bankbookNum))
-                .fetchOne();
-    }
-
-    public BankbookState findStateByBankbookNum(String bankbookNum) {
-        return queryFactory
-                .select(bankbook.bankbookState)
-                .from(bankbook)
-                .where(bankbook.bankbookNum.eq(bankbookNum))
-                .fetchOne();
-    }
-
-    public long findBalanceByBankbookNum(String bankbookNum) {
-        Long foundBalance = queryFactory
-                .select(bankbook.balance)
-                .from(bankbook)
-                .where(bankbook.bankbookNum.eq(bankbookNum))
-                .fetchOne();
-
-        if (CommonUtils.isNull(foundBalance)) {
-            return 0;
-        } else {
-            return foundBalance;
-        }
-    }
-
-    public String findUsernameByBankbookNum(String bankbookNum) {
-        return queryFactory
-                .select(bankbook.username)
-                .from(bankbook)
-                .where(bankbook.bankbookNum.eq(bankbookNum))
                 .fetchOne();
     }
 
