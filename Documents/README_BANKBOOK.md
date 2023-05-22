@@ -49,7 +49,7 @@ KAFKA TOPIC : remove-bankbook-belong-user
 }
 ```
 ### minus
-* 송금(나의 타행 계좌, 타인 계좌) + 결제
+* 송금(나의 타행 계좌, 타인 타행 계좌, 타인 페이 계좌) + 결제
 * intelligent pay의 다른 마이크로서비스에게 제공하는 api입니다.
 ```
 {
