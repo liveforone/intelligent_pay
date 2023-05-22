@@ -1,7 +1,11 @@
 package intelligent_pay.bankbookservice.validator;
 
 import intelligent_pay.bankbookservice.controller.restResponse.ResponseMessage;
+import intelligent_pay.bankbookservice.domain.Bankbook;
 import intelligent_pay.bankbookservice.domain.BankbookState;
+import intelligent_pay.bankbookservice.dto.request.SubtractBalanceRequest;
+import intelligent_pay.bankbookservice.dto.update.UpdateBankbookStateRequest;
+import intelligent_pay.bankbookservice.dto.update.UpdatePasswordRequest;
 import intelligent_pay.bankbookservice.exception.BankbookCustomException;
 import intelligent_pay.bankbookservice.exception.returnBool.BankbookCustomBoolException;
 import intelligent_pay.bankbookservice.repository.BankbookRepository;
@@ -17,37 +21,7 @@ public class ServiceValidator {
     private final BankbookRepository bankbookRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
-    public void validateBankbookNull(String identifier) {
-        final int SIZE_OF_BANKBOOK_NUM = 13;
-
-        Long foundId;
-        if (identifier.length() == SIZE_OF_BANKBOOK_NUM) {
-            foundId = bankbookRepository.findIdByBankbookNum(identifier);
-        } else {
-            foundId = bankbookRepository.findIdByUsername(identifier);
-        }
-
-        if (CommonUtils.isNull(foundId)) {
-            throw new BankbookCustomException(ResponseMessage.BANKBOOK_IS_NULL);
-        }
-    }
-
-    public void validateBankbookNullThrowBool(String identifier) {
-        final int SIZE_OF_BANKBOOK_NUM = 13;
-
-        Long foundId;
-        if (identifier.length() == SIZE_OF_BANKBOOK_NUM) {
-            foundId = bankbookRepository.findIdByBankbookNum(identifier);
-        } else {
-            foundId = bankbookRepository.findIdByUsername(identifier);
-        }
-
-        if (CommonUtils.isNull(foundId)) {
-            throw new BankbookCustomBoolException();
-        }
-    }
-
-    public void validateDuplicateBankbook(String username) {
+    public void validateCreateBankbook(String username) {
         Long foundId = bankbookRepository.findIdByUsername(username);
 
         if (!CommonUtils.isNull(foundId)) {
@@ -55,51 +29,61 @@ public class ServiceValidator {
         }
     }
 
-    public void validateBankbookState(String bankbookNum) {
-        BankbookState state = bankbookRepository.findStateByBankbookNum(bankbookNum);
+    public void validateAddBalance(String bankbookNum) {
+        Bankbook bankbook = bankbookRepository.findOneByBankbookNum(bankbookNum);
 
-        if (state == BankbookState.SUSPEND) {
-            throw new BankbookCustomException(ResponseMessage.SUSPEND_BANKBOOK);
-        }
-    }
-
-    public void validateBankbookStateThrowBool(String bankbookNum) {
-        BankbookState state = bankbookRepository.findStateByBankbookNum(bankbookNum);
-
-        if (state == BankbookState.SUSPEND) {
+        if (CommonUtils.isNull(bankbook)
+                || (bankbook.getBankbookState() == BankbookState.SUSPEND)) {
             throw new BankbookCustomBoolException();
         }
     }
 
-    public void validatePassword(String password, String bankbookNum) {
-        String foundPassword = bankbookRepository.findPasswordByBankbookNum(bankbookNum);
+    public void validateSubtractBalance(SubtractBalanceRequest requestDto) {
+        Bankbook bankbook = bankbookRepository.findOneByBankbookNum(requestDto.getBankbookNum());
+        long balance = bankbook.getBalance();
 
-        if (CommonUtils.isNull(foundPassword)) {
+        if (CommonUtils.isNull(bankbook)
+                || (bankbook.getBankbookState() == BankbookState.SUSPEND)
+                || (!passwordEncoder.matches(requestDto.getPassword(), bankbook.getPassword()))
+                || (balance == 0)
+                || (balance - requestDto.getMoney() < 0)) {
+            throw new BankbookCustomBoolException();
+        }
+    }
+
+    public void validateUpdatePassword(UpdatePasswordRequest requestDto, String username) {
+        Bankbook bankbook = bankbookRepository.findOneByBankbookNum(requestDto.getBankbookNum());
+
+        if (CommonUtils.isNull(bankbook)) {
             throw new BankbookCustomException(ResponseMessage.BANKBOOK_IS_NULL);
         }
 
-        if (!passwordEncoder.matches(password, foundPassword)) {
+        if (!bankbook.getUsername().equals(username)) {
+            throw new BankbookCustomException(ResponseMessage.USERNAME_NOT_MATCH);
+        }
+
+        if (bankbook.getBankbookState() == BankbookState.SUSPEND) {
+            throw new BankbookCustomException(ResponseMessage.SUSPEND_BANKBOOK);
+        }
+
+        if (!passwordEncoder.matches(requestDto.getPassword(), bankbook.getPassword())) {
             throw new BankbookCustomException(ResponseMessage.PASSWORD_NOT_MATCH);
         }
     }
 
-    public void validatePasswordThrowBool(String password, String bankbookNum) {
-        String foundPassword = bankbookRepository.findPasswordByBankbookNum(bankbookNum);
+    public void validateUpdateBankbookState(UpdateBankbookStateRequest requestDto, String username) {
+        Bankbook bankbook = bankbookRepository.findOneByBankbookNum(requestDto.getBankbookNum());
 
-        if (CommonUtils.isNull(foundPassword)) {
-            throw new BankbookCustomBoolException();
+        if (CommonUtils.isNull(bankbook)) {
+            throw new BankbookCustomException(ResponseMessage.BANKBOOK_IS_NULL);
         }
 
-        if (!passwordEncoder.matches(password, foundPassword)) {
-            throw new BankbookCustomBoolException();
+        if (!bankbook.getUsername().equals(username)) {
+            throw new BankbookCustomException(ResponseMessage.USERNAME_NOT_MATCH);
         }
-    }
 
-    public void validateBalanceWhenSubtract(String bankbookNum, long inputMoney) {
-        long foundBalance = bankbookRepository.findBalanceByBankbookNum(bankbookNum);
-
-        if (foundBalance == 0 || foundBalance - inputMoney < 0) {
-            throw new BankbookCustomBoolException();
+        if (!passwordEncoder.matches(requestDto.getPassword(), bankbook.getPassword())) {
+            throw new BankbookCustomException(ResponseMessage.PASSWORD_NOT_MATCH);
         }
     }
 }
