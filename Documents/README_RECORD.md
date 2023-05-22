@@ -27,8 +27,8 @@
 [GET] /record/search/year/{bankbookNum}?{year}&{lastId} : 연도로 검색
 [GET] /record/search/month/{bankbookNum}?{year}&{month}&{lastId} : 월로 검색
 [GET] /record/search/title/{bankbookNum}?{keyword}&{lastId} : 제목으로 검색
-[POST] /record/deposit : 입금
-[POST] /record/withdraw : 출금
+[POST] /record/deposit : 입금, bool 리턴
+[POST] /record/withdraw : 출금, bool 리턴
 ```
 
 ## Json body 예시
