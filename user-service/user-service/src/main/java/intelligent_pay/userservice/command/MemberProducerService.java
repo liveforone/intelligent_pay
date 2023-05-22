@@ -25,12 +25,4 @@ public class MemberProducerService {
         kafkaTemplate.send(topic, jsonOrder);
         log.info(KafkaLog.KAFKA_SEND_LOG.getValue() + topic);
     }
-
-    @Async(AsyncConstant.commandAsync)
-    public void removeRecord(String username) {
-        String jsonOrder = gson.toJson(username);
-        String topic = Topic.REMOVE_RECORD;
-        kafkaTemplate.send(topic, jsonOrder);
-        log.info(KafkaLog.KAFKA_SEND_LOG.getValue() + topic);
-    }
 }

@@ -140,7 +140,6 @@ public class MemberController {
         String username = authenticationInfo.getUsername(request);
         memberCommandService.withdrawByUsername(withdrawRequest, username);
         memberProducerService.removeBankbook(username);
-        memberProducerService.removeRecord(username);
         log.info(ControllerLog.WITHDRAW_SUCCESS.getValue() + username);
 
         return RestResponse.withdrawSuccess();
