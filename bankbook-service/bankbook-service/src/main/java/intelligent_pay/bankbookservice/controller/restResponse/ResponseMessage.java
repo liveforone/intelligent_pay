@@ -15,7 +15,6 @@ public enum ResponseMessage {
     UPDATE_PASSWORD_SUCCESS(200, "비밀번호 변경에 성공하였습니다."),
     SUSPEND_SUCCESS(200, "계좌 정지에 성공하엿습니다."),
     CANCEL_SUSPEND_SUCCESS(200, "계좌 정지 해제에 성공하엿습니다."),
-    NOT_EXIST_MEMBER(400, "존재하지 않는 회원입니다."),
     USERNAME_NOT_MATCH(401, "계좌의 주인이 아닙니다.");
 
     private final int status;
