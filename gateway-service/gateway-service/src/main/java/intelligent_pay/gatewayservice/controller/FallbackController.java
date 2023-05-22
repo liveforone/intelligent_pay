@@ -62,4 +62,8 @@ public class FallbackController {
         return Mono.just(FallbackMessage.REMIT_LOG);
     }
 
+    @PostMapping(FallbackUrl.PAY)
+    public Mono<String> fallbackPayPost() {
+        return Mono.just(FallbackMessage.PAY_LOG);
+    }
 }

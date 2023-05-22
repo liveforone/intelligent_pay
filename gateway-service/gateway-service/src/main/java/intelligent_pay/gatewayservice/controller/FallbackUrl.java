@@ -7,4 +7,5 @@ public final class FallbackUrl {
     public static final String BANKBOOK = "/bankbook";
     public static final String RECORD = "/record";
     public static final String REMIT = "/remit";
+    public static final String PAY = "/pay";
 }

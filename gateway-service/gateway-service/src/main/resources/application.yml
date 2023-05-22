@@ -69,6 +69,17 @@ spring:
               args:
                 name: remit-service
                 fallbackuri: forward:/fallback/remit
+        - id: pay-service
+          uri: lb://PAY-SERVICE
+          predicates:
+            - Path=/pay-service/**
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/pay-service/(?<segment>.*), /$\{segment}
+            - name: CircuitBreaker
+              args:
+                name: pay-service
+                fallbackuri: forward:/fallback/pay
 
 management:
   endpoints:
