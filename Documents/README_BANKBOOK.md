@@ -18,15 +18,20 @@
 * 회원 탈퇴시 계좌는 삭제됩니다.
 
 ## API 설계
+### 내부 api
 ```
 [GET] /basic/info/{username} : 간단한 회원 정보 리턴
 [GET] /info : 통장 정보 리턴
 [POST] /create : 통장 개설
-[POST] /add/balance : 잔액 plus 행위, bool 리턴
-[POST] /subtract/balance : 잔액 minus 행위, bool 리턴
 [PUT] /update/password
 [PUT] /suspend : 통장 정지
 [PUT] /cancel/suspend : 통장 정지 해제
+```
+### 외부 제공 api 
+```
+[POST] /provide/add/balance : 잔액 plus 행위, bool 리턴
+[POST] /provide/subtract/balance : 잔액 minus 행위, bool 리턴
+[POST] /provide/subtract/balance/cancel : 결제 취소를 위한 잔액 minus 행위, bool 리턴, 오로지 결제 서비스에만 제공
 ```
 
 ## 서비스 간 통신
