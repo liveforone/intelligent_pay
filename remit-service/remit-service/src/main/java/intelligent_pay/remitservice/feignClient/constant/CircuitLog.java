@@ -7,7 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum CircuitLog {
 
-    REMIT_CIRCUIT_LOG("timetable-circuit");
+    REMIT_CIRCUIT_LOG("remit-circuit");
 
     private final String value;
 }
