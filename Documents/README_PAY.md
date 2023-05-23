@@ -7,8 +7,10 @@
 * 결제/결제 취소 시에는 표준화 json body 규격을 지켜서 입력받습니다.
 * DB는 존재하지 않고, 오로지 결제관련 이벤트만 처리합니다.
 * 거래내역 서비스, 계좌 서비스와 통신합니다.
+* 결제 취소시에는 비밀번호를 입력받지 않습니다.
 
 ## API 설계
+* 모든 api는 외부에 제공함
 ```
 [POST] /pay : 결제
 [POST] /cancel/pay : 결제 취소
@@ -16,12 +18,21 @@
 
 ## Json body 예시
 ```
-[결제/결제취소]
+[결제]
 {
-    "buyerbankbookNum" : "1234567891234,
+    "buyerBankbookNum" : "1234567891234",
     "money" : 40000,
     "password" : "12345678",
-    "sellerBankbookNum" : "9876543219876
+    "sellerBankbookNum" : "9876543219876",
+    "payTitle" : "맑은 물"
+}
+
+[결제취소]
+{
+    "buyerBankbookNum" : "1234567891234",
+    "money" : 40000,
+    "sellerBankbookNum" : "9876543219876",
+    "payTitle" : "맑은 물"
 }
 ```
 
@@ -30,41 +41,52 @@
 * 계좌서비스에 요청
 * bool 리턴받음
 ```
-[POST] /add/balance
+[POST] /provide/add/balance
 ```
 ### 출금 요청
 * 계좌서비스에 요청
 * bool 리턴받음
 ```
-[POST] /subtract/balance
+[POST] /provide/subtract/balance
+```
+### 결제 취소시 출금 요청
+* 계좌서비스에 요청
+* bool 리턴받음
+```
+[POST] /provide/subtract/balance/cancel
 ```
 ### 입금 거래내역 생성 요청
 * 거래내역 서비스에 요청
 * bool 리턴받음
 ```
-[POST] /record/deposit
+[POST] /provide/record/deposit
 ```
 ### 출금 거래내역 생성 요청
 * 거래내역 서비스에 요청
 * bool 리턴받음
 ```
-[POST] /record/withdraw
+[POST] /provide/record/withdraw
 ```
 
 ## 표준화 body 규격
 * 표준화 규격은 서비스간 통신을 할때 반드시 지켜야하는 json body 규격을 의미합니다.
 ```
-[계좌서비스]
+[입금 - 계좌서비스]
+{
+    "bankbookNum",
+    "money"
+}
+
+[출금 - 계좌 서비스]
 {
     "bankbookNum",
     "money",
-    "password",
-    "otherBankbookNum"
+    "password"
 }
 
 [거래내역 서비스]
 {
-  "title": "맛좋은 물 결제",
+  "title": "맑은 물 결제",
   "bankBookNum": "1234567894321",
   "money": 40000
 }
