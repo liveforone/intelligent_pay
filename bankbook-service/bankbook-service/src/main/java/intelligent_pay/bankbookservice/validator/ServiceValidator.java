@@ -3,6 +3,7 @@ package intelligent_pay.bankbookservice.validator;
 import intelligent_pay.bankbookservice.controller.restResponse.ResponseMessage;
 import intelligent_pay.bankbookservice.domain.Bankbook;
 import intelligent_pay.bankbookservice.domain.BankbookState;
+import intelligent_pay.bankbookservice.dto.request.SubtractBalanceForCancel;
 import intelligent_pay.bankbookservice.dto.request.SubtractBalanceRequest;
 import intelligent_pay.bankbookservice.dto.update.UpdateBankbookStateRequest;
 import intelligent_pay.bankbookservice.dto.update.UpdatePasswordRequest;
@@ -45,6 +46,18 @@ public class ServiceValidator {
         if (CommonUtils.isNull(bankbook)
                 || (bankbook.getBankbookState() == BankbookState.SUSPEND)
                 || (!passwordEncoder.matches(requestDto.getPassword(), bankbook.getPassword()))
+                || (balance == 0)
+                || (balance - requestDto.getMoney() < 0)) {
+            throw new BankbookCustomBoolException();
+        }
+    }
+
+    public void validateSubtractBalanceForCancel(SubtractBalanceForCancel requestDto) {
+        Bankbook bankbook = bankbookRepository.findOneByBankbookNum(requestDto.getBankbookNum());
+        long balance = bankbook.getBalance();
+
+        if (CommonUtils.isNull(bankbook)
+                || (bankbook.getBankbookState() == BankbookState.SUSPEND)
                 || (balance == 0)
                 || (balance - requestDto.getMoney() < 0)) {
             throw new BankbookCustomBoolException();
