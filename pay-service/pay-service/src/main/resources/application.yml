@@ -19,8 +19,8 @@ spring:
 logging:
   level:
     org.springframework.web: DEBUG
-    #: DEBUG
-    #: DEBUG
+    intelligent_pay.payservice.feignClient.BankbookFeignService: DEBUG
+    intelligent_pay.payservice.feignClient.RecordFeignService: DEBUG
 
 feign:
   client:
