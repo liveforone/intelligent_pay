@@ -7,6 +7,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ResponseMessage {
 
+    DEPOSIT_FAIL(400, "입금에 실패하였습니다."),
+    DEPOSIT_RECORD_FAIL(400, "입금 거래내역 생성에 실패하였습니다."),
     DEPOSIT_SUCCESS(201, "입금을 완료하였습니다."),
     REMIT_SUCCESS(201, "송금을 완료하였습니다.");
 
