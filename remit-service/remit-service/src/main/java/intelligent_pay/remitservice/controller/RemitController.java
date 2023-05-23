@@ -3,6 +3,7 @@ package intelligent_pay.remitservice.controller;
 import intelligent_pay.remitservice.command.RemitCommandService;
 import intelligent_pay.remitservice.controller.restResponse.RestResponse;
 import intelligent_pay.remitservice.dto.remit.DepositRequest;
+import intelligent_pay.remitservice.dto.remit.RemitRequest;
 import intelligent_pay.remitservice.validator.ControllerValidator;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -31,5 +32,15 @@ public class RemitController {
         controllerValidator.validateBinding(bindingResult);
         remitCommandService.deposit(requestDto);
         return RestResponse.depositSuccess();
+    }
+
+    @PostMapping(REMIT)
+    public ResponseEntity<?> remit(
+            @RequestBody @Valid RemitRequest requestDto,
+            BindingResult bindingResult
+    ) {
+        controllerValidator.validateBinding(bindingResult);
+        remitCommandService.remit(requestDto);
+        return RestResponse.remitSuccess();
     }
 }
