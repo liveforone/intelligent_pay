@@ -1,0 +1,15 @@
+package intelligent_pay.remitservice.controller.restResponse;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
+public enum ResponseMessage {
+
+    DEPOSIT_SUCCESS(201, "입금을 완료하였습니다."),
+    REMIT_SUCCESS(201, "송금을 완료하였습니다.");
+
+    private final int status;
+    private final String value;
+}
