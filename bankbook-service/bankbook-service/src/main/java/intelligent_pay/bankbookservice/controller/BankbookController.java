@@ -7,6 +7,7 @@ import intelligent_pay.bankbookservice.controller.constant.ControllerLog;
 import intelligent_pay.bankbookservice.controller.restResponse.RestResponse;
 import intelligent_pay.bankbookservice.dto.request.AddBalanceRequest;
 import intelligent_pay.bankbookservice.dto.request.BankbookRequest;
+import intelligent_pay.bankbookservice.dto.request.SubtractBalanceForCancel;
 import intelligent_pay.bankbookservice.dto.request.SubtractBalanceRequest;
 import intelligent_pay.bankbookservice.dto.response.BankbookResponse;
 import intelligent_pay.bankbookservice.dto.response.BasicInfoResponse;
@@ -84,6 +85,19 @@ public class BankbookController {
         controllerValidator.validateBindingThrowBool(bindingResult);
 
         bankbookCommandService.subtractBalance(requestDto);
+        log.info(ControllerLog.SUBTRACT_BALANCE_SUCCESS.getValue() + requestDto.getBankbookNum());
+
+        return true;
+    }
+
+    @PostMapping(SUBTRACT_BALANCE_FOR_CANCEL)
+    public boolean subtractBalanceForCancel(
+            @RequestBody @Valid SubtractBalanceForCancel requestDto,
+            BindingResult bindingResult
+    ) {
+        controllerValidator.validateBindingThrowBool(bindingResult);
+
+        bankbookCommandService.subtractBalanceForCancel(requestDto);
         log.info(ControllerLog.SUBTRACT_BALANCE_SUCCESS.getValue() + requestDto.getBankbookNum());
 
         return true;
