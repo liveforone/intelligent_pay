@@ -9,4 +9,10 @@ public class RestResponse {
                 .status(ResponseMessage.DEPOSIT_SUCCESS.getStatus())
                 .body(ResponseMessage.DEPOSIT_SUCCESS.getValue());
     }
+
+    public static ResponseEntity<?> remitSuccess() {
+        return ResponseEntity
+                .status(ResponseMessage.REMIT_SUCCESS.getStatus())
+                .body(ResponseMessage.REMIT_SUCCESS.getValue());
+    }
 }
