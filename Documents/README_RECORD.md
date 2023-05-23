@@ -19,6 +19,7 @@
 * 거래내역은 삭제하지 않는다.(법적 문제)
 
 ## API 설계
+### 내부 api
 ```
 [GET] /record/info/{id} : 거래내역 상세 조회
 [GET] /record/{bankbookNum}?{lastId} : 모든 거래내역 조회
@@ -27,8 +28,11 @@
 [GET] /record/search/year/{bankbookNum}?{year}&{lastId} : 연도로 검색
 [GET] /record/search/month/{bankbookNum}?{year}&{month}&{lastId} : 월로 검색
 [GET] /record/search/title/{bankbookNum}?{keyword}&{lastId} : 제목으로 검색
-[POST] /record/deposit : 입금, bool 리턴
-[POST] /record/withdraw : 출금, bool 리턴
+```
+### 외부 제공 api
+```
+[POST] /provide/record/deposit : 입금, bool 리턴
+[POST] /provide/record/withdraw : 출금, bool 리턴
 ```
 
 ## Json body 예시
