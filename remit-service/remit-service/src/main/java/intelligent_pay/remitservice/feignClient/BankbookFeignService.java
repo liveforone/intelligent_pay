@@ -12,8 +12,8 @@ import static intelligent_pay.remitservice.feignClient.constant.BankbookUrl.*;
 public interface BankbookFeignService {
 
     @PostMapping(ADD_BALANCE)
-    boolean deposit(@RequestBody AddBalanceRequest requestDto);
+    boolean addBalance(@RequestBody AddBalanceRequest requestDto);
 
     @PostMapping(SUBTRACT_BALANCE)
-    boolean withdraw(@RequestBody SubtractBalanceRequest requestDto);
+    boolean subtractBalance(@RequestBody SubtractBalanceRequest requestDto);
 }
