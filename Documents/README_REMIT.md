@@ -13,6 +13,7 @@
 * 거래내역 서비스, 계좌 서비스와 통신합니다.
 
 ## API 설계
+* 모든 api는 외부에 제공함
 ```
 [POST] /deposit : 입금, 외부제공
 [POST] /remit : 송금
@@ -22,16 +23,17 @@
 ```
 [입금]
 {
-    "bankbookNum" : "1234567891234,
-    "money" : 40000
+    "bankbookNum" : "1234567891234",
+    "money" : 40000,
+    "otherBankbookNum" : "9876543219876"
 }
 
 [송금]
 {
-    "bankbookNum" : "1234567891234,
+    "bankbookNum" : "1234567891234",
     "money" : 40000,
     "password" : "12345678",
-    "otherBankbookNum" : "9876543219876
+    "otherBankbookNum" : "9876543219876"
 }
 ```
 
@@ -40,25 +42,25 @@
 * 계좌서비스에 요청
 * bool 리턴받음
 ```
-[POST] /add/balance
+[POST] /provide/add/balance
 ```
 ### 출금 요청
 * 계좌서비스에 요청
 * bool 리턴받음
 ```
-[POST] /subtract/balance
+[POST] /provide/subtract/balance
 ```
 ### 입금 거래내역 생성 요청
 * 거래내역 서비스에 요청
 * bool 리턴받음
 ```
-[POST] /record/deposit
+[POST] /provide/record/deposit
 ```
 ### 출금 거래내역 생성 요청
 * 거래내역 서비스에 요청
 * bool 리턴받음
 ```
-[POST] /record/withdraw
+[POST] /provide/record/withdraw
 ```
 
 ## 표준화 body 규격
@@ -70,12 +72,11 @@
     "money"
 }
 
-[송금 - 계좌 서비스]
+[출금 - 계좌 서비스]
 {
     "bankbookNum",
     "money",
-    "password",
-    "otherBankbookNum"
+    "password"
 }
 
 [거래내역 서비스]
