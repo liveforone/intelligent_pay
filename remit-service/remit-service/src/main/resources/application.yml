@@ -19,7 +19,7 @@ spring:
 logging:
   level:
     org.springframework.web: DEBUG
-    #feign: DEBUG
+    intelligent_pay.remitservice.feignClient.BankbookFeignService: DEBUG
 
 feign:
   client:
