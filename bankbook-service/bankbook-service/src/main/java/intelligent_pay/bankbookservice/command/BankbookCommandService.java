@@ -3,6 +3,7 @@ package intelligent_pay.bankbookservice.command;
 import intelligent_pay.bankbookservice.domain.Bankbook;
 import intelligent_pay.bankbookservice.dto.request.AddBalanceRequest;
 import intelligent_pay.bankbookservice.dto.request.BankbookRequest;
+import intelligent_pay.bankbookservice.dto.request.SubtractBalanceForCancel;
 import intelligent_pay.bankbookservice.dto.request.SubtractBalanceRequest;
 import intelligent_pay.bankbookservice.dto.update.UpdateBankbookStateRequest;
 import intelligent_pay.bankbookservice.dto.update.UpdatePasswordRequest;
@@ -41,6 +42,15 @@ public class BankbookCommandService {
     public void subtractBalance(SubtractBalanceRequest requestDto) {
         String bankbookNum = requestDto.getBankbookNum();
         serviceValidator.validateSubtractBalance(requestDto);
+
+        Bankbook bankbook = bankbookRepository.findOneByBankbookNum(bankbookNum);
+        bankbook.subtractBalance(requestDto.getMoney());
+    }
+
+    @Transactional
+    public void subtractBalanceForCancel(SubtractBalanceForCancel requestDto) {
+        String bankbookNum = requestDto.getBankbookNum();
+        serviceValidator.validateSubtractBalanceForCancel(requestDto);
 
         Bankbook bankbook = bankbookRepository.findOneByBankbookNum(bankbookNum);
         bankbook.subtractBalance(requestDto.getMoney());
