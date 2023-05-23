@@ -35,18 +35,6 @@ spring:
               args:
                 name: pay-user-service
                 fallbackuri: forward:/fallback/user
-        - id: bankbook-service
-          uri: lb://BANKBOOK-SERVICE
-          predicates:
-            - Path=/bankbook-service/**
-          filters:
-            - RemoveRequestHeader=Cookie
-            - RewritePath=/bankbook-service/(?<segment>.*), /$\{segment}
-            - AuthorizationHeaderFilter
-            - name: CircuitBreaker
-              args:
-                name: bankbook-service
-                fallbackuri: forward:/fallback/bankbook
         - id: bankbook-service-provide
           uri: lb://BANKBOOK-SERVICE
           predicates:
@@ -58,18 +46,18 @@ spring:
               args:
                 name: bankbook-service
                 fallbackuri: forward:/fallback/bankbook
-        - id: record-service
-          uri: lb://RECORD-SERVICE
+        - id: bankbook-service-other
+          uri: lb://BANKBOOK-SERVICE
           predicates:
-            - Path=/record-service/**
+            - Path=/bankbook-service/**
           filters:
             - RemoveRequestHeader=Cookie
-            - RewritePath=/record-service/(?<segment>.*), /$\{segment}
+            - RewritePath=/bankbook-service/(?<segment>.*), /$\{segment}
             - AuthorizationHeaderFilter
             - name: CircuitBreaker
               args:
-                name: record-service
-                fallbackuri: forward:/fallback/record
+                name: bankbook-service
+                fallbackuri: forward:/fallback/bankbook
         - id: record-service-provide
           uri: lb://RECORD-SERVICE
           predicates:
@@ -77,6 +65,18 @@ spring:
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/record-service/(?<segment>.*), /$\{segment}
+            - name: CircuitBreaker
+              args:
+                name: record-service
+                fallbackuri: forward:/fallback/record
+        - id: record-service-other
+          uri: lb://RECORD-SERVICE
+          predicates:
+            - Path=/record-service/**
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/record-service/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
             - name: CircuitBreaker
               args:
                 name: record-service
