@@ -48,8 +48,9 @@
 * [DTO 프로젝션 in 쿼리 DSL](https://github.com/liveforone/intelligent_pay/blob/master/Documents/DSL_DTO_PROJECTION.md)
 
 # 6. Intelligent Pay를 지원하는 서비스
-* [Intelligent Store]() : 예정(제작 미완료)
-* [Intelligent Booking]() : 예정(제작 미완료)
+* [Intelligent Store]() : 예정(미완료)
+* [Intelligent Taxi]() : 예정(미완료)
+* [Intelligent Booking]() : 예정(미완료)
 
 # 7. 리팩토링 문서
 * [리팩토링 문서](https://github.com/liveforone/intelligent_pay/blob/master/Documents/REFACTORING.md)
