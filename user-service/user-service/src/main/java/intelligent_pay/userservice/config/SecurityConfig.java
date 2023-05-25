@@ -13,7 +13,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -32,11 +31,13 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .httpBasic().disable()
-                .csrf().disable()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
+                .addFilterBefore(
+                        new JwtAuthenticationFilter(jwtTokenProvider),
+                        UsernamePasswordAuthenticationFilter.class
+                )
+                .sessionManagement(
+                        (session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers(
                                 MemberUrl.SIGNUP,
@@ -47,18 +48,9 @@ public class SecurityConfig {
                                 MemberUrl.ADMIN_SEARCH
                         ).hasRole(ADMIN_ROLE)
                         .anyRequest().authenticated()
-                        .and()
-                        .addFilterBefore(
-                                new JwtAuthenticationFilter(jwtTokenProvider),
-                                UsernamePasswordAuthenticationFilter.class
-                        )
                 )
-                .logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher(MemberUrl.LOGOUT))
-                .logoutSuccessUrl(MemberUrl.LOGIN)
-                .and()
-                .exceptionHandling()
-                .accessDeniedPage(MemberUrl.PROHIBITION);
+                .exceptionHandling((exception) ->
+                        exception.accessDeniedPage(MemberUrl.PROHIBITION));
         return http.build();
     }
 }
