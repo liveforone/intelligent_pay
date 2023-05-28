@@ -34,6 +34,14 @@ public class BankbookRepositoryImpl implements BankbookCustomRepository{
                 .fetchOne();
     }
 
+    public String checkBankbookByBankbookNum(String bankbookNum) {
+        return queryFactory
+                .select(bankbook.bankbookNum)
+                .from(bankbook)
+                .where(bankbook.bankbookNum.eq(bankbookNum))
+                .fetchOne();
+    }
+
     public Bankbook findOneByUsername(String username) {
         return queryFactory
                 .selectFrom(bankbook)
