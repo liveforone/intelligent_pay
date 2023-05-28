@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import static intelligent_pay.remitservice.feignClient.constant.BankbookUrl.*;
 
 @FeignClient(name = BANKBOOK_BASE)
-public interface BankbookFeignService {
+public interface BankbookClient {
 
     @PostMapping(ADD_BALANCE)
     boolean addBalance(@RequestBody AddBalanceRequest requestDto);
