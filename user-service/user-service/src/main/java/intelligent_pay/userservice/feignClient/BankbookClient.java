@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import static intelligent_pay.userservice.feignClient.constant.BankbookUrl.*;
 
-@FeignClient(BASE)
-public interface BankbookFeignService {
+@FeignClient(Bankbook_BASE)
+public interface BankbookClient {
 
     @GetMapping(BASIC_INFO)
     BasicBankbookInfoResponse getBasicInfoByUsername(@PathVariable(BankbookParam.USERNAME) String username);
