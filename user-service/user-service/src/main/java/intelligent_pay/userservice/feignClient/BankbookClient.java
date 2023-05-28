@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import static intelligent_pay.userservice.feignClient.constant.BankbookUrl.*;
 
-@FeignClient(Bankbook_BASE)
+@FeignClient(BANKBOOK_BASE)
 public interface BankbookClient {
 
     @GetMapping(BASIC_INFO)
