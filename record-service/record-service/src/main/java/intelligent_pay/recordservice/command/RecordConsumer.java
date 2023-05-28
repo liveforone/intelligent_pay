@@ -17,7 +17,7 @@ import static intelligent_pay.recordservice.kafka.Topic.*;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class ShopConsumer {
+public class RecordConsumer {
 
     private final RecordCommandService recordCommandService;
     ObjectMapper objectMapper = new ObjectMapper();
