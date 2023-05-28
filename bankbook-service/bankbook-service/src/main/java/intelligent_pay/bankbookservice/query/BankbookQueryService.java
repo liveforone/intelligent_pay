@@ -24,4 +24,8 @@ public class BankbookQueryService {
     public BasicInfoResponse getBasicInfoByUsername(String username) {
         return bankbookRepository.findBasicInfoByUsername(username);
     }
+
+    public String checkBankbookByBankbookNum(String bankbookNum) {
+        return bankbookRepository.checkBankbookByBankbookNum(bankbookNum);
+    }
 }
