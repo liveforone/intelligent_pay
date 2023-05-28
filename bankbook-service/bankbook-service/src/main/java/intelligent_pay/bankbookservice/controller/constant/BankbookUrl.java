@@ -6,6 +6,7 @@ public final class BankbookUrl {
     public static final String BASIC_INFO = "/basic/info/{username}";
     public static final String INFO = "/info";
     public static final String CREATE = "/create";
+    public static final String CHECK_BANKBOOK = "/provide/check/bankbook/{bankbookNum}";
     public static final String ADD_BALANCE = "/provide/add/balance";
     public static final String SUBTRACT_BALANCE = "/provide/subtract/balance";
     public static final String SUBTRACT_BALANCE_FOR_CANCEL = "/provide/subtract/balance/cancel";
