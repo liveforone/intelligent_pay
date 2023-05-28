@@ -52,15 +52,13 @@
 ```
 ### 입금 거래내역 생성 요청
 * 거래내역 서비스에 요청
-* bool 리턴받음
 ```
-[POST] /provide/record/deposit
+deposit-record
 ```
 ### 출금 거래내역 생성 요청
 * 거래내역 서비스에 요청
-* bool 리턴받음
 ```
-[POST] /provide/record/withdraw
+withdraw-record
 ```
 
 ## 표준화 body 규격
@@ -89,6 +87,71 @@
   "title": "홍길동 출금",
   "bankBookNum": "1234567894321",
   "money": 40000
+}
+```
+
+## 송금 실패시 롤백
+* 송금시에는 송금 요청 계좌 출금 -> 송금 받는 계좌 입금 순으로 진행한다.
+* 송금 요청 계좌 출금이 실패하면 그대로 종료하면되지만, 송금 받는 계좌의 입금이 실패하면 이전에 발행했던 이벤트를 롤백해야한다.
+* 따라서 이 경우 입금 실패가 발생하면, 송금 요청 계좌에 출금한 금액만큼 다시 입금 이벤트를 발행하여
+* 잔액을 롤백하여주었다.
+* 아래는 코드이다.
+```
+//송금 함수
+public void remit(RemitRequest requestDto) {
+        SubtractBalanceRequest subtractRequest = SubtractBalanceRequest.builder()
+                .bankbookNum(requestDto.getBankbookNum())
+                .money(requestDto.getMoney())
+                .password(requestDto.getPassword())
+                .build();
+        //출금 이벤트 발행
+        boolean subtractBalanceResult = bankbookClientWrapper.subtractBalance(subtractRequest);
+        //출금 이벤트 결과 확인
+        serviceValidator.validateSubtractBalance(subtractBalanceResult);
+
+        AddBalanceRequest addRequest = AddBalanceRequest.builder()
+                .bankbookNum(requestDto.getOtherBankbookNum())
+                .money(requestDto.getMoney())
+                .build();
+        //입금 이벤트 발행
+        boolean addBalanceResult = bankbookClientWrapper.addBalance(addRequest);
+
+        //만약 입금을 실패했다면
+        if (!addBalanceResult) {
+            //롤백
+            remitRollback(subtractRequest);
+        }
+
+        //출금 거래내역 이벤트 발행
+        RecordRequest withdrawRequest = RecordRequest.builder()
+                .title(requestDto.getOtherBankbookNum() + "출금")
+                .bankBookNum(requestDto.getBankbookNum())
+                .money(requestDto.getMoney())
+                .build();
+        recordProducer.withdrawRecord(withdrawRequest);
+        
+        //입금 거래내역 이벤트 발행
+        RecordRequest depositRequest = RecordRequest.builder()
+                .title(requestDto.getBankbookNum() + "입금")
+                .bankBookNum(requestDto.getOtherBankbookNum())
+                .money(requestDto.getMoney())
+                .build();
+        recordProducer.depositRecord(depositRequest);
+}
+
+//롤백 함수
+private void remitRollback(SubtractBalanceRequest subtractRequest) {
+        //출금 요청 dto를 받아서 입금 요청 dto로 변환
+        AddBalanceRequest addRequest = AddBalanceRequest.builder()
+                .bankbookNum(subtractRequest.getBankbookNum())
+                .money(subtractRequest.getMoney())
+                .build();
+        //입금 이벤트 발행
+        bankbookClientWrapper.addBalance(addRequest);
+
+        //입금 실패했기 때문에 controller advice로 송금 실패 exception 전달
+        //-> 최종적으로 사용자에게 송금 실패 결과창 전달됨
+        throw new RemitCustomException(ResponseMessage.REMIT_FAIL);
 }
 ```
 
