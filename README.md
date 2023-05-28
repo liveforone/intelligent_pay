@@ -28,6 +28,7 @@
 * [결제와 결제 취소시에 주고받을 데이터](https://github.com/liveforone/intelligent_pay/blob/master/Documents/CANCEL_PROBLEM.md)
 * [이벤트에 종속적인 validator의 의존도 낮추기](https://github.com/liveforone/intelligent_pay/blob/master/Documents/VALIDATOR_DEPENDENCY.md)
 * [api 결합도 최소화](https://github.com/liveforone/intelligent_pay/blob/master/Documents/API_COUPLING.md)
+* [분산 트랜잭션 환경에서 롤백](https://github.com/liveforone/intelligent_pay/blob/master/Documents/DISTRIBUTION_ROLLBACK_PROBLEM.md)
 
 # 3. 서비스별 문서
 * 서비스별 **요구사항**과 **설계**, **api 스펙**이 모두 기술되어 있습니다.
