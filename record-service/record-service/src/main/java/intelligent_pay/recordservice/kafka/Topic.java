@@ -4,6 +4,6 @@ public final class Topic {
 
     private Topic() {}
 
-    public static final String ADD_BALANCE = "add-balance";
-    public static final String SUBTRACT_BALANCE = "subtract-balance";
+    public static final String DEPOSIT = "deposit";
+    public static final String WITHDRAW = "withdraw";
 }
