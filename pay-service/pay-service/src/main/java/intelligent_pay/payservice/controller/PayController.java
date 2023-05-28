@@ -1,6 +1,6 @@
 package intelligent_pay.payservice.controller;
 
-import intelligent_pay.payservice.command.PayCommandService;
+import intelligent_pay.payservice.command.PayEventHandler;
 import intelligent_pay.payservice.controller.restResponse.RestResponse;
 import intelligent_pay.payservice.dto.pay.PayCancelRequest;
 import intelligent_pay.payservice.dto.pay.PayRequest;
@@ -21,7 +21,7 @@ import static intelligent_pay.payservice.controller.constant.PayUrl.*;
 @Slf4j
 public class PayController {
 
-    private final PayCommandService payCommandService;
+    private final PayEventHandler payEventHandler;
     private final ControllerValidator controllerValidator;
 
     @PostMapping(PAY)
@@ -30,7 +30,7 @@ public class PayController {
             BindingResult bindingResult
     ) {
         controllerValidator.validateBinding(bindingResult);
-        payCommandService.pay(requestDto);
+        payEventHandler.pay(requestDto);
         return RestResponse.paySuccess();
     }
 
@@ -40,7 +40,7 @@ public class PayController {
             BindingResult bindingResult
     ) {
         controllerValidator.validateBinding(bindingResult);
-        payCommandService.cancelPay(requestDto);
+        payEventHandler.cancelPay(requestDto);
         return RestResponse.cancelPaySuccess();
     }
 }
