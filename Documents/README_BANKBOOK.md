@@ -29,6 +29,7 @@
 ```
 ### 외부 제공 api 
 ```
+[GET] /provide/check/bankbook/{bankbookNum} : 타 서비스에서 계좌 존재 여부 확인, 계좌번호 리턴, null일경우 null 리턴
 [POST] /provide/add/balance : 잔액 plus 행위, bool 리턴
 [POST] /provide/subtract/balance : 잔액 minus 행위, bool 리턴
 [POST] /provide/subtract/balance/cancel : 결제 취소를 위한 잔액 minus 행위, bool 리턴, 오로지 결제 서비스에만 제공
