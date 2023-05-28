@@ -57,15 +57,13 @@
 ```
 ### 입금 거래내역 생성 요청
 * 거래내역 서비스에 요청
-* bool 리턴받음
 ```
-[POST] /provide/record/deposit
+deposit-record
 ```
 ### 출금 거래내역 생성 요청
 * 거래내역 서비스에 요청
-* bool 리턴받음
 ```
-[POST] /provide/record/withdraw
+withdraw-record
 ```
 
 ## 표준화 body 규격
@@ -89,6 +87,70 @@
   "title": "맑은 물 결제",
   "bankBookNum": "1234567894321",
   "money": 40000
+}
+```
+
+## 결제/결제 취소시 롤백
+* 결제시에는 결제 요청 계좌 출금 -> 상품 주인 계좌 입금 순으로 진행한다.
+* 결제 요청 계좌 출금이 실패하면 그대로 종료하면되지만, 상줌 주인 계좌의 입금이 실패하면 이전에 발행했던 이벤트를 롤백해야한다.
+* 따라서 이 경우 입금 실패가 발생하면, 결제 요청 계좌에 출금한 금액만큼 다시 입금 이벤트를 발행하여
+* 잔액을 롤백하여주었다.
+* 아래는 코드이다.
+```
+//결제 함수(결제 취소도 동일함)
+public void pay(PayRequest requestDto) {
+        SubtractBalanceRequest subtractRequest = SubtractBalanceRequest.builder()
+                .bankbookNum(requestDto.getBuyerBankbookNum())
+                .money(requestDto.getMoney())
+                .password(requestDto.getPassword())
+                .build();
+        //결제 요청 계좌 출금
+        boolean subtractBalanceResult = bankbookClientWrapper.subtractBalance(subtractRequest);
+        //출금 처리 확인
+        serviceValidator.validatePay(subtractBalanceResult);
+
+        AddBalanceRequest addRequest = AddBalanceRequest.builder()
+                .bankbookNum(requestDto.getSellerBankbookNum())
+                .money(requestDto.getMoney())
+                .build();
+        //상품 주인 계좌 입금
+        boolean addBalanceResult = bankbookClientWrapper.addBalance(addRequest);
+
+        //입금 실패시
+        if (!addBalanceResult) {
+            //결제 요청계좌 출금 롤백
+            payRollback(subtractRequest);
+        }
+
+        RecordRequest withdrawRequest = RecordRequest.builder()
+                .title(requestDto.getPayTitle() + "결제")
+                .bankBookNum(requestDto.getBuyerBankbookNum())
+                .money(requestDto.getMoney())
+                .build();
+        //출금 계좌 거래내역 생성
+        recordProducer.withdrawRecord(withdrawRequest);
+
+        RecordRequest depositRequest = RecordRequest.builder()
+                .title(requestDto.getPayTitle() + "결제" + requestDto.getBuyerBankbookNum() + "입금")
+                .bankBookNum(requestDto.getSellerBankbookNum())
+                .money(requestDto.getMoney())
+                .build();
+        //입금 계좌 거래내역 생성
+        recordProducer.depositRecord(depositRequest);
+}
+
+//롤백 함수
+private void payRollback(SubtractBalanceRequest subtractRequest) {
+        AddBalanceRequest addRequest = AddBalanceRequest.builder()
+                .bankbookNum(subtractRequest.getBankbookNum())
+                .money(subtractRequest.getMoney())
+                .build();
+        //출금 dto를 입금 dto로 변환하여 입금 처리
+        bankbookClientWrapper.addBalance(addRequest);
+
+        //입금 실패했기 때문에 controller advice로 결제 실패 exception 전달
+        //-> 최종적으로 사용자에게 결제 실패 결과창 전달됨
+        throw new PayCustomException(ResponseMessage.PAY_FAIL);
 }
 ```
 
