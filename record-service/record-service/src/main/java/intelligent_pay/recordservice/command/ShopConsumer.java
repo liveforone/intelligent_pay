@@ -22,9 +22,9 @@ public class ShopConsumer {
     private final RecordCommandService recordCommandService;
     ObjectMapper objectMapper = new ObjectMapper();
 
-    @KafkaListener(topics = DEPOSIT)
+    @KafkaListener(topics = DEPOSIT_RECORD)
     @Async(AsyncConstant.commandAsync)
-    public void deposit(String kafkaMessage) throws JsonProcessingException {
+    public void depositRecord(String kafkaMessage) throws JsonProcessingException {
         log.info(KafkaLog.KAFKA_RECEIVE_LOG.getValue() + kafkaMessage);
 
         RecordRequest recordRequest = objectMapper.readValue(kafkaMessage, RecordRequest.class);
@@ -37,9 +37,9 @@ public class ShopConsumer {
         }
     }
 
-    @KafkaListener(topics = WITHDRAW)
+    @KafkaListener(topics = WITHDRAW_RECORD)
     @Async(AsyncConstant.commandAsync)
-    public void withdraw(String kafkaMessage) throws JsonProcessingException {
+    public void withdrawRecord(String kafkaMessage) throws JsonProcessingException {
         log.info(KafkaLog.KAFKA_RECEIVE_LOG.getValue() + kafkaMessage);
 
         RecordRequest recordRequest = objectMapper.readValue(kafkaMessage, RecordRequest.class);
