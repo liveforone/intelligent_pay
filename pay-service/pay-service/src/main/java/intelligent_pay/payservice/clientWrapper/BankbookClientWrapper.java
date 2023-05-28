@@ -1,6 +1,7 @@
 package intelligent_pay.payservice.clientWrapper;
 
 import intelligent_pay.payservice.dto.bankbook.AddBalanceRequest;
+import intelligent_pay.payservice.dto.bankbook.SubtractBalanceForCancel;
 import intelligent_pay.payservice.dto.bankbook.SubtractBalanceRequest;
 import intelligent_pay.payservice.feignClient.BankbookClient;
 import intelligent_pay.payservice.feignClient.constant.CircuitLog;
@@ -29,6 +30,15 @@ public class BankbookClientWrapper {
                 .create(CircuitLog.PAY_CIRCUIT_LOG.getValue())
                 .run(
                         () -> bankbookClient.subtractBalance(requestDto),
+                        throwable -> false
+                );
+    }
+
+    public boolean subtractBalanceForCancel(SubtractBalanceForCancel requestDto) {
+        return circuitBreakerFactory
+                .create(CircuitLog.PAY_CIRCUIT_LOG.getValue())
+                .run(
+                        () -> bankbookClient.subtractBalanceForCancel(requestDto),
                         throwable -> false
                 );
     }
