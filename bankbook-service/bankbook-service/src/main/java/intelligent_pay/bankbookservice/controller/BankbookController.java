@@ -49,6 +49,14 @@ public class BankbookController {
         return ResponseEntity.ok(bankbook);
     }
 
+    @GetMapping(CHECK_BANKBOOK)
+    public ResponseEntity<?> checkBankbook(
+            @PathVariable(BankbookParam.BANKBOOK_NUM) String bankbookNum
+    ) {
+        String bankbook = bankbookQueryService.checkBankbookByBankbookNum(bankbookNum);
+        return ResponseEntity.ok(bankbook);
+    }
+
     @PostMapping(CREATE)
     public ResponseEntity<?> createBankbook(
             @RequestBody @Valid BankbookRequest requestDto,
