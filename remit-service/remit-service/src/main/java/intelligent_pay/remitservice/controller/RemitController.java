@@ -1,6 +1,6 @@
 package intelligent_pay.remitservice.controller;
 
-import intelligent_pay.remitservice.command.RemitCommandService;
+import intelligent_pay.remitservice.command.RemitEventHandler;
 import intelligent_pay.remitservice.controller.restResponse.RestResponse;
 import intelligent_pay.remitservice.dto.remit.DepositRequest;
 import intelligent_pay.remitservice.dto.remit.RemitRequest;
@@ -21,7 +21,7 @@ import static intelligent_pay.remitservice.controller.constant.RemitUrl.*;
 @Slf4j
 public class RemitController {
 
-    private final RemitCommandService remitCommandService;
+    private final RemitEventHandler remitEventHandler;
     private final ControllerValidator controllerValidator;
 
     @PostMapping(DEPOSIT)
@@ -30,7 +30,7 @@ public class RemitController {
             BindingResult bindingResult
     ) {
         controllerValidator.validateBinding(bindingResult);
-        remitCommandService.deposit(requestDto);
+        remitEventHandler.deposit(requestDto);
         return RestResponse.depositSuccess();
     }
 
@@ -40,7 +40,7 @@ public class RemitController {
             BindingResult bindingResult
     ) {
         controllerValidator.validateBinding(bindingResult);
-        remitCommandService.remit(requestDto);
+        remitEventHandler.remit(requestDto);
         return RestResponse.remitSuccess();
     }
 }
