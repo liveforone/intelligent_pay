@@ -1,6 +1,7 @@
 package intelligent_pay.userservice.controller;
 
 import intelligent_pay.userservice.authentication.AuthenticationInfo;
+import intelligent_pay.userservice.clientWrapper.BankbookClientWrapper;
 import intelligent_pay.userservice.command.MemberCommandService;
 import intelligent_pay.userservice.command.MemberProducerService;
 import intelligent_pay.userservice.controller.constant.ControllerLog;
@@ -14,8 +15,6 @@ import intelligent_pay.userservice.dto.response.MemberInfoResponse;
 import intelligent_pay.userservice.dto.response.MemberResponse;
 import intelligent_pay.userservice.dto.signupAndLogin.MemberLoginRequest;
 import intelligent_pay.userservice.dto.signupAndLogin.MemberSignupRequest;
-import intelligent_pay.userservice.feignClient.BankbookFeignService;
-import intelligent_pay.userservice.feignClient.constant.CircuitLog;
 import intelligent_pay.userservice.jwt.TokenInfo;
 import intelligent_pay.userservice.jwt.constant.JwtConstant;
 import intelligent_pay.userservice.query.MemberQueryService;
@@ -25,7 +24,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -42,10 +40,9 @@ public class MemberController {
     private final MemberCommandService memberCommandService;
     private final MemberQueryService memberQueryService;
     private final MemberProducerService memberProducerService;
+    private final BankbookClientWrapper bankbookClientWrapper;
     private final ControllerValidator controllerValidator;
     private final AuthenticationInfo authenticationInfo;
-    private final BankbookFeignService bankbookFeignService;
-    private final CircuitBreakerFactory<?, ?> circuitBreakerFactory;
 
     @PostMapping(SIGNUP)
     public ResponseEntity<?> signup(
@@ -80,7 +77,7 @@ public class MemberController {
     public ResponseEntity<?> myInfo(HttpServletRequest request) {
         String username = authenticationInfo.getUsername(request);
         MemberResponse member = memberQueryService.getMemberByUsername(username);
-        BasicBankbookInfoResponse bankbookInfo = getBasicBankbookInfoByUsername(username);
+        BasicBankbookInfoResponse bankbookInfo = bankbookClientWrapper.getBasicBankbookInfoByUsername(username);
 
         MemberInfoResponse response = MemberInfoResponse.builder()
                 .memberResponse(member)
@@ -88,15 +85,6 @@ public class MemberController {
                 .build();
 
         return ResponseEntity.ok(response);
-    }
-
-    private BasicBankbookInfoResponse getBasicBankbookInfoByUsername(String username) {
-        return circuitBreakerFactory
-                .create(CircuitLog.USER_CIRCUIT_LOG.getValue())
-                .run(
-                        () -> bankbookFeignService.getBasicInfoByUsername(username),
-                        throwable -> new BasicBankbookInfoResponse()
-                );
     }
 
     @PutMapping(CHANGE_EMAIL)
