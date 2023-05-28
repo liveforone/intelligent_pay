@@ -9,8 +9,8 @@ public enum KafkaLog {
 
     KAFKA_RECEIVE_LOG("Consumer receive Kafka Message -> "),
     KAFKA_NULL_LOG("!! Kafka Message is Null !!"),
-    DEPOSIT("Deposit Success | Bankbook Num : "),
-    WITHDRAW("Withdraw Success | Bankbook Num : ");
+    DEPOSIT_RECORD("Deposit Record Success | Bankbook Num : "),
+    WITHDRAW_RECORD("Withdraw Record Success | Bankbook Num : ");
 
     private final String value;
 }

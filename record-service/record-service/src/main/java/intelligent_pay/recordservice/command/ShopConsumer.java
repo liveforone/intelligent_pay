@@ -33,7 +33,7 @@ public class ShopConsumer {
             log.info(KafkaLog.KAFKA_NULL_LOG.getValue());
         } else {
             recordCommandService.createDepositRecord(recordRequest);
-            log.info(KafkaLog.DEPOSIT.getValue() + recordRequest.getBankBookNum());
+            log.info(KafkaLog.DEPOSIT_RECORD.getValue() + recordRequest.getBankBookNum());
         }
     }
 
@@ -48,7 +48,7 @@ public class ShopConsumer {
             log.info(KafkaLog.KAFKA_NULL_LOG.getValue());
         } else {
             recordCommandService.createWithdrawRecord(recordRequest);
-            log.info(KafkaLog.WITHDRAW.getValue() + recordRequest.getBankBookNum());
+            log.info(KafkaLog.WITHDRAW_RECORD.getValue() + recordRequest.getBankBookNum());
         }
     }
 }
