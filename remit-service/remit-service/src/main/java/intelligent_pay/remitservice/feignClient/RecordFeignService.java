@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import static intelligent_pay.remitservice.feignClient.constant.RecordUrl.*;
 
-@FeignClient(name = BASE)
+@FeignClient(name = RECORD_BASE)
 public interface RecordFeignService {
 
     @PostMapping(DEPOSIT_RECORD)
