@@ -27,7 +27,6 @@ public class MemberCommandService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtTokenProvider jwtTokenProvider;
 
-    @Transactional
     public String signup(MemberSignupRequest memberSignupRequest) {
         serviceValidator.validateDuplicateEmail(memberSignupRequest.getEmail());
 
@@ -35,7 +34,6 @@ public class MemberCommandService {
         return memberRepository.save(member).getUsername();
     }
 
-    @Transactional
     public TokenInfo login(MemberLoginRequest memberLoginRequest) {
         String email = memberLoginRequest.getEmail();
         String password = memberLoginRequest.getPassword();
@@ -53,7 +51,6 @@ public class MemberCommandService {
                 .generateToken(authentication);
     }
 
-    @Transactional
     public void updateEmail(ChangeEmailRequest changeEmailRequest, String username) {
         String newEmail = changeEmailRequest.getEmail();
         serviceValidator.validateDuplicateEmail(newEmail);
@@ -62,7 +59,6 @@ public class MemberCommandService {
         member.updateEmail(newEmail);
     }
 
-    @Transactional
     public void updatePassword(ChangePasswordRequest changePasswordRequest, String username) {
         serviceValidator.validatePassword(changePasswordRequest.getOldPassword(), username);
 
@@ -70,7 +66,6 @@ public class MemberCommandService {
         member.updatePassword(changePasswordRequest.getNewPassword());
     }
 
-    @Transactional
     public void withdrawByUsername(WithdrawRequest withdrawRequest, String username) {
         serviceValidator.validatePassword(withdrawRequest.getPassword(), username);
 
