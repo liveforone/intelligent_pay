@@ -19,8 +19,18 @@
 7. [리팩토링 문서](#7-리팩토링-문서)
 
 # 1. 프로젝트 소개
+### 프로젝트 소개 문서
 * [Intelligent 시리즈 소개](https://github.com/liveforone/intelligent_pay/blob/master/Documents/INTELLIGENT_COMPANY.md)
 * [프로젝트 소개](https://github.com/liveforone/intelligent_pay/blob/master/Documents/INTRODUCTION.md)
+### 기술스택
+* Framework : Spring Boot 3.1.0 & Spring Cloud(2022.0.2)
+* Lang : Java17
+* Data : Spring Data Jpa & Query Dsl & MySql
+* Security : Spring Security & Jwt
+* Service Communication : Apache Kafka(Async), Open Feign Client(Sync)
+* Container : Docker & Docker-compose
+* Test : Junit5
+* Util : Apache Commons Lang3, LomBok
 
 # 2. 프로젝트 고민점
 * [validator 계층 나누기](https://github.com/liveforone/intelligent_pay/blob/master/Documents/VALIDATOR_LAYER.md)
