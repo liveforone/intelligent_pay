@@ -23,7 +23,7 @@
 * [Intelligent 시리즈 소개](https://github.com/liveforone/intelligent_pay/blob/master/Documents/INTELLIGENT_COMPANY.md)
 * [프로젝트 소개](https://github.com/liveforone/intelligent_pay/blob/master/Documents/INTRODUCTION.md)
 ### 기술스택
-* Framework : Spring Boot 3.1.0 & Spring Cloud(2022.0.2)
+* Framework : Spring Boot (3.0.X -> 3.1.0) & Spring Cloud(2022.0.2 -> 2022.0.3)
 * Lang : Java17
 * Data : Spring Data Jpa & Query Dsl & MySql
 * Security : Spring Security & Jwt
