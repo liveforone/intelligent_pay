@@ -1,5 +1,7 @@
 package intelligent_pay.recordservice.domain;
 
+import intelligent_pay.recordservice.converter.MonthConverter;
+import intelligent_pay.recordservice.converter.RecordStateConverter;
 import intelligent_pay.recordservice.dto.RecordRequest;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -27,13 +29,13 @@ public class Record {
     @Column(updatable = false)
     private long money;
 
-    @Enumerated(value = EnumType.STRING)
+    @Convert(converter = RecordStateConverter.class)
     private RecordState recordState;
 
     @Column(updatable = false)
     private int createdYear;
 
-    @Enumerated(value = EnumType.STRING)
+    @Convert(converter = MonthConverter.class)
     @Column(updatable = false)
     private Month createdMonth;
 
