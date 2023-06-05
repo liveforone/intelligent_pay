@@ -1,4 +1,4 @@
-package intelligent_pay.userservice.service;
+package intelligent_pay.userservice.command;
 
 import intelligent_pay.userservice.domain.Member;
 import intelligent_pay.userservice.domain.Role;
