@@ -1,5 +1,6 @@
 package intelligent_pay.userservice.domain;
 
+import intelligent_pay.userservice.converter.RoleConverter;
 import intelligent_pay.userservice.domain.util.MemberConstant;
 import intelligent_pay.userservice.domain.util.PasswordUtils;
 import intelligent_pay.userservice.dto.signupAndLogin.MemberSignupRequest;
@@ -35,7 +36,7 @@ public class Member implements UserDetails {
     @Column(nullable = false)
     private String realName;
 
-    @Enumerated(value = EnumType.STRING)
+    @Convert(converter = RoleConverter.class)
     private Role auth;
 
     private Member(String username, String email, String password, String realName, Role auth) {
