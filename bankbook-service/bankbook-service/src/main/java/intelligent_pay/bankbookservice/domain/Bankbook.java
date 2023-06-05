@@ -1,5 +1,6 @@
 package intelligent_pay.bankbookservice.domain;
 
+import intelligent_pay.bankbookservice.converter.BankbookStateConverter;
 import intelligent_pay.bankbookservice.domain.util.PasswordUtil;
 import intelligent_pay.bankbookservice.dto.request.BankbookRequest;
 import jakarta.persistence.*;
@@ -35,7 +36,8 @@ public class Bankbook {
     @Column(unique = true, nullable = false)
     private String username;
 
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = BankbookStateConverter.class)
+    @Column(nullable = false)
     private BankbookState bankbookState;
 
     @CreatedDate
