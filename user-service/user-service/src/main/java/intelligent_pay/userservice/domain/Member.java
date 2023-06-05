@@ -55,12 +55,11 @@ public class Member implements UserDetails {
         } else {
             request.setAuth(Role.MEMBER);
         }
-        request.setPassword(PasswordUtils.encodePassword(request.getPassword()));
 
         return new Member(
                 createUsername(),
                 request.getEmail(),
-                request.getPassword(),
+                PasswordUtils.encodePassword(request.getPassword()),
                 request.getRealName(),
                 request.getAuth()
         );
