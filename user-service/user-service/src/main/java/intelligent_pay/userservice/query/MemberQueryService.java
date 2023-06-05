@@ -2,7 +2,7 @@ package intelligent_pay.userservice.query;
 
 import intelligent_pay.userservice.dto.response.MemberResponse;
 import intelligent_pay.userservice.repository.MemberRepository;
-import intelligent_pay.userservice.service.util.MemberMapper;
+import intelligent_pay.userservice.query.util.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
