@@ -5,7 +5,6 @@ import intelligent_pay.userservice.controller.restResponse.ResponseMessage;
 import intelligent_pay.userservice.domain.Role;
 import intelligent_pay.userservice.exception.BindingCustomException;
 import intelligent_pay.userservice.exception.MemberCustomException;
-import intelligent_pay.userservice.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -18,8 +17,6 @@ import java.util.Objects;
 @Slf4j
 public class ControllerValidator {
 
-    private final MemberRepository memberRepository;
-
     public void validateBinding(BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             String errorMessage = Objects
@@ -29,10 +26,8 @@ public class ControllerValidator {
         }
     }
 
-    public void validateAdmin(String username) {
-        Role foundAuth = memberRepository.findAuthByUsername(username);
-
-        if (!foundAuth.equals(Role.ADMIN)) {
+    public void validateAdmin(String auth) {
+        if (!auth.equals(Role.ADMIN.getAuth())) {
             log.error(ControllerLog.ADMIN_FAIL.getValue());
             throw new MemberCustomException(ResponseMessage.PROHIBITION);
         }

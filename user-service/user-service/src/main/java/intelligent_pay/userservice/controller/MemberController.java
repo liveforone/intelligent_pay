@@ -10,7 +10,6 @@ import intelligent_pay.userservice.controller.restResponse.RestResponse;
 import intelligent_pay.userservice.dto.changeInfo.ChangeEmailRequest;
 import intelligent_pay.userservice.dto.changeInfo.ChangePasswordRequest;
 import intelligent_pay.userservice.dto.bankbook.BasicBankbookInfoResponse;
-import intelligent_pay.userservice.dto.changeInfo.WithdrawRequest;
 import intelligent_pay.userservice.dto.response.MemberInfoResponse;
 import intelligent_pay.userservice.dto.response.MemberResponse;
 import intelligent_pay.userservice.dto.signupAndLogin.MemberLoginRequest;
@@ -118,15 +117,9 @@ public class MemberController {
     }
 
     @DeleteMapping(WITHDRAW)
-    public ResponseEntity<?> withdraw(
-            @RequestBody @Valid WithdrawRequest withdrawRequest,
-            BindingResult bindingResult,
-            HttpServletRequest request
-    ) {
-        controllerValidator.validateBinding(bindingResult);
-
+    public ResponseEntity<?> withdraw(HttpServletRequest request) {
         String username = authenticationInfo.getUsername(request);
-        memberCommandService.withdrawByUsername(withdrawRequest, username);
+        memberCommandService.withdrawByUsername(username);
         memberProducer.removeBankbook(username);
         log.info(ControllerLog.WITHDRAW_SUCCESS.getValue() + username);
 
@@ -138,8 +131,7 @@ public class MemberController {
             @RequestParam(MemberParam.EMAIL) String email,
             HttpServletRequest request
     ) {
-        String username = authenticationInfo.getUsername(request);
-        controllerValidator.validateAdmin(username);
+        controllerValidator.validateAdmin(authenticationInfo.getAuth(request));
         log.info(ControllerLog.ADMIN_SUCCESS.getValue());
 
         List<MemberResponse> foundMember = memberQueryService.searchByEmail(email);
