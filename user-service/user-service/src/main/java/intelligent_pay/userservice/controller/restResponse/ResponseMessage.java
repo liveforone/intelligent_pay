@@ -20,7 +20,7 @@ public enum ResponseMessage {
 
     //==fail==//
     MEMBER_IS_NULL(404, "존재하지 않는 회원입니다."),
-    DUPLICATE_ENTITY_VALUE(400, "중복되는 값이 있습니다."),
+    DUPLICATE_ENTITY_VALUE(400, "중복되는 데이터가 존재합니다."),
     LOGIN_FAIL(400, "이메일 혹은 비밀번호가 다릅니다.\n다시 시도하세요."),
     USERNAME_NOT_MATCH(400, "일치하지 않는 회원입니다."),
     NOT_MATCH_PASSWORD(400, "비밀번호가 다릅니다. 다시 입력해주세요."),
