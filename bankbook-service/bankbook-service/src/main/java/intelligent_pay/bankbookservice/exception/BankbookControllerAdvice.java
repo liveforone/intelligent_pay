@@ -1,7 +1,9 @@
 package intelligent_pay.bankbookservice.exception;
 
+import intelligent_pay.bankbookservice.controller.restResponse.RestResponse;
 import intelligent_pay.bankbookservice.exception.returnBool.BankbookCustomBoolException;
 import intelligent_pay.bankbookservice.exception.returnBool.BindingCustomBoolException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -9,6 +11,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class BankbookControllerAdvice {
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    protected ResponseEntity<?> duplicateEntityValue() {
+        return RestResponse.duplicateEntityValue();
+    }
 
     @ExceptionHandler(BankbookCustomException.class)
     protected ResponseEntity<?> bankbookCustomHandle(BankbookCustomException customException) {
