@@ -5,6 +5,12 @@ import org.springframework.http.ResponseEntity;
 
 public class RestResponse {
 
+    public static ResponseEntity<?> duplicateEmail() {
+        return ResponseEntity
+                .status(ResponseMessage.DUPLICATE_EMAIL.getStatus())
+                .body(ResponseMessage.DUPLICATE_EMAIL.getValue());
+    }
+
     public static ResponseEntity<?> signupSuccess() {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
