@@ -1,7 +1,9 @@
 package intelligent_pay.userservice.command;
 
+import intelligent_pay.userservice.controller.restResponse.ResponseMessage;
 import intelligent_pay.userservice.domain.Member;
 import intelligent_pay.userservice.domain.Role;
+import intelligent_pay.userservice.exception.MemberCustomException;
 import intelligent_pay.userservice.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.User;
@@ -18,7 +20,8 @@ public class CustomUserDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return createUserDetails(memberRepository.findByUsername(email));
+        return createUserDetails(memberRepository.findByUsername(email)
+                .orElseThrow(() -> new MemberCustomException(ResponseMessage.DUPLICATE_EMAIL)));
     }
 
     private UserDetails createUserDetails(Member member) {
