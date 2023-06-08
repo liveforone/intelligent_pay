@@ -6,13 +6,11 @@ import intelligent_pay.userservice.domain.Role;
 import intelligent_pay.userservice.dto.response.MemberResponse;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface MemberRepositoryCustom {
 
-    Role findAuthByUsername(String username);
-    Long findIdByEmail(String email);
-    String findPasswordByUsername(String username);
-    Member findByUsername(String username);
-    Member findByEmail(String email);
+    Optional<Member> findByUsername(String username);
+    Optional<Member> findByEmail(String email);
     List<MemberResponse> searchMemberByEmail(String email);
 }

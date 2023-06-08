@@ -4,12 +4,12 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import intelligent_pay.userservice.domain.Member;
 import intelligent_pay.userservice.domain.QMember;
-import intelligent_pay.userservice.domain.Role;
 import intelligent_pay.userservice.dto.response.MemberResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -18,40 +18,16 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
     private final JPAQueryFactory queryFactory;
     QMember member = QMember.member;
 
-    public Role findAuthByUsername(String username) {
-        return queryFactory
-                .select(member.auth)
-                .from(member)
+    public Optional<Member> findByUsername(String username) {
+        return Optional.ofNullable(queryFactory.selectFrom(member)
                 .where(member.username.eq(username))
-                .fetchOne();
+                .fetchOne());
     }
 
-    public Long findIdByEmail(String email) {
-        return queryFactory
-                .select(member.id)
-                .from(member)
+    public Optional<Member> findByEmail(String email) {
+        return Optional.ofNullable(queryFactory.selectFrom(member)
                 .where(member.email.eq(email))
-                .fetchOne();
-    }
-
-    public String findPasswordByUsername(String username) {
-        return queryFactory
-                .select(member.password)
-                .from(member)
-                .where(member.username.eq(username))
-                .fetchOne();
-    }
-
-    public Member findByUsername(String username) {
-        return queryFactory.selectFrom(member)
-                .where(member.username.eq(username))
-                .fetchOne();
-    }
-
-    public Member findByEmail(String email) {
-        return queryFactory.selectFrom(member)
-                .where(member.email.eq(email))
-                .fetchOne();
+                .fetchOne());
     }
 
     public List<MemberResponse> searchMemberByEmail(String email) {
