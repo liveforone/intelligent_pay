@@ -36,7 +36,7 @@ public class MemberCommandService {
         String password = requestDto.getPassword();
 
         Member member = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new MemberCustomException(ResponseMessage.DUPLICATE_EMAIL));
+                .orElseThrow(() -> new MemberCustomException(ResponseMessage.MEMBER_IS_NULL));
         String username = member.getUsername();
 
         UsernamePasswordAuthenticationToken authenticationToken =
@@ -51,19 +51,19 @@ public class MemberCommandService {
 
     public void updateEmail(ChangeEmailRequest requestDto, String username) {
         Member member = memberRepository.findByUsername(username)
-                .orElseThrow(() -> new MemberCustomException(ResponseMessage.DUPLICATE_EMAIL));
+                .orElseThrow(() -> new MemberCustomException(ResponseMessage.MEMBER_IS_NULL));
         member.updateEmail(requestDto.getEmail());
     }
 
     public void updatePassword(ChangePasswordRequest requestDto, String username) {
         Member member = memberRepository.findByUsername(username)
-                .orElseThrow(() -> new MemberCustomException(ResponseMessage.DUPLICATE_EMAIL));
+                .orElseThrow(() -> new MemberCustomException(ResponseMessage.MEMBER_IS_NULL));
         member.updatePassword(requestDto.getNewPassword(), requestDto.getOldPassword());
     }
 
     public void withdrawByUsername(String username) {
         Member member = memberRepository.findByUsername(username)
-                .orElseThrow(() -> new MemberCustomException(ResponseMessage.DUPLICATE_EMAIL));
+                .orElseThrow(() -> new MemberCustomException(ResponseMessage.MEMBER_IS_NULL));
 
         if (!username.equals(member.getUsername())) {
             throw new MemberCustomException(ResponseMessage.USERNAME_NOT_MATCH);

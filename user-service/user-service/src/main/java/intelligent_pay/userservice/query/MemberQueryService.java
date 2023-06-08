@@ -20,7 +20,7 @@ public class MemberQueryService {
 
     public MemberResponse getMemberByUsername(String username) {
         return MemberMapper.entityToDto(memberRepository.findByUsername(username)
-                .orElseThrow(() -> new MemberCustomException(ResponseMessage.DUPLICATE_EMAIL)));
+                .orElseThrow(() -> new MemberCustomException(ResponseMessage.MEMBER_IS_NULL)));
     }
 
     public List<MemberResponse> searchByEmail(String email) {
