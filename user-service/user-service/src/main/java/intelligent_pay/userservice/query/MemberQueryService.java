@@ -1,6 +1,8 @@
 package intelligent_pay.userservice.query;
 
+import intelligent_pay.userservice.controller.restResponse.ResponseMessage;
 import intelligent_pay.userservice.dto.response.MemberResponse;
+import intelligent_pay.userservice.exception.MemberCustomException;
 import intelligent_pay.userservice.repository.MemberRepository;
 import intelligent_pay.userservice.query.util.MemberMapper;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +19,8 @@ public class MemberQueryService {
     private final MemberRepository memberRepository;
 
     public MemberResponse getMemberByUsername(String username) {
-        return MemberMapper.entityToDto(memberRepository.findByUsername(username));
+        return MemberMapper.entityToDto(memberRepository.findByUsername(username)
+                .orElseThrow(() -> new MemberCustomException(ResponseMessage.DUPLICATE_EMAIL)));
     }
 
     public List<MemberResponse> searchByEmail(String email) {
