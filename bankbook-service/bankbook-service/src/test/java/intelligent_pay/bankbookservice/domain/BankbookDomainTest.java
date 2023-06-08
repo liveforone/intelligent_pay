@@ -27,7 +27,7 @@ class BankbookDomainTest {
     }
 
     @Test
-    void overSubtractBalanceTest() {
+    void subtractBalanceTest() {
         //given
         String username = "jdsolafeoaefjoenfojaefoiejwfaeofjoaf";
         String password = "12345678";
@@ -38,12 +38,12 @@ class BankbookDomainTest {
         bankbook.addBalance(money);
 
         //when
-        long overMoney = 4000;
-        bankbook.subtractBalance(overMoney);
+        long subtractMoney = 2000;
+        bankbook.subtractBalance(subtractMoney);
 
         //then
         assertThat(bankbook.getBalance())
-                .isEqualTo(money);
+                .isEqualTo(money - subtractMoney);
     }
 
     @Test
@@ -57,7 +57,7 @@ class BankbookDomainTest {
 
         //when
         String updatedPassword = "1111111111";
-        bankbook.updatePassword(updatedPassword);
+        bankbook.updatePassword(updatedPassword, password, username);
 
         //then
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -75,7 +75,7 @@ class BankbookDomainTest {
         Bankbook bankbook = Bankbook.create(request, username);
 
         //when
-        bankbook.suspend();
+        bankbook.suspend(password, username);
 
         //then
         assertThat(bankbook.getBankbookState())
@@ -90,10 +90,10 @@ class BankbookDomainTest {
         BankbookRequest request = new BankbookRequest();
         request.setPassword(password);
         Bankbook bankbook = Bankbook.create(request, username);
-        bankbook.suspend();
+        bankbook.suspend(password, username);
 
         //when
-        bankbook.cancelSuspend();
+        bankbook.cancelSuspend(password, username);
 
         //then
         assertThat(bankbook.getBankbookState())
