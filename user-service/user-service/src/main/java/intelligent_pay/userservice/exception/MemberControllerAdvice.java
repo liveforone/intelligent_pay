@@ -17,8 +17,8 @@ public class MemberControllerAdvice {
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    protected ResponseEntity<?> duplicateEmailHandle() {
-        return RestResponse.duplicateEmail();
+    protected ResponseEntity<?> duplicateEntityValue() {
+        return RestResponse.duplicateEntityValue();
     }
 
     @ExceptionHandler(MemberCustomException.class)
