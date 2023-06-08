@@ -3,11 +3,11 @@ package intelligent_pay.bankbookservice.repository;
 import intelligent_pay.bankbookservice.domain.Bankbook;
 import intelligent_pay.bankbookservice.dto.response.BasicInfoResponse;
 
-public interface BankbookCustomRepository {
+import java.util.Optional;
 
-    Long findIdByUsername(String username);
+public interface BankbookCustomRepository {
     BasicInfoResponse findBasicInfoByUsername(String username);
     String checkBankbookByBankbookNum(String bankbookNum);
-    Bankbook findOneByUsername(String username);
-    Bankbook findOneByBankbookNum(String bankbookNum);
+    Optional<Bankbook> findOneByUsername(String username);
+    Optional<Bankbook> findOneByBankbookNum(String bankbookNum);
 }

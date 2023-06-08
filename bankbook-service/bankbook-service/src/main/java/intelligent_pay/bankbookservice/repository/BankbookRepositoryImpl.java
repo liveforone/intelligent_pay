@@ -8,20 +8,14 @@ import intelligent_pay.bankbookservice.dto.response.BasicInfoResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 @RequiredArgsConstructor
 public class BankbookRepositoryImpl implements BankbookCustomRepository{
 
     private final JPAQueryFactory queryFactory;
     QBankbook bankbook = QBankbook.bankbook;
-
-    public Long findIdByUsername(String username) {
-        return queryFactory
-                .select(bankbook.id)
-                .from(bankbook)
-                .where(bankbook.username.eq(username))
-                .fetchOne();
-    }
 
     public BasicInfoResponse findBasicInfoByUsername(String username) {
         return queryFactory
@@ -42,17 +36,17 @@ public class BankbookRepositoryImpl implements BankbookCustomRepository{
                 .fetchOne();
     }
 
-    public Bankbook findOneByUsername(String username) {
-        return queryFactory
+    public Optional<Bankbook> findOneByUsername(String username) {
+        return Optional.ofNullable(queryFactory
                 .selectFrom(bankbook)
                 .where(bankbook.username.eq(username))
-                .fetchOne();
+                .fetchOne());
     }
 
-    public Bankbook findOneByBankbookNum(String bankbookNum) {
-        return queryFactory
+    public Optional<Bankbook> findOneByBankbookNum(String bankbookNum) {
+        return Optional.ofNullable(queryFactory
                 .selectFrom(bankbook)
                 .where(bankbook.bankbookNum.eq(bankbookNum))
-                .fetchOne();
+                .fetchOne());
     }
 }
