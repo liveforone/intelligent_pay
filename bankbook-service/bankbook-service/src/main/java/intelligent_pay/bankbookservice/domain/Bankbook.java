@@ -1,8 +1,11 @@
 package intelligent_pay.bankbookservice.domain;
 
+import intelligent_pay.bankbookservice.controller.restResponse.ResponseMessage;
 import intelligent_pay.bankbookservice.converter.BankbookStateConverter;
 import intelligent_pay.bankbookservice.domain.util.PasswordUtil;
 import intelligent_pay.bankbookservice.dto.request.BankbookRequest;
+import intelligent_pay.bankbookservice.exception.BankbookCustomException;
+import intelligent_pay.bankbookservice.exception.returnBool.BankbookCustomBoolException;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -10,6 +13,7 @@ import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDate;
 
@@ -59,24 +63,64 @@ public class Bankbook {
     }
 
     public void addBalance(long inputMoney) {
+        if (bankbookState == BankbookState.SUSPEND) {
+            throw new BankbookCustomBoolException();
+        }
+
         this.balance += inputMoney;
     }
 
     public void subtractBalance(long inputMoney) {
-        if ((this.balance > ZERO) && (this.balance - inputMoney >= ZERO)) {
-            this.balance -= inputMoney;
+        if ((bankbookState == BankbookState.SUSPEND)
+                || (balance == ZERO)
+                || (balance - inputMoney < ZERO)
+        ) {
+            throw new BankbookCustomBoolException();
         }
+
+        this.balance -= inputMoney;
     }
 
-    public void updatePassword(String password) {
-        this.password = PasswordUtil.encodePassword(password);
+    public void updatePassword(String newPassword, String inputPassword, String inputUsername) {
+        if (bankbookState == BankbookState.SUSPEND) {
+            throw new BankbookCustomException(ResponseMessage.SUSPEND_BANKBOOK);
+        }
+
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if (!passwordEncoder.matches(inputPassword, password)) {
+            throw new BankbookCustomException(ResponseMessage.PASSWORD_NOT_MATCH);
+        }
+
+        if (!username.equals(inputUsername)) {
+            throw new BankbookCustomException(ResponseMessage.USERNAME_NOT_MATCH);
+        }
+
+        this.password = PasswordUtil.encodePassword(newPassword);
     }
 
-    public void suspend() {
+    public void suspend(String inputPassword, String inputUsername) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if (!passwordEncoder.matches(inputPassword, password)) {
+            throw new BankbookCustomException(ResponseMessage.PASSWORD_NOT_MATCH);
+        }
+
+        if (!username.equals(inputUsername)) {
+            throw new BankbookCustomException(ResponseMessage.USERNAME_NOT_MATCH);
+        }
+
         this.bankbookState = BankbookState.SUSPEND;
     }
 
-    public void cancelSuspend() {
+    public void cancelSuspend(String inputPassword, String inputUsername) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if (!passwordEncoder.matches(inputPassword, password)) {
+            throw new BankbookCustomException(ResponseMessage.PASSWORD_NOT_MATCH);
+        }
+
+        if (!username.equals(inputUsername)) {
+            throw new BankbookCustomException(ResponseMessage.USERNAME_NOT_MATCH);
+        }
+
         this.bankbookState = BankbookState.WORK;
     }
 }
