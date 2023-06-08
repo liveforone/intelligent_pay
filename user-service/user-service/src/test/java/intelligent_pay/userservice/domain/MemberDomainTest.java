@@ -62,7 +62,7 @@ class MemberDomainTest {
 
         //when
         String newPassword = "9999999999";
-        member.updatePassword(newPassword);
+        member.updatePassword(newPassword, password);
 
         //then
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
