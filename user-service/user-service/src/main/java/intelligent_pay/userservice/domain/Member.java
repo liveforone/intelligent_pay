@@ -1,9 +1,11 @@
 package intelligent_pay.userservice.domain;
 
+import intelligent_pay.userservice.controller.restResponse.ResponseMessage;
 import intelligent_pay.userservice.converter.RoleConverter;
 import intelligent_pay.userservice.domain.util.MemberConstant;
 import intelligent_pay.userservice.domain.util.PasswordUtils;
 import intelligent_pay.userservice.dto.signupAndLogin.MemberSignupRequest;
+import intelligent_pay.userservice.exception.MemberCustomException;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -12,6 +14,7 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.*;
 
@@ -73,10 +76,14 @@ public class Member implements UserDetails {
         this.email = newEmail;
     }
 
-    public void updatePassword(String password) {
-        this.password = PasswordUtils.encodePassword(password);
-    }
+    public void updatePassword(String newPassword, String originalPassword) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if (!passwordEncoder.matches(originalPassword, password)) {
+            throw new MemberCustomException(ResponseMessage.NOT_MATCH_PASSWORD);
+        }
 
+        this.password = PasswordUtils.encodePassword(newPassword);
+    }
 
     @Override
     public String getUsername() {
