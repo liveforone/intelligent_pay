@@ -1,6 +1,7 @@
 package intelligent_pay.userservice.exception;
 
 import intelligent_pay.userservice.controller.restResponse.RestResponse;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -13,6 +14,11 @@ public class MemberControllerAdvice {
     @ExceptionHandler(BadCredentialsException.class)
     protected ResponseEntity<?> loginFailHandle() {
         return RestResponse.loginFail();
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    protected ResponseEntity<?> duplicateEmailHandle() {
+        return RestResponse.duplicateEmail();
     }
 
     @ExceptionHandler(MemberCustomException.class)
