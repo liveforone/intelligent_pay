@@ -1,6 +1,5 @@
 package intelligent_pay.recordservice.domain;
 
-import intelligent_pay.recordservice.dto.RecordRequest;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -15,13 +14,9 @@ class RecordTest {
         String bankbookNum = "8128139239821";
         long money = 4000;
         String title = "홍길동 입금";
-        RecordRequest request = new RecordRequest();
-        request.setBankBookNum(bankbookNum);
-        request.setMoney(money);
-        request.setTitle(title);
 
         //when
-        Record record = Record.createDeposit(request);
+        Record record = Record.createDeposit(title, bankbookNum, money);
 
         //then
         int nowYear = LocalDate.now().getYear();
@@ -39,13 +34,9 @@ class RecordTest {
         String bankbookNum = "8128139239821";
         long money = 4000;
         String title = "홍길동 출금";
-        RecordRequest request = new RecordRequest();
-        request.setBankBookNum(bankbookNum);
-        request.setMoney(money);
-        request.setTitle(title);
 
         //when
-        Record record = Record.createWithdraw(request);
+        Record record = Record.createWithdraw(title, bankbookNum, money);
 
         //then
         int nowYear = LocalDate.now().getYear();

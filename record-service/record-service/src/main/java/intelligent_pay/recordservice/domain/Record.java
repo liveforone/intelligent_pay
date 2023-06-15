@@ -2,7 +2,6 @@ package intelligent_pay.recordservice.domain;
 
 import intelligent_pay.recordservice.converter.MonthConverter;
 import intelligent_pay.recordservice.converter.RecordStateConverter;
-import intelligent_pay.recordservice.dto.RecordRequest;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -48,20 +47,20 @@ public class Record {
         this.createdMonth = LocalDate.now().getMonth();
     }
 
-    public static Record createDeposit(RecordRequest recordRequest) {
+    public static Record createDeposit(String title, String bankBookNum, long money) {
         return new Record(
-                recordRequest.getTitle(),
-                recordRequest.getBankBookNum(),
-                recordRequest.getMoney(),
+                title,
+                bankBookNum,
+                money,
                 RecordState.DEPOSIT
         );
     }
 
-    public static Record createWithdraw(RecordRequest recordRequest) {
+    public static Record createWithdraw(String title, String bankBookNum, long money) {
         return new Record(
-                recordRequest.getTitle(),
-                recordRequest.getBankBookNum(),
-                -recordRequest.getMoney(),
+                title,
+                bankBookNum,
+                -money,
                 RecordState.WITHDRAW
         );
     }

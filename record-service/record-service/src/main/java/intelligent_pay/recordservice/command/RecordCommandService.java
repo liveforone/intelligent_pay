@@ -15,12 +15,20 @@ public class RecordCommandService {
     private final RecordRepository recordRepository;
 
     public Long createDepositRecord(RecordRequest requestDto) {
-        Record record = Record.createDeposit(requestDto);
+        Record record = Record.createDeposit(
+                requestDto.getTitle(),
+                requestDto.getBankBookNum(),
+                requestDto.getMoney()
+        );
         return recordRepository.save(record).getId();
     }
 
     public Long createWithdrawRecord(RecordRequest requestDto) {
-        Record record = Record.createWithdraw(requestDto);
+        Record record = Record.createWithdraw(
+                requestDto.getTitle(),
+                requestDto.getBankBookNum(),
+                requestDto.getMoney()
+        );
         return recordRepository.save(record).getId();
     }
 }
