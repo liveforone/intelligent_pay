@@ -3,7 +3,6 @@ package intelligent_pay.bankbookservice.domain;
 import intelligent_pay.bankbookservice.controller.restResponse.ResponseMessage;
 import intelligent_pay.bankbookservice.converter.BankbookStateConverter;
 import intelligent_pay.bankbookservice.domain.util.PasswordUtil;
-import intelligent_pay.bankbookservice.dto.request.BankbookRequest;
 import intelligent_pay.bankbookservice.exception.BankbookCustomException;
 import intelligent_pay.bankbookservice.exception.returnBool.BankbookCustomBoolException;
 import jakarta.persistence.*;
@@ -56,8 +55,8 @@ public class Bankbook {
         this.bankbookState = BankbookState.WORK;
     }
 
-    public static Bankbook create(BankbookRequest bankbookRequest, String username) {
-        String encodedPassword = PasswordUtil.encodePassword(bankbookRequest.getPassword());
+    public static Bankbook create(String password, String username) {
+        String encodedPassword = PasswordUtil.encodePassword(password);
         String bankbookNum = RandomStringUtils.randomNumeric(SIZE_OF_BANKBOOK_NUM);
         return new Bankbook(encodedPassword, bankbookNum, username);
     }

@@ -25,7 +25,7 @@ public class BankbookCommandService {
 
     @Transactional
     public void createBankbook(BankbookRequest requestDto, String username) {
-        Bankbook bankbook = Bankbook.create(requestDto, username);
+        Bankbook bankbook = Bankbook.create(requestDto.getPassword(), username);
         bankbookRepository.save(bankbook);
     }
 

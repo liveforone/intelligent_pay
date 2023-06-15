@@ -1,6 +1,5 @@
 package intelligent_pay.bankbookservice.domain;
 
-import intelligent_pay.bankbookservice.dto.request.BankbookRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -12,10 +11,8 @@ class BankbookDomainTest {
     void addBalanceTest() {
         //given
         String password = "12345678";
-        BankbookRequest request = new BankbookRequest();
-        request.setPassword(password);
         String username = "jdsolafeoaefjoenfojaefoiejwfaeofjoaf";
-        Bankbook bankbook = Bankbook.create(request, username);
+        Bankbook bankbook = Bankbook.create(password, username);
 
         //when
         long money = 3000;
@@ -32,9 +29,7 @@ class BankbookDomainTest {
         String username = "jdsolafeoaefjoenfojaefoiejwfaeofjoaf";
         String password = "12345678";
         long money = 3000;
-        BankbookRequest request = new BankbookRequest();
-        request.setPassword(password);
-        Bankbook bankbook = Bankbook.create(request, username);
+        Bankbook bankbook = Bankbook.create(password, username);
         bankbook.addBalance(money);
 
         //when
@@ -51,9 +46,7 @@ class BankbookDomainTest {
         //given
         String username = "jdsolafeoaefjoenfojaefoiejwfaeofjoaf";
         String password = "12345678";
-        BankbookRequest request = new BankbookRequest();
-        request.setPassword(password);
-        Bankbook bankbook = Bankbook.create(request, username);
+        Bankbook bankbook = Bankbook.create(password, username);
 
         //when
         String updatedPassword = "1111111111";
@@ -70,9 +63,7 @@ class BankbookDomainTest {
         //given
         String username = "jdsolafeoaefjoenfojaefoiejwfaeofjoaf";
         String password = "12345678";
-        BankbookRequest request = new BankbookRequest();
-        request.setPassword(password);
-        Bankbook bankbook = Bankbook.create(request, username);
+        Bankbook bankbook = Bankbook.create(password, username);
 
         //when
         bankbook.suspend(password, username);
@@ -87,9 +78,7 @@ class BankbookDomainTest {
         //given
         String username = "jdsolafeoaefjoenfojaefoiejwfaeofjoaf";
         String password = "12345678";
-        BankbookRequest request = new BankbookRequest();
-        request.setPassword(password);
-        Bankbook bankbook = Bankbook.create(request, username);
+        Bankbook bankbook = Bankbook.create(password, username);
         bankbook.suspend(password, username);
 
         //when
