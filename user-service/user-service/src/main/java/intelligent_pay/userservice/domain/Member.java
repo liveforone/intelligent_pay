@@ -4,7 +4,6 @@ import intelligent_pay.userservice.controller.restResponse.ResponseMessage;
 import intelligent_pay.userservice.converter.RoleConverter;
 import intelligent_pay.userservice.domain.util.MemberConstant;
 import intelligent_pay.userservice.domain.util.PasswordUtils;
-import intelligent_pay.userservice.dto.signupAndLogin.MemberSignupRequest;
 import intelligent_pay.userservice.exception.MemberCustomException;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -50,21 +49,15 @@ public class Member implements UserDetails {
         this.auth = auth;
     }
 
-    public static Member create(MemberSignupRequest request) {
+    public static Member create(String email, String password, String realName) {
         final String ADMIN = "admin@intelligentpay.com";
-
-        if (ADMIN.equals(request.getEmail())) {
-            request.setAuth(Role.ADMIN);
-        } else {
-            request.setAuth(Role.MEMBER);
-        }
 
         return new Member(
                 createUsername(),
-                request.getEmail(),
-                PasswordUtils.encodePassword(request.getPassword()),
-                request.getRealName(),
-                request.getAuth()
+                email,
+                PasswordUtils.encodePassword(password),
+                realName,
+                ADMIN.equals(email) ? Role.ADMIN : Role.MEMBER
         );
     }
 

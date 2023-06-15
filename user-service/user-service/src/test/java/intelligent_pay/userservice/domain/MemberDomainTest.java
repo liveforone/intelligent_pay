@@ -1,6 +1,5 @@
 package intelligent_pay.userservice.domain;
 
-import intelligent_pay.userservice.dto.signupAndLogin.MemberSignupRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -12,15 +11,11 @@ class MemberDomainTest {
     void createAdminTest() {
         //given
         String email = "admin@intelligentpay.com";
-        String realName = "admin";
         String password = "111111111111";
-        MemberSignupRequest request = new MemberSignupRequest();
-        request.setEmail(email);
-        request.setRealName(realName);
-        request.setPassword(password);
+        String realName = "admin";
 
         //when
-        Member member = Member.create(request);
+        Member member = Member.create(email, password, realName);
 
         //then
         assertThat(member.getAuth())
@@ -31,13 +26,9 @@ class MemberDomainTest {
     void updateEmailTest() {
         //given
         String email = "test@gmail.com";
-        String realName = "test_name";
         String password = "12345678";
-        MemberSignupRequest request = new MemberSignupRequest();
-        request.setEmail(email);
-        request.setRealName(realName);
-        request.setPassword(password);
-        Member member = Member.create(request);
+        String realName = "test_name";
+        Member member = Member.create(email, password, realName);
 
         //when
         String newEmail = "test_new@naver.com";
@@ -52,13 +43,9 @@ class MemberDomainTest {
     void updatePasswordTest() {
         //given
         String email = "test@gmail.com";
-        String realName = "test_name";
         String password = "12345678";
-        MemberSignupRequest request = new MemberSignupRequest();
-        request.setEmail(email);
-        request.setRealName(realName);
-        request.setPassword(password);
-        Member member = Member.create(request);
+        String realName = "test_name";
+        Member member = Member.create(email, password, realName);
 
         //when
         String newPassword = "9999999999";

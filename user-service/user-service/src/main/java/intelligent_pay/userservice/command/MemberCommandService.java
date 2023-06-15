@@ -27,7 +27,11 @@ public class MemberCommandService {
     private final JwtTokenProvider jwtTokenProvider;
 
     public String signup(MemberSignupRequest requestDto) {
-        Member member = Member.create(requestDto);
+        Member member = Member.create(
+                requestDto.getEmail(),
+                requestDto.getPassword(),
+                requestDto.getRealName()
+        );
         return memberRepository.save(member).getUsername();
     }
 
