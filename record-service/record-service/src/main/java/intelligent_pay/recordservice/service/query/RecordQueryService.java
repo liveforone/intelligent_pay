@@ -1,8 +1,8 @@
-package intelligent_pay.recordservice.query;
+package intelligent_pay.recordservice.service.query;
 
 import intelligent_pay.recordservice.domain.RecordState;
 import intelligent_pay.recordservice.dto.RecordResponse;
-import intelligent_pay.recordservice.query.util.RecordMapper;
+import intelligent_pay.recordservice.dto.util.RecordMapper;
 import intelligent_pay.recordservice.repository.RecordRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

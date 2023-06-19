@@ -1,7 +1,8 @@
 package intelligent_pay.recordservice.command;
 
 import intelligent_pay.recordservice.dto.RecordRequest;
-import intelligent_pay.recordservice.query.RecordQueryService;
+import intelligent_pay.recordservice.service.command.RecordCommandService;
+import intelligent_pay.recordservice.service.query.RecordQueryService;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

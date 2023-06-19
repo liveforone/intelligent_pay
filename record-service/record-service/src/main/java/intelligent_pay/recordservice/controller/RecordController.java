@@ -1,7 +1,7 @@
 package intelligent_pay.recordservice.controller;
 
 import intelligent_pay.recordservice.dto.RecordResponse;
-import intelligent_pay.recordservice.query.RecordQueryService;
+import intelligent_pay.recordservice.service.query.RecordQueryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

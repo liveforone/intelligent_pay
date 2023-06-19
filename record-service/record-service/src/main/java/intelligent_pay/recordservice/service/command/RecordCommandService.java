@@ -1,4 +1,4 @@
-package intelligent_pay.recordservice.command;
+package intelligent_pay.recordservice.service.command;
 
 import intelligent_pay.recordservice.domain.Record;
 import intelligent_pay.recordservice.dto.RecordRequest;
