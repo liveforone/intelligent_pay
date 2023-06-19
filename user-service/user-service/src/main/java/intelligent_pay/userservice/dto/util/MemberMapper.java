@@ -1,4 +1,4 @@
-package intelligent_pay.userservice.query.util;
+package intelligent_pay.userservice.dto.util;
 
 import intelligent_pay.userservice.domain.Member;
 import intelligent_pay.userservice.dto.response.MemberResponse;
