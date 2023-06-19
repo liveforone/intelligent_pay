@@ -1,6 +1,6 @@
 package intelligent_pay.remitservice.controller;
 
-import intelligent_pay.remitservice.command.RemitEventHandler;
+import intelligent_pay.remitservice.eventHandler.RemitEventHandler;
 import intelligent_pay.remitservice.controller.restResponse.RestResponse;
 import intelligent_pay.remitservice.dto.remit.DepositRequest;
 import intelligent_pay.remitservice.dto.remit.RemitRequest;
