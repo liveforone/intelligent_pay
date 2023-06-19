@@ -1,4 +1,4 @@
-package intelligent_pay.userservice.command;
+package intelligent_pay.userservice.service.command;
 
 import intelligent_pay.userservice.controller.restResponse.ResponseMessage;
 import intelligent_pay.userservice.domain.Member;
