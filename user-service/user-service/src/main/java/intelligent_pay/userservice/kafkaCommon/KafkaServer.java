@@ -1,4 +1,4 @@
-package intelligent_pay.userservice.kafka;
+package intelligent_pay.userservice.kafkaCommon;
 
 public final class KafkaServer {
 
