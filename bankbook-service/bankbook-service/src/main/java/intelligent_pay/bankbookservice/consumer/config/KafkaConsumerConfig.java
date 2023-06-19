@@ -1,4 +1,4 @@
-package intelligent_pay.bankbookservice.config;
+package intelligent_pay.bankbookservice.consumer.config;
 
 import intelligent_pay.bankbookservice.kafka.KafkaServer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
