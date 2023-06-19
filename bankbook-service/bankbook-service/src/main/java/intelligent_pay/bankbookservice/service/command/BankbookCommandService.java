@@ -23,20 +23,17 @@ public class BankbookCommandService {
 
     private final BankbookRepository bankbookRepository;
 
-    @Transactional
     public void createBankbook(BankbookRequest requestDto, String username) {
         Bankbook bankbook = Bankbook.create(requestDto.getPassword(), username);
         bankbookRepository.save(bankbook);
     }
 
-    @Transactional
     public void addBalance(AddBalanceRequest requestDto) {
         Bankbook bankbook = bankbookRepository.findOneByBankbookNum(requestDto.getBankbookNum())
                 .orElseThrow(BankbookCustomBoolException::new);
         bankbook.addBalance(requestDto.getMoney());
     }
 
-    @Transactional
     public void subtractBalance(SubtractBalanceRequest requestDto) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         Bankbook bankbook = bankbookRepository.findOneByBankbookNum(requestDto.getBankbookNum())
@@ -49,31 +46,33 @@ public class BankbookCommandService {
         bankbook.subtractBalance(requestDto.getMoney());
     }
 
-    @Transactional
     public void subtractBalanceForCancel(SubtractBalanceForCancel requestDto) {
         Bankbook bankbook = bankbookRepository.findOneByBankbookNum(requestDto.getBankbookNum())
                 .orElseThrow(BankbookCustomBoolException::new);
         bankbook.subtractBalance(requestDto.getMoney());
     }
 
-    @Transactional
     public void updatePassword(UpdatePasswordRequest requestDto, String username) {
         Bankbook bankbook = bankbookRepository.findOneByBankbookNum(requestDto.getBankbookNum())
                 .orElseThrow(() -> new BankbookCustomException(ResponseMessage.BANKBOOK_IS_NULL));
         bankbook.updatePassword(requestDto.getNewPassword(), requestDto.getPassword(),  username);
     }
 
-    @Transactional
     public void suspendBankbook(UpdateBankbookStateRequest requestDto, String username) {
         Bankbook bankbook = bankbookRepository.findOneByBankbookNum(requestDto.getBankbookNum())
                 .orElseThrow(() -> new BankbookCustomException(ResponseMessage.BANKBOOK_IS_NULL));
         bankbook.suspend(requestDto.getPassword(), username);
     }
 
-    @Transactional
     public void cancelSuspendBankbook(UpdateBankbookStateRequest requestDto, String username) {
         Bankbook bankbook = bankbookRepository.findOneByBankbookNum(requestDto.getBankbookNum())
                 .orElseThrow(() -> new BankbookCustomException(ResponseMessage.BANKBOOK_IS_NULL));
         bankbook.cancelSuspend(requestDto.getPassword(), username);
+    }
+
+    public void removeBankbook(String username) {
+        Bankbook bankbook = bankbookRepository.findOneByUsername(username)
+                .orElseThrow(() -> new BankbookCustomException(ResponseMessage.BANKBOOK_IS_NULL));
+        bankbookRepository.delete(bankbook);
     }
 }
