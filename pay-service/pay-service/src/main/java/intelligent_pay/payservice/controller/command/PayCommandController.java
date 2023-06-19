@@ -1,4 +1,4 @@
-package intelligent_pay.payservice.controller;
+package intelligent_pay.payservice.controller.command;
 
 import intelligent_pay.payservice.eventHandler.PayEventHandler;
 import intelligent_pay.payservice.controller.restResponse.RestResponse;
@@ -19,7 +19,7 @@ import static intelligent_pay.payservice.controller.constant.PayUrl.*;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-public class PayController {
+public class PayCommandController {
 
     private final PayEventHandler payEventHandler;
     private final ControllerValidator controllerValidator;
