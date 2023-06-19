@@ -4,12 +4,14 @@ import org.springframework.http.ResponseEntity;
 
 public class RestResponse {
 
+    //==fail==//
     public static ResponseEntity<?> duplicateEntityValue() {
         return ResponseEntity
                 .status(ResponseMessage.DUPLICATE_ENTITY_VALUE.getStatus())
                 .body(ResponseMessage.DUPLICATE_ENTITY_VALUE.getValue());
     }
 
+    //==success==//
     public static ResponseEntity<?> createBankbookSuccess() {
         return ResponseEntity
                 .status(ResponseMessage.CREATE_BANKBOOK_SUCCESS.getStatus())
