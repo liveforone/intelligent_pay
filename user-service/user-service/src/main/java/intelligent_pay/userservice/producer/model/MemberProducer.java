@@ -1,9 +1,8 @@
-package intelligent_pay.userservice.command;
+package intelligent_pay.userservice.producer.model;
 
 import com.google.gson.Gson;
 import intelligent_pay.userservice.async.AsyncConstant;
-import intelligent_pay.userservice.kafka.Topic;
-import intelligent_pay.userservice.kafka.KafkaLog;
+import intelligent_pay.userservice.producer.log.ProducerLog;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -21,8 +20,8 @@ public class MemberProducer {
     @Async(AsyncConstant.commandAsync)
     public void removeBankbook(String username) {
         String jsonOrder = gson.toJson(username);
-        String topic = Topic.REMOVE_BANKBOOK;
+        String topic = ProducerTopic.REMOVE_BANKBOOK;
         kafkaTemplate.send(topic, jsonOrder);
-        log.info(KafkaLog.KAFKA_SEND_LOG.getValue() + topic);
+        log.info(ProducerLog.KAFKA_SEND_LOG.getValue() + topic);
     }
 }
