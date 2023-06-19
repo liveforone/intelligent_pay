@@ -1,4 +1,4 @@
-package intelligent_pay.userservice.controller;
+package intelligent_pay.userservice.controller.query;
 
 import intelligent_pay.userservice.authentication.AuthenticationInfo;
 import intelligent_pay.userservice.clientWrapper.BankbookClientWrapper;

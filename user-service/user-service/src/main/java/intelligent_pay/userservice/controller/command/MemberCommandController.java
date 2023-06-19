@@ -1,4 +1,4 @@
-package intelligent_pay.userservice.controller;
+package intelligent_pay.userservice.controller.command;
 
 import intelligent_pay.userservice.authentication.AuthenticationInfo;
 import intelligent_pay.userservice.service.command.MemberCommandService;
@@ -26,7 +26,7 @@ import static intelligent_pay.userservice.controller.constant.MemberUrl.*;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-public class MemberController {
+public class MemberCommandController {
 
     private final MemberCommandService memberCommandService;
     private final MemberProducer memberProducer;
