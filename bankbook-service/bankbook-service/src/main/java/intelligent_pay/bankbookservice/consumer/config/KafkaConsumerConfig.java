@@ -1,6 +1,6 @@
 package intelligent_pay.bankbookservice.consumer.config;
 
-import intelligent_pay.bankbookservice.kafka.KafkaServer;
+import intelligent_pay.bankbookservice.kafkaCommon.KafkaServer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.context.annotation.Bean;
