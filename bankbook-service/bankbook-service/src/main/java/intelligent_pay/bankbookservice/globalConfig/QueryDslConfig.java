@@ -1,4 +1,4 @@
-package intelligent_pay.bankbookservice.config;
+package intelligent_pay.bankbookservice.globalConfig;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
