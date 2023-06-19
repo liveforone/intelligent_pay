@@ -1,19 +1,15 @@
-package intelligent_pay.bankbookservice.controller;
+package intelligent_pay.bankbookservice.controller.command;
 
 import intelligent_pay.bankbookservice.authentication.AuthenticationInfo;
 import intelligent_pay.bankbookservice.service.command.BankbookCommandService;
-import intelligent_pay.bankbookservice.controller.constant.BankbookParam;
 import intelligent_pay.bankbookservice.controller.constant.ControllerLog;
 import intelligent_pay.bankbookservice.controller.restResponse.RestResponse;
 import intelligent_pay.bankbookservice.dto.request.AddBalanceRequest;
 import intelligent_pay.bankbookservice.dto.request.BankbookRequest;
 import intelligent_pay.bankbookservice.dto.request.SubtractBalanceForCancel;
 import intelligent_pay.bankbookservice.dto.request.SubtractBalanceRequest;
-import intelligent_pay.bankbookservice.dto.response.BankbookResponse;
-import intelligent_pay.bankbookservice.dto.response.BasicInfoResponse;
 import intelligent_pay.bankbookservice.dto.update.UpdateBankbookStateRequest;
 import intelligent_pay.bankbookservice.dto.update.UpdatePasswordRequest;
-import intelligent_pay.bankbookservice.service.query.BankbookQueryService;
 import intelligent_pay.bankbookservice.validator.ControllerValidator;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -28,34 +24,11 @@ import static intelligent_pay.bankbookservice.controller.constant.BankbookUrl.*;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-public class BankbookController {
+public class BankbookCommandController {
 
     private final BankbookCommandService bankbookCommandService;
-    private final BankbookQueryService bankbookQueryService;
     private final AuthenticationInfo authenticationInfo;
     private final ControllerValidator controllerValidator;
-
-    @GetMapping(BASIC_INFO)
-    public BasicInfoResponse basicInfo(
-            @PathVariable(BankbookParam.USERNAME) String username
-    ) {
-        return bankbookQueryService.getBasicInfoByUsername(username);
-    }
-
-    @GetMapping(INFO)
-    public ResponseEntity<?> bankbookInfo(HttpServletRequest request) {
-        String username = authenticationInfo.getUsername(request);
-        BankbookResponse bankbook = bankbookQueryService.getBankbookByUsername(username);
-        return ResponseEntity.ok(bankbook);
-    }
-
-    @GetMapping(CHECK_BANKBOOK)
-    public ResponseEntity<?> checkBankbook(
-            @PathVariable(BankbookParam.BANKBOOK_NUM) String bankbookNum
-    ) {
-        String bankbook = bankbookQueryService.checkBankbookByBankbookNum(bankbookNum);
-        return ResponseEntity.ok(bankbook);
-    }
 
     @PostMapping(CREATE)
     public ResponseEntity<?> createBankbook(
