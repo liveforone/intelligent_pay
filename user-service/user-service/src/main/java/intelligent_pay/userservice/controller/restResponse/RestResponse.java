@@ -5,12 +5,26 @@ import org.springframework.http.ResponseEntity;
 
 public class RestResponse {
 
+    //==fail==//
     public static ResponseEntity<?> duplicateEntityValue() {
         return ResponseEntity
                 .status(ResponseMessage.DUPLICATE_ENTITY_VALUE.getStatus())
                 .body(ResponseMessage.DUPLICATE_ENTITY_VALUE.getValue());
     }
 
+    public static ResponseEntity<?> loginFail() {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(ResponseMessage.LOGIN_FAIL.getValue());
+    }
+
+    public static ResponseEntity<?> prohibition() {
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(ResponseMessage.PROHIBITION.getValue());
+    }
+
+    //==success==//
     public static ResponseEntity<?> signupSuccess() {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -19,12 +33,6 @@ public class RestResponse {
 
     public static ResponseEntity<?> loginSuccess() {
         return ResponseEntity.ok(ResponseMessage.LOGIN_SUCCESS.getValue());
-    }
-
-    public static ResponseEntity<?> loginFail() {
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(ResponseMessage.LOGIN_FAIL.getValue());
     }
 
     public static ResponseEntity<?> changeEmailSuccess() {
@@ -37,11 +45,5 @@ public class RestResponse {
 
     public static ResponseEntity<?> withdrawSuccess() {
         return ResponseEntity.ok(ResponseMessage.WITHDRAW_SUCCESS.getValue());
-    }
-
-    public static ResponseEntity<?> prohibition() {
-        return ResponseEntity
-                .status(HttpStatus.FORBIDDEN)
-                .body(ResponseMessage.PROHIBITION.getValue());
     }
 }
