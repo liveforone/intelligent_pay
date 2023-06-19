@@ -8,7 +8,7 @@ import intelligent_pay.remitservice.dto.record.RecordRequest;
 import intelligent_pay.remitservice.dto.remit.DepositRequest;
 import intelligent_pay.remitservice.dto.remit.RemitRequest;
 import intelligent_pay.remitservice.exception.RemitCustomException;
-import intelligent_pay.remitservice.producer.model.RecordProducer;
+import intelligent_pay.remitservice.producer.model.RemitProducer;
 import intelligent_pay.remitservice.validator.ServiceValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 public class RemitEventHandler {
 
     private final BankbookClientWrapper bankbookClientWrapper;
-    private final RecordProducer recordProducer;
+    private final RemitProducer remitProducer;
     private final ServiceValidator serviceValidator;
 
     public void deposit(DepositRequest requestDto) {
@@ -34,7 +34,7 @@ public class RemitEventHandler {
                 .bankBookNum(requestDto.getBankbookNum())
                 .money(requestDto.getMoney())
                 .build();
-        recordProducer.depositRecord(recordRequest);
+        remitProducer.depositRecord(recordRequest);
     }
 
     public void remit(RemitRequest requestDto) {
@@ -61,14 +61,14 @@ public class RemitEventHandler {
                 .bankBookNum(requestDto.getBankbookNum())
                 .money(requestDto.getMoney())
                 .build();
-        recordProducer.withdrawRecord(withdrawRequest);
+        remitProducer.withdrawRecord(withdrawRequest);
 
         RecordRequest depositRequest = RecordRequest.builder()
                 .title(requestDto.getBankbookNum() + "입금")
                 .bankBookNum(requestDto.getOtherBankbookNum())
                 .money(requestDto.getMoney())
                 .build();
-        recordProducer.depositRecord(depositRequest);
+        remitProducer.depositRecord(depositRequest);
     }
 
     private void remitRollback(SubtractBalanceRequest subtractRequest) {

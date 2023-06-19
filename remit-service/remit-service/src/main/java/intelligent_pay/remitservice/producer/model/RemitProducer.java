@@ -13,7 +13,7 @@ import static intelligent_pay.remitservice.producer.model.ProducerTopic.*;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class RecordProducer {
+public class RemitProducer {
 
     private final KafkaTemplate<String, String> kafkaTemplate;
     Gson gson = new Gson();
