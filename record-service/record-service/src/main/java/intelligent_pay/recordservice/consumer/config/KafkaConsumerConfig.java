@@ -1,6 +1,6 @@
-package intelligent_pay.recordservice.config;
+package intelligent_pay.recordservice.consumer.config;
 
-import intelligent_pay.recordservice.kafka.KafkaServer;
+import intelligent_pay.recordservice.kafkaCommon.KafkaServer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.context.annotation.Bean;

@@ -1,8 +1,8 @@
-package intelligent_pay.recordservice.kafka;
+package intelligent_pay.recordservice.consumer.model;
 
-public final class Topic {
+public final class ConsumerTopic {
 
-    private Topic() {}
+    private ConsumerTopic() {}
 
     public static final String DEPOSIT_RECORD = "deposit-record";
     public static final String WITHDRAW_RECORD = "withdraw-record";
