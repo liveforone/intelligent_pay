@@ -1,8 +1,8 @@
-package intelligent_pay.payservice.kafka;
+package intelligent_pay.payservice.producer.model;
 
-public final class Topic {
+public final class ProducerTopic {
 
-    private Topic() {}
+    private ProducerTopic() {}
 
     public static final String DEPOSIT_RECORD = "deposit-record";
     public static final String WITHDRAW_RECORD = "withdraw-record";

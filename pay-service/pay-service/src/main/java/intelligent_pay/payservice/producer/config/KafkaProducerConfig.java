@@ -1,6 +1,6 @@
-package intelligent_pay.payservice.config;
+package intelligent_pay.payservice.producer.config;
 
-import intelligent_pay.payservice.kafka.KafkaServer;
+import intelligent_pay.payservice.kafkaCommon.KafkaServer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.context.annotation.Bean;
