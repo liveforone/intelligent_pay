@@ -1,4 +1,4 @@
-package intelligent_pay.recordservice.controller;
+package intelligent_pay.recordservice.controller.query;
 
 import intelligent_pay.recordservice.dto.RecordResponse;
 import intelligent_pay.recordservice.service.query.RecordQueryService;
