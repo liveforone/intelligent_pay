@@ -1,4 +1,4 @@
-package intelligent_pay.recordservice.config;
+package intelligent_pay.recordservice.globalConfig;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
