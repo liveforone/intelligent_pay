@@ -1,4 +1,4 @@
-package intelligent_pay.userservice.config;
+package intelligent_pay.userservice.globalConfig;
 
 import intelligent_pay.userservice.controller.constant.MemberUrl;
 import intelligent_pay.userservice.jwt.JwtAuthenticationFilter;

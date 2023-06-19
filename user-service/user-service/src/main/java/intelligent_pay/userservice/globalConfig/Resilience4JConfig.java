@@ -1,4 +1,4 @@
-package intelligent_pay.userservice.config;
+package intelligent_pay.userservice.globalConfig;
 
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
 import io.github.resilience4j.timelimiter.TimeLimiterConfig;
