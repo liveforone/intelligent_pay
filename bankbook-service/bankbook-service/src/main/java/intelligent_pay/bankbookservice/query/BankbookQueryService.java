@@ -5,7 +5,7 @@ import intelligent_pay.bankbookservice.dto.response.BankbookResponse;
 import intelligent_pay.bankbookservice.dto.response.BasicInfoResponse;
 import intelligent_pay.bankbookservice.exception.BankbookCustomException;
 import intelligent_pay.bankbookservice.repository.BankbookRepository;
-import intelligent_pay.bankbookservice.query.util.BankbookMapper;
+import intelligent_pay.bankbookservice.dto.util.BankbookMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
