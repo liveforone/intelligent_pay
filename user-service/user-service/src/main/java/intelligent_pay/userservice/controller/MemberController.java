@@ -1,22 +1,16 @@
 package intelligent_pay.userservice.controller;
 
 import intelligent_pay.userservice.authentication.AuthenticationInfo;
-import intelligent_pay.userservice.clientWrapper.BankbookClientWrapper;
 import intelligent_pay.userservice.service.command.MemberCommandService;
 import intelligent_pay.userservice.producer.model.MemberProducer;
 import intelligent_pay.userservice.controller.constant.ControllerLog;
-import intelligent_pay.userservice.controller.constant.MemberParam;
 import intelligent_pay.userservice.controller.restResponse.RestResponse;
 import intelligent_pay.userservice.dto.changeInfo.ChangeEmailRequest;
 import intelligent_pay.userservice.dto.changeInfo.ChangePasswordRequest;
-import intelligent_pay.userservice.dto.bankbook.BasicBankbookInfoResponse;
-import intelligent_pay.userservice.dto.response.MemberInfoResponse;
-import intelligent_pay.userservice.dto.response.MemberResponse;
 import intelligent_pay.userservice.dto.signupAndLogin.MemberLoginRequest;
 import intelligent_pay.userservice.dto.signupAndLogin.MemberSignupRequest;
 import intelligent_pay.userservice.jwt.TokenInfo;
 import intelligent_pay.userservice.jwt.constant.JwtConstant;
-import intelligent_pay.userservice.service.query.MemberQueryService;
 import intelligent_pay.userservice.validator.ControllerValidator;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -27,8 +21,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 import static intelligent_pay.userservice.controller.constant.MemberUrl.*;
 
 @RestController
@@ -37,9 +29,7 @@ import static intelligent_pay.userservice.controller.constant.MemberUrl.*;
 public class MemberController {
 
     private final MemberCommandService memberCommandService;
-    private final MemberQueryService memberQueryService;
     private final MemberProducer memberProducer;
-    private final BankbookClientWrapper bankbookClientWrapper;
     private final ControllerValidator controllerValidator;
     private final AuthenticationInfo authenticationInfo;
 
@@ -70,20 +60,6 @@ public class MemberController {
         response.addHeader(JwtConstant.ACCESS_TOKEN, tokenInfo.getAccessToken());
         response.addHeader(JwtConstant.REFRESH_TOKEN, tokenInfo.getRefreshToken());
         return RestResponse.loginSuccess();
-    }
-
-    @GetMapping(MY_INFO)
-    public ResponseEntity<?> myInfo(HttpServletRequest request) {
-        String username = authenticationInfo.getUsername(request);
-        MemberResponse member = memberQueryService.getMemberByUsername(username);
-        BasicBankbookInfoResponse bankbookInfo = bankbookClientWrapper.getBasicBankbookInfoByUsername(username);
-
-        MemberInfoResponse response = MemberInfoResponse.builder()
-                .memberResponse(member)
-                .basicBankbookInfoResponse(bankbookInfo)
-                .build();
-
-        return ResponseEntity.ok(response);
     }
 
     @PutMapping(CHANGE_EMAIL)
@@ -124,22 +100,5 @@ public class MemberController {
         log.info(ControllerLog.WITHDRAW_SUCCESS.getValue() + username);
 
         return RestResponse.withdrawSuccess();
-    }
-
-    @GetMapping(ADMIN_SEARCH)
-    public ResponseEntity<?> adminPage(
-            @RequestParam(MemberParam.EMAIL) String email,
-            HttpServletRequest request
-    ) {
-        controllerValidator.validateAdmin(authenticationInfo.getAuth(request));
-        log.info(ControllerLog.ADMIN_SUCCESS.getValue());
-
-        List<MemberResponse> foundMember = memberQueryService.searchByEmail(email);
-        return ResponseEntity.ok(foundMember);
-    }
-
-    @GetMapping(PROHIBITION)
-    public ResponseEntity<?> prohibition() {
-        return RestResponse.prohibition();
     }
 }
