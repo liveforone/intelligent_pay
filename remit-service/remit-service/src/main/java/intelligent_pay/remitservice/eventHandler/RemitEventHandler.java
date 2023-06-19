@@ -1,4 +1,4 @@
-package intelligent_pay.remitservice.command;
+package intelligent_pay.remitservice.eventHandler;
 
 import intelligent_pay.remitservice.clientWrapper.BankbookClientWrapper;
 import intelligent_pay.remitservice.controller.restResponse.ResponseMessage;
@@ -8,6 +8,7 @@ import intelligent_pay.remitservice.dto.record.RecordRequest;
 import intelligent_pay.remitservice.dto.remit.DepositRequest;
 import intelligent_pay.remitservice.dto.remit.RemitRequest;
 import intelligent_pay.remitservice.exception.RemitCustomException;
+import intelligent_pay.remitservice.producer.model.RecordProducer;
 import intelligent_pay.remitservice.validator.ServiceValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
