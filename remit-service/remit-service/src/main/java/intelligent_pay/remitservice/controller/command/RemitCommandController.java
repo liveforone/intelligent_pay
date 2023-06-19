@@ -1,4 +1,4 @@
-package intelligent_pay.remitservice.controller;
+package intelligent_pay.remitservice.controller.command;
 
 import intelligent_pay.remitservice.eventHandler.RemitEventHandler;
 import intelligent_pay.remitservice.controller.restResponse.RestResponse;
@@ -19,7 +19,7 @@ import static intelligent_pay.remitservice.controller.constant.RemitUrl.*;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-public class RemitController {
+public class RemitCommandController {
 
     private final RemitEventHandler remitEventHandler;
     private final ControllerValidator controllerValidator;
