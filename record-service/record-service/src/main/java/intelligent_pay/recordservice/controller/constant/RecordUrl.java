@@ -4,6 +4,7 @@ public final class RecordUrl {
     private RecordUrl() {
     }
 
+    //==GET==//
     public static final String RECORD_DETAIL = "/record/info/{id}";
     public static final String RECORD_HOME = "/record/{bankbookNum}";
     public static final String DEPOSIT_RECORD = "/record/deposit/info/{bankbookNum}";

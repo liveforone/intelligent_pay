@@ -3,7 +3,6 @@ package intelligent_pay.recordservice.controller;
 import intelligent_pay.recordservice.dto.RecordResponse;
 import intelligent_pay.recordservice.service.query.RecordQueryService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,8 +13,7 @@ import static intelligent_pay.recordservice.controller.constant.RecordUrl.*;
 
 @RestController
 @RequiredArgsConstructor
-@Slf4j
-public class RecordController {
+public class RecordQueryController {
 
     private final RecordQueryService recordQueryService;
 
