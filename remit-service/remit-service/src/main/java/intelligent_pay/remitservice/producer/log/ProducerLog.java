@@ -1,11 +1,11 @@
-package intelligent_pay.remitservice.kafka;
+package intelligent_pay.remitservice.producer.log;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum KafkaLog {
+public enum ProducerLog {
 
     KAFKA_SEND_LOG("Kafka send Success | Topic : ");
 

@@ -1,6 +1,6 @@
-package intelligent_pay.remitservice.config;
+package intelligent_pay.remitservice.producer.config;
 
-import intelligent_pay.remitservice.kafka.KafkaServer;
+import intelligent_pay.remitservice.kafkaCommon.KafkaServer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.context.annotation.Bean;

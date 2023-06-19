@@ -1,14 +1,14 @@
-package intelligent_pay.remitservice.command;
+package intelligent_pay.remitservice.producer.model;
 
 import com.google.gson.Gson;
 import intelligent_pay.remitservice.dto.record.RecordRequest;
-import intelligent_pay.remitservice.kafka.KafkaLog;
+import intelligent_pay.remitservice.producer.log.ProducerLog;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
-import static intelligent_pay.remitservice.kafka.Topic.*;
+import static intelligent_pay.remitservice.producer.model.ProducerTopic.*;
 
 @Component
 @RequiredArgsConstructor
@@ -22,13 +22,13 @@ public class RecordProducer {
         String jsonOrder = gson.toJson(recordRequest);
         String topic = DEPOSIT_RECORD;
         kafkaTemplate.send(topic, jsonOrder);
-        log.info(KafkaLog.KAFKA_SEND_LOG.getValue() + topic);
+        log.info(ProducerLog.KAFKA_SEND_LOG.getValue() + topic);
     }
 
     public void withdrawRecord(RecordRequest recordRequest) {
         String jsonOrder = gson.toJson(recordRequest);
         String topic = WITHDRAW_RECORD;
         kafkaTemplate.send(topic, jsonOrder);
-        log.info(KafkaLog.KAFKA_SEND_LOG.getValue() + topic);
+        log.info(ProducerLog.KAFKA_SEND_LOG.getValue() + topic);
     }
 }
