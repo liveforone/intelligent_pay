@@ -1,4 +1,4 @@
-package intelligent_pay.bankbookservice.command;
+package intelligent_pay.bankbookservice.service.command;
 
 import intelligent_pay.bankbookservice.controller.restResponse.ResponseMessage;
 import intelligent_pay.bankbookservice.domain.Bankbook;

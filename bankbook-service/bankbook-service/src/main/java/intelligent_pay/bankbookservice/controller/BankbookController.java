@@ -1,7 +1,7 @@
 package intelligent_pay.bankbookservice.controller;
 
 import intelligent_pay.bankbookservice.authentication.AuthenticationInfo;
-import intelligent_pay.bankbookservice.command.BankbookCommandService;
+import intelligent_pay.bankbookservice.service.command.BankbookCommandService;
 import intelligent_pay.bankbookservice.controller.constant.BankbookParam;
 import intelligent_pay.bankbookservice.controller.constant.ControllerLog;
 import intelligent_pay.bankbookservice.controller.restResponse.RestResponse;
@@ -13,7 +13,7 @@ import intelligent_pay.bankbookservice.dto.response.BankbookResponse;
 import intelligent_pay.bankbookservice.dto.response.BasicInfoResponse;
 import intelligent_pay.bankbookservice.dto.update.UpdateBankbookStateRequest;
 import intelligent_pay.bankbookservice.dto.update.UpdatePasswordRequest;
-import intelligent_pay.bankbookservice.query.BankbookQueryService;
+import intelligent_pay.bankbookservice.service.query.BankbookQueryService;
 import intelligent_pay.bankbookservice.validator.ControllerValidator;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
