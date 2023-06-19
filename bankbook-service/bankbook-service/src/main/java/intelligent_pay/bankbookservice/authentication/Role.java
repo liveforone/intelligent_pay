@@ -10,5 +10,5 @@ public enum Role {
     ADMIN("ROLE_ADMIN"),
     MEMBER("ROLE_MEMBER");
 
-    private String value;
+    private String auth;
 }
