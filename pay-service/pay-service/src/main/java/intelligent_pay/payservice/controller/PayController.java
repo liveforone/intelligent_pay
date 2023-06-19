@@ -1,6 +1,6 @@
 package intelligent_pay.payservice.controller;
 
-import intelligent_pay.payservice.command.PayEventHandler;
+import intelligent_pay.payservice.eventHandler.PayEventHandler;
 import intelligent_pay.payservice.controller.restResponse.RestResponse;
 import intelligent_pay.payservice.dto.pay.PayCancelRequest;
 import intelligent_pay.payservice.dto.pay.PayRequest;

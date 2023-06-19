@@ -1,6 +1,7 @@
-package intelligent_pay.payservice.command;
+package intelligent_pay.payservice.eventHandler;
 
 import intelligent_pay.payservice.clientWrapper.BankbookClientWrapper;
+import intelligent_pay.payservice.command.RecordProducer;
 import intelligent_pay.payservice.controller.restResponse.ResponseMessage;
 import intelligent_pay.payservice.dto.bankbook.AddBalanceRequest;
 import intelligent_pay.payservice.dto.bankbook.SubtractBalanceForCancel;
