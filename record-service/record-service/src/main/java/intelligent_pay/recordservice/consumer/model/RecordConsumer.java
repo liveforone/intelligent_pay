@@ -2,7 +2,6 @@ package intelligent_pay.recordservice.consumer.model;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import intelligent_pay.recordservice.async.AsyncConstant;
 import intelligent_pay.recordservice.dto.RecordRequest;
 import intelligent_pay.recordservice.consumer.log.ConsumerLog;
 import intelligent_pay.recordservice.service.command.RecordCommandService;
@@ -10,7 +9,6 @@ import intelligent_pay.recordservice.utility.CommonUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import static intelligent_pay.recordservice.consumer.model.ConsumerTopic.*;
@@ -24,7 +22,6 @@ public class RecordConsumer {
     ObjectMapper objectMapper = new ObjectMapper();
 
     @KafkaListener(topics = DEPOSIT_RECORD)
-    @Async(AsyncConstant.commandAsync)
     public void depositRecord(String kafkaMessage) throws JsonProcessingException {
         log.info(ConsumerLog.KAFKA_RECEIVE_LOG.getValue() + kafkaMessage);
 
@@ -39,7 +36,6 @@ public class RecordConsumer {
     }
 
     @KafkaListener(topics = WITHDRAW_RECORD)
-    @Async(AsyncConstant.commandAsync)
     public void withdrawRecord(String kafkaMessage) throws JsonProcessingException {
         log.info(ConsumerLog.KAFKA_RECEIVE_LOG.getValue() + kafkaMessage);
 
